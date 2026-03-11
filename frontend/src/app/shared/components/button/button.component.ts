@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ButtonComponent implements OnInit{
   @Input() type:string='submit';
+  @Input() color:string='';
   @Input() label:string='Submit';
   @Input() disabled:boolean=false;
 

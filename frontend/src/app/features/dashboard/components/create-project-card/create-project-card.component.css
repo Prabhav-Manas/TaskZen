@@ -1,0 +1,24 @@
+.bg-color{
+    background-color: #e4e7ea;
+}
+
+.add-create-project-icon{
+    width: 70px;
+    height: 70px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 40px;
+    line-height: 1;
+    color: #6c757d;
+
+    margin: auto;
+    margin-top: 15px;
+    font-weight: bolder;
+    cursor: pointer;
+    background-color: white;
+}
