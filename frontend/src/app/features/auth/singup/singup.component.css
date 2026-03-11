@@ -1,9 +1,16 @@
 .auth-image{
-  width: 100%;
-  height: 100vh;
-  object-fit: cover;
+    max-width: 100%;
+    min-height: 100%;
+    height: 100vh;
+    object-fit: cover;
 }
 
 .bgColor{
     background-color:#f0eeeb;
+}
+
+@media (max-width: 768px){
+  .auth-image{
+    height: 35vh;
+  }
 }

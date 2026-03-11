@@ -1,25 +1,40 @@
 <div class="container-fluid vh-100">
-    <div class="row h-100">
-        <div class="col-6 p-0 order-1 order-md-1">
-            <img src="../../../../assets/auth-hero-image.jpg" alt="auth-hero-image" class="img-fluid auth-image">
+    <div class="row h-100 g-0">
+        <div class="col-12 col-md-6 p-0 order-1 order-md-1">
+            <img src="../../../../assets/auth-hero-image.jpg" alt="auth-hero-image" class="img-fluid auth-image w-100">
         </div>
 
-        <div class="col-6 d-flex justify-content-center align-items-center order-2 order-md-2 bgColor">
+        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center order-2 order-md-2 bgColor">
             <form class="w-75">
-                <h2 class="">Sign in</h2>
+                <div class="text-center mb-4">
+                    <h4 class="fw-bold">Be <span class="text-primary">One Step Ahead</span></h4>
+                    <p class="text-muted small">
+                        Manage your tasks smarter and stay organized.
+                    </p>
+                </div>
 
+                <h2 class="">Sign in</h2>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-
                     <input type="email" class="form-control" id="email">
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3 position-relative">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password">
+                    <input type="{{hide}}" class="form-control" id="password">
+
+                    <i class="fa fa-{{hide == 'password' ? 'eye-slash' : 'eye'}} position-absolute" style="top: 72%; right: 10px; transform: translateY(-50%); cursor: pointer;" (click)="hide == 'password' ? (hide = 'text') : (hide = 'password')"></i>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="d-md-flex justify-content-between">
+                    <a routerLink="/auth/signup" class="text-decoration-none small"><p>Don't have account ? Sign up</p></a>
+
+                    <a routerLink="" class="text-decoration-none small"><p>Forgot Password</p></a>
+                </div>
+
+                <div class="d-flex justify-content-end mt-1">
+                    <app-button label="Sign in"></app-button>
+                </div>
             </form>
         </div>
     </div>

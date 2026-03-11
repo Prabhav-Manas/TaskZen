@@ -1,11 +1,18 @@
 <div class="container-fluid vh-100">
-    <div class="row h-100">
-        <div class="col-6 p-0 order-1 order-md-1">
-            <img src="../../../../assets/auth-hero-image.jpg" alt="auth-hero-image" class="img-fluid auth-image">
+    <div class="row h-100 g-0">
+        <div class="col-12 col-md-6 p-0 order-1 order-md-1">
+            <img src="../../../../assets/auth-hero-image.jpg" alt="auth-hero-image" class="img-fluid auth-image w-100">
         </div>
 
-        <div class="col-6 d-flex justify-content-center align-items-center order-2 order-md-2 bgColor">
+        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center order-2 order-md-2 bgColor">
             <form class="w-75">
+                <div class="text-center mb-4">
+                    <h4 class="fw-bold"><span class="text-primary">Create</span> Your Account</h4>
+                    <p class="text-muted small">
+                        Organize tasks, track progress, and stay productive.
+                    </p>
+                </div>
+
                 <h2 class="">Sign up</h2>
 
                 <div class="mb-3">
@@ -19,12 +26,25 @@
                     <input type="email" class="form-control" id="email">
                 </div>
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password">
+                <div class="row g-2 d-md-flex justify-content-between">
+                    <div class="mb-3 col-md-6 position-relative">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="{{hide}}" class="form-control" id="password">
+                        <i class="fa fa-{{hide == 'password' ? 'eye-slash' : 'eye'}} position-absolute" style="top: 72%; right: 10px; transform: translateY(-50%); cursor: pointer;" (click)="hide == 'password' ? (hide = 'text') : (hide = 'password')"></i>
+                    </div>
+
+                    <div class="mb-3 col-md-6 position-relative">
+                        <label for="cnfpassword" class="form-label">Confirm Password</label>
+                        <input type="{{cnfhide}}" class="form-control" id="cnfpassword">
+                        <i class="fa fa-{{cnfhide == 'password' ? 'eye-slash' : 'eye'}} position-absolute" style="top: 72%; right: 10px; transform: translateY(-50%); cursor: pointer;" (click)="cnfhide == 'password' ? (cnfhide = 'text') : (cnfhide = 'password')"></i>
+                    </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="d-md-flex justify-content-between">
+                    <a routerLink="/auth/signin" class="text-decoration-none small"><p>Already have account ? Sign in</p></a>
+                    <app-button label="Sign up"></app-button>
+                </div>
+
             </form>
         </div>
     </div>
