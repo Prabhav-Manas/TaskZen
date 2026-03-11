@@ -1,9 +1,32 @@
-<div class="card shadow-sm h-100">
-    <div class="card-body">
-        <!-- Title -->
-        <h5 class="card-title" *ngIf="title">{{title}}</h5>
+<!-- <div class="card shadow-sm h-100">
 
-        <!-- Dynamic Content -->
+    <div class="card-{{cardType}} bg-{{color}}" *ngIf="cardType === 'header'">
+        <h5 class="card-title mb-0">{{title}}</h5>
+    </div>
+
+    <div class="card-body p-3" *ngIf="cardType !== 'header'">
         <ng-content></ng-content>
     </div>
+
+</div> -->
+
+<div class="card shadow-sm h-100">
+
+    <!-- Header for column titles -->
+    <div class="card-{{cardType}} bg-{{color}}" *ngIf="cardType === 'header'">
+        <h5 class="card-title mb-0 text-white">{{title}}</h5>
+    </div>
+
+    <!-- Card body -->
+    <div class="card-body p-3">
+
+        <!-- Show title if provided -->
+        <h5 class="card-title" *ngIf="title && cardType !== 'header'">
+            {{title}}
+        </h5>
+
+        <ng-content></ng-content>
+
+    </div>
+
 </div>
