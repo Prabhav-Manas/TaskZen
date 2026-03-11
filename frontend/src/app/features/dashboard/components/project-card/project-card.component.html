@@ -1,8 +1,5 @@
-<div class="card shadown-sm">
-  <div class="card-body">
-    <h5 class="card-title">{{title}}</h5>
-    
-    <div class="card-body bg-{{color}} text-white">
+<app-card [title]="title">
+  <div class="card-body bg-{{color}} text-white">
         <div class="placeholder-glow mb-3">
             <span class="placeholder col-10"></span>
             <span class="placeholder col-8"></span>
@@ -13,5 +10,4 @@
             <app-button class="btn btn-light btn-sm" label="View Task"></app-button>
         </div>
     </div>
-  </div>
-</div>
+</app-card>

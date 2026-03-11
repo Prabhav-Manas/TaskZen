@@ -1,0 +1,101 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+
+  <!-- Left Side -->
+  <div class="d-flex align-items-center">
+
+    <!-- Mobile Menu Icon -->
+    <i class="fa fa-bars text-white me-3 menu-icon"
+       (click)="toggleSidebar()"></i>
+
+    <!-- Logo -->
+    <span class="navbar-brand fw-bold me-3 desktop-logo">
+      <img src="../../../../assets/TimeZen-logo.png"
+           alt="TimeZen Logo"
+           class="timezen-logo">
+    </span>
+
+    <span class="text-white fw-semibold desktop-logo">
+      DASHBOARD
+    </span>
+
+  </div>
+
+  <!-- Right Side -->
+  <div class="ms-auto d-flex align-items-center gap-3">
+
+    <i class="fa fa-comment text-white icon"></i>
+    <i class="fa fa-upload text-white icon"></i>
+
+    <div class="dropdown user-dropdown">
+
+      <button
+        class="user-avatar dropdown-toggle border-0"
+        type="button"
+        data-bs-toggle="dropdown"
+        data-bs-auto-close="true"
+        aria-expanded="false">
+
+        P
+
+      </button>
+
+      <ul class="dropdown-menu dropdown-menu-end shadow">
+
+        <li>
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-user me-2"></i> Profile
+          </a>
+        </li>
+
+        <li>
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-cog me-2"></i> Settings
+          </a>
+        </li>
+
+        <li>
+          <a class="dropdown-item" href="#">
+            <i class="fa fa-question-circle me-2"></i> Help
+          </a>
+        </li>
+
+        <li><hr class="dropdown-divider"></li>
+
+        <li>
+          <a class="dropdown-item text-danger" (click)="logout()">
+            <i class="fa fa-sign-out me-2"></i> Logout
+          </a>
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+<!-- MOBILE SIDEBAR -->
+<div class="mobile-sidebar" [class.open]="isSidebarOpen">
+
+  <div class="sidebar-header d-flex justify-content-between align-items-center">
+    <img src="../../../../assets/TimeZen-logo.png" class="timezen-logo">
+
+    <span class="fw-bold" style="font-size: 35px;" (click)="onCloseSideBar()">X</span>
+  </div>
+
+  <ul class="sidebar-menu">
+    <li>DASHBOARD</li>
+    <li>Projects</li>
+    <li>Tasks</li>
+    <li>Settings</li>
+  </ul>
+
+</div>
+
+<!-- overlay -->
+<div class="sidebar-overlay"
+     *ngIf="isSidebarOpen"
+     (click)="toggleSidebar()">
+</div>

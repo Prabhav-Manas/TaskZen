@@ -1,0 +1,9 @@
+<div class="card shadow-sm h-100">
+    <div class="card-body">
+        <!-- Title -->
+        <h5 class="card-title" *ngIf="title">{{title}}</h5>
+
+        <!-- Dynamic Content -->
+        <ng-content></ng-content>
+    </div>
+</div>
