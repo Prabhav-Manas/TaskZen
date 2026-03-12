@@ -9,6 +9,31 @@
     background-color:#f0eeeb;
 }
 
+.password-popup{
+    position: absolute;
+    top: 25px;
+    left: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    width: 240px;
+    z-index: 1000;
+}
+
+.close-icon{
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    cursor: pointer;
+    color: #777;
+    font-size: 14px;
+}
+
+.close-icon:hover{
+    color: red;
+}
+
 @media (max-width: 768px){
   .auth-image{
     height: 35vh;

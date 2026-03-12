@@ -5,7 +5,8 @@
         </div>
 
         <div class="col-12 col-md-6 d-flex justify-content-center align-items-center order-2 order-md-2 bgColor">
-            <form class="w-75">
+            <form class="w-75" [formGroup]="regForm">
+                <!-- Form Intro -->
                 <div class="text-center mb-4">
                     <div class="mb-4">
                         <h2 class="text-center"><strong>Time<span class="text-primary" style="font-family:fantasy">Z</span>en</strong></h2>
@@ -20,28 +21,81 @@
 
                 <h2 class="">Sign up</h2>
 
-                <div class="mb-3">
+                <!-- Fullname -->
+                <div class="mb-4 position-relative">
                     <label for="fullname" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="fullname">
+                    <input type="text" class="form-control" id="fullname" formControlName="fullname" [ngClass]="{'is-invalid': regForm.controls['fullname'].invalid && regForm.controls['fullname'].touched}" oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').replace(/\s{2,}/g, ' ').replace(/^\s/g, '')">
+                    <small *ngIf="regForm.controls['fullname'].errors?.['required']" class="invalid-feedback text-danger position-absolute">
+                        Fullname is required.
+                    </small>
+
+                    <small *ngIf="regForm.controls['fullname'].errors?.['minlength']" class="invalid-feedback text-danger position-absolute">
+                        Minimum 2 characters required.
+                    </small>
+
+                    <small *ngIf="regForm.controls['fullname'].errors?.['maxlength']" class="invalid-feedback text-danger position-absolute">
+                        Maximum only 60 characters allowed.
+                    </small>
                 </div>
 
-                <div class="mb-3">
+                <!-- Email -->
+                <div class="mb-4 position-relative">
                     <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" formControlName="email" [ngClass]="{'is-invalid': regForm.controls['email'].invalid && regForm.controls['email'].touched}">
+                    <small *ngIf="regForm.controls['email'].errors?.['required']" class="invalid-feedback text-danger position-absolute">
+                        Email is required.
+                    </small>
 
-                    <input type="email" class="form-control" id="email">
+                    <small *ngIf="regForm.controls['email'].errors?.['pattern']" class="invalid-feedback text-danger position-absolute">
+                        Invalid Pattern. Only alpha-numeric characters, @ & . are allowed.
+                    </small>
                 </div>
 
-                <div class="row g-2 d-md-flex justify-content-between">
-                    <div class="mb-3 col-md-6 position-relative">
+                <div class="row g-2 d-md-flex justify-content-between mb-4">
+                    <!-- Password -->
+                    <div class="col-md-6 position-relative d-inline-block">
                         <label for="password" class="form-label">Password</label>
-                        <input type="{{hide}}" class="form-control" id="password">
+                        <input type="{{hide}}" class="form-control" id="password" formControlName="password" [ngClass]="{'is-invalid':regForm.controls['password'].invalid && regForm.controls['password'].touched}">
                         <i class="fa fa-{{hide == 'password' ? 'eye-slash' : 'eye'}} position-absolute" style="top: 72%; right: 10px; transform: translateY(-50%); cursor: pointer;" (click)="hide == 'password' ? (hide = 'text') : (hide = 'password')"></i>
+                        <small *ngIf="regForm.controls['password'].errors?.['required']" class="invalid-feedback text-danger position-absolute">
+                            Password is required.
+                        </small>
+
+                        <small *ngIf="regForm.controls['password'].errors?.['minlength']" class="invalid-feedback text-danger d-block position-absolute">
+                            Minimum 6 characters required
+                        </small>
+
+                        <small *ngIf="regForm.controls['password'].errors?.['pattern']" class="invalid-feedback text-danger position-absolute">
+                            Password requirements
+                            <span class="text-primary" style="cursor:pointer" (click)="showRules = !showRules">({{showRules ? 'hide' : 'show'}})</span>
+                        </small>
+
+                        <div *ngIf="showRules" class="mt-1 password-popup shadow position-absolute">
+                            <i class="fa fa-times close-icon" (click)="showRules = false"></i>
+
+                            <small class="text-muted d-block">
+                                <!-- • Minimum 6 characters<br> -->
+                                • At least 1 uppercase letter<br>
+                                • At least 1 lowercase letter<br>
+                                • At least 1 number<br>
+                                • At least 1 special character<br>
+                                • No spaces allowed
+                            </small>
+                        </div>
                     </div>
 
-                    <div class="mb-3 col-md-6 position-relative">
+                    <!-- Confirm Password -->
+                    <div class="col-md-6 position-relative">
                         <label for="cnfpassword" class="form-label">Confirm Password</label>
-                        <input type="{{cnfhide}}" class="form-control" id="cnfpassword">
+                        <input type="{{cnfhide}}" class="form-control" id="cnfpassword" formControlName="cnfpassword" [ngClass]="{'is-invalid': regForm.controls['cnfpassword'].invalid && regForm.controls['cnfpassword'].touched}">
                         <i class="fa fa-{{cnfhide == 'password' ? 'eye-slash' : 'eye'}} position-absolute" style="top: 72%; right: 10px; transform: translateY(-50%); cursor: pointer;" (click)="cnfhide == 'password' ? (cnfhide = 'text') : (cnfhide = 'password')"></i>
+                        <small *ngIf="regForm.controls['cnfpassword'].errors?.['required']" class="invalid-feedback text-danger position-absolute">
+                            Confirm Password is required.
+                        </small>
+
+                        <small *ngIf="regForm.controls['cnfpassword'].errors?.['passwordMismatch']" class="invalid-feedback text-danger position-absolute">
+                            Password and Confirm Password must match.
+                        </small>
                     </div>
                 </div>
 
