@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+const authRoutes = require('./src/routes/auth.route');
+
 const app = express();
 
 const corsOptions = {
@@ -33,5 +35,7 @@ mongoose.connect(process.env.MONGODB_URL).then(()=>{
 app.get('/', (req, res)=>{
     res.send('Welcome to TaskZen backend application!');
 });
+
+app.use('/auth', authRoutes);
 
 module.exports = app;
