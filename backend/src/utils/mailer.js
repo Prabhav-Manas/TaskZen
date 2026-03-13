@@ -25,4 +25,27 @@ const sendEmailVerification=async(email,verificationLink)=>{
     }
 }
 
-module.exports={sendEmailVerification};
+const sendPasswordResetEmail=async(email, resetLink)=>{
+    try{
+        const transporter=nodemailer.createTransport({
+            service:'gmail',
+            auth:{
+                user:process.env.EMAIL_USER,
+                pass:process.env.EMAIL_PASS
+            }
+        });
+
+        const mailOptions={
+            from:process.env.EMAIL_USER,
+            to:email,
+            subject:'Password Reset',
+            html:`<p>Please click the following link to reset your password:</p><a href="${resetLink}">${resetLink}</a>`
+        }
+
+        await transporter.sendMail(mailOptions);
+        console.log('Password reset email sent to:', email);
+    }catch(error){
+        console.log('Error sending password reset email:', error);
+    }    
+}
+module.exports={sendEmailVerification, sendPasswordResetEmail};

@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-const {sendEmailVerification} = require('../utils/mailer');
+const {sendEmailVerification, sendPasswordResetEmail} = require('../utils/mailer');
 
 // Sign up controller
 exports.signup=async(req, res)=>{
@@ -103,6 +103,71 @@ exports.signin=async(req,res)=>{
         res.status(200).json({status:200, message: 'Signin successful', token});
     }catch(error){
         console.log('Error in signin:', error);
+        res.status(500).json({status:500, message: 'Internal server error'});
+    }
+}
+
+// Forgot password controller
+exports.forgotPassword=async(req,res)=>{
+    try{
+        const {email} = req.body;
+
+        if(!email){
+            return res.status(400).json({status:400, message: 'Email is required'});
+        }
+
+        const user = await User.findOne({email});
+
+        if(!user){
+            return res.status(400).json({status:400, message: 'User not found'});
+        }
+
+        // Generate password reset token and save it to the user document
+        const resetToken=crypto.randomBytes(32).toString('hex');
+        user.resetToken=resetToken;
+        user.resetTokenExpiration=Date.now() + 3600000; // 1 hour
+        await user.save();
+
+        // Send password reset email to the user
+        const resetLink = `http://localhost:8000/auth/reset-password/${email}/${resetToken}`;
+        await sendPasswordResetEmail(user.email, resetLink);
+
+        res.status(200).json({status:200, message: 'Password reset email sent'});
+    }catch(error){
+        console.log('Error in forgot password:', error);
+        res.status(500).json({status:500, message: 'Internal server error'});
+    }
+}
+
+// Reset password controller
+exports.resetPassword=async(req,res)=>{
+    try{
+        const {email, token} = req.params;
+        const {newPassword} = req.body;
+
+        if(!newPassword){
+            return res.status(400).json({status:400, message: 'New password is required'});
+        }
+
+        const user = await User.findOne({
+            email,
+            resetToken: token,
+            resetTokenExpiration: {$gt: Date.now()}
+        });
+
+        if(!user){
+            return res.status(400).json({status:400, message: 'Invalid reset link'});
+        }
+
+        user.password = await bcrypt.hash(newPassword, 12);
+        user.resetToken = undefined;
+        user.resetTokenExpiration = undefined;
+
+        await user.save();
+
+        res.status(200).json({status:200, message: 'Password reset successfully'});
+    }catch(error){
+        console.log('Error in reset password:', error);
         res.status(500).json({status:500, message: 'Internal server error'});
     }
 }
