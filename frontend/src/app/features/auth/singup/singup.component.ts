@@ -22,7 +22,7 @@ export class SingupComponent implements OnInit{
       cnfpassword: new FormControl('',[Validators.required])
     }, { validators: this.matchPassword })
   }
-
+  
   matchPassword(group: FormGroup) {
     const password = group.get('password');
     const confirmPassword = group.get('cnfpassword');
