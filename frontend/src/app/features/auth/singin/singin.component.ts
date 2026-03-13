@@ -21,4 +21,13 @@ export class SinginComponent implements OnInit{
   ngOnInit(): void {
     
   }
+
+  onSubmit(){
+    if(this.loginForm.invalid){
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+    console.log(this.loginForm.value);
+    this.loginForm.reset();
+  }
 }

@@ -6,7 +6,7 @@
         </div>
 
         <div class="col-12 col-md-6 d-flex justify-content-center align-items-center order-2 order-md-2 bgColor">
-            <form class="w-75" [formGroup]="loginForm">
+            <form class="w-75" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <!-- Form Intro -->
                 <div class="text-center mb-4">
                     <div class="mb-4">
@@ -22,53 +22,10 @@
                 <h2 class="text-primary">Sign in</h2>
 
                 <!-- Email -->
-                <div class="mb-4 position-relative">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" formControlName="email" [ngClass]="{'is-invalid': loginForm.controls['email'].invalid && loginForm.controls['email'].touched}">
-                    <small *ngIf="loginForm.controls['email'].errors?.['required']" class="invalid-feedback text-danger position-absolute">
-                        Email is required.
-                    </small>
-
-                    <small *ngIf="loginForm.controls['email'].errors?.['email']" class="invalid-feedback text-danger position-absolute">
-                        Invalid email.
-                    </small>
-
-                    <small *ngIf="loginForm.controls['email'].errors?.['pattern']" class="invalid-feedback text-danger position-absolute">
-                        Only alpha-numeric characters, @ and . are allowed.
-                    </small>
-                </div>
+                <app-form-input label="Email" type="email" controlName="email" [form]="loginForm"></app-form-input>
 
                 <!-- Password -->
-                <div class="mb-4 position-relative">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="{{hide}}" class="form-control" id="password" formControlName="password" [ngClass]="{'is-invalid':loginForm.controls['password'].invalid && loginForm.controls['password'].touched}">
-                    <i class="fa fa-{{hide == 'password' ? 'eye-slash' : 'eye'}} position-absolute" style="top: 72%; right: 10px; transform: translateY(-50%); cursor: pointer;" (click)="hide == 'password' ? (hide = 'text') : (hide = 'password')"></i>
-                    <small *ngIf="loginForm.controls['password'].errors?.['required']" class="invalid-feedback text-danger position-absolute">
-                        Password is required.
-                    </small>
-
-                    <small *ngIf="loginForm.controls['password'].errors?.['minlength']" class="invalid-feedback text-danger d-block position-absolute">
-                        Minimum 6 characters required
-                    </small>
-
-                    <small *ngIf="loginForm.controls['password'].errors?.['pattern']" class="invalid-feedback text-danger position-absolute">
-                        Password requirements
-                        <span class="text-primary" style="cursor:pointer" (click)="showRules = !showRules">({{showRules ? 'hide' : 'show'}})</span>
-                    </small>
-
-                    <div *ngIf="showRules" class="mt-1 password-popup shadow position-absolute">
-                        <i class="fa fa-times close-icon" (click)="showRules = false"></i>
-
-                        <small class="text-muted d-block">
-                            <!-- • Minimum 6 characters<br> -->
-                            • At least 1 uppercase letter<br>
-                            • At least 1 lowercase letter<br>
-                            • At least 1 number<br>
-                            • At least 1 special character<br>
-                            • No spaces allowed
-                        </small>
-                    </div>
-                </div>
+                <app-password-input label="Password" controlName="password" [form]="loginForm"></app-password-input>
 
                 <!-- Form Footer -->
                 <div class="d-md-flex justify-content-between">

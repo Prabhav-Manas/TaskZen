@@ -1,0 +1,15 @@
+<div class="mb-4 position-relative" [formGroup]="form">
+    <label class="form-label">{{label}}</label>
+    <input [type]="type" class="form-control" [formControlName]="controlName" [ngClass]="{'is-invalid': form.get(controlName)?.invalid && form.get(controlName)?.touched}">
+    <small *ngIf="form.get(controlName)?.errors?.['required']" class="invalid-feedback text-danger position-absolute">
+        {{label}} is required.
+    </small>
+
+    <small *ngIf="form.get(controlName)?.errors?.['email']" class="invalid-feedback text-danger position-absolute">
+        Invalid email.
+    </small>
+
+    <small *ngIf="!form.get(controlName)?.errors?.['email'] && form.get(controlName)?.errors?.['pattern']" class="invalid-feedback text-danger position-absolute">
+        Only alpha-numeric characters, @ and . are allowed.
+    </small>
+</div>
