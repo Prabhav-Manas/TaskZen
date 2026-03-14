@@ -1,41 +1,33 @@
-require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
-const mongoose = require('mongoose');
+const cors=require('cors');
 
-const authRoutes = require('./src/routes/auth.route');
+const authRoutes=require('./src/modules/auth/auth.routes');
+const {errorHandler}=require('./src/middleware/error.middleware');
 
-const app = express();
+const app=express();
 
-const corsOptions = {
-    origin: [process.env.FRONTEND_URL || 'http://localhost:4200'],
-    methods:"GET, POST, PUT, PATCH, HEAD, DELETE, OPTIONS",
+const corsOptions={
+    origin:[process.env.FRONTEND_URL || 'http://localhost:4200'],
+    methods:"GET, POST, PUT, PATCH, HEAD, DELETE,OPTIONS",
     allowedHeaders:[
-        "Content-Type", 
+        "Content-Type",
         "Authorization",
         "X-Requested-With",
         "Accept",
         "Origin",
         "Access-Control-Allow-Origin"
     ],
-    credentials: true
-};
+    credentials:true
+}
 
 app.use(cors(corsOptions));
+app.use(express.json());
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended:true}));
 
-mongoose.connect(process.env.MONGODB_URL).then(()=>{
-    console.log('Connected to DB');
-}).catch((err)=>{
-    console.log('Error connecting to DB:', err);
-});
+app.use('/api/auth', authRoutes);
+app.use(errorHandler);
 
-app.get('/', (req, res)=>{
-    res.send('Welcome to TaskZen backend application!');
-});
-
-app.use('/auth', authRoutes);
-
-module.exports = app;
+module.exports=app;

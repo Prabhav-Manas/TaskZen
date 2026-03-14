@@ -1,15 +1,20 @@
 require('dotenv').config();
-const http=require('http');
-
-const port=process.env.PORT || 8000;
 
 const app=require('./app');
+const connectDB=require('./src/config/db');
 
-const server=http.createServer(app)
+const PORT=process.env.PORT || 8000;
 
-server.listen(port, ()=>{
-    console.log(`Server is running on port ${port}`);
+connectDB();
+
+app.listen(PORT, ()=>{
+    console.log(`Server is running on port ${PORT}`);
 })
 
-// Username: manas
-// Password: LE2O3PErXs5SpECG
+
+// controller  → handles request/response
+// service     → business logic
+// repository  → database operations
+// model       → schema
+// validation  → request validation
+// routes      → endpoints
