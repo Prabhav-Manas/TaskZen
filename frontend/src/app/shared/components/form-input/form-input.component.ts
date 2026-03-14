@@ -20,11 +20,19 @@ export class FormInputComponent implements OnInit {
   handleInput(event: any) {
     let value = event.target.value
     if(this.controlName === 'fullname'){
-          value = value.replace(/[^a-zA-Z0-9@._-]/g, '').replace(/\s/g, '');
+          value = value.replace(/[^a-zA-Z\s]/g, '').replace(/^\s+/g, '') .replace(/\s{2,}/g, ' ') 
     } else if (this.controlName === 'email') {
         value = value.replace(/[^a-zA-Z0-9@._-]/g, '')   .replace(/\s/g, '');
     }
     event.target.value = value;
-    this.form.get(this.controlName)?.setValue(value, { emitEvent: false });
+      this.form.get(this.controlName)?.setValue(value, { emitEvent: false });
+  }
+
+  trimValue() {
+    if (this.controlName === 'fullname') {
+      let value = this.form.get(this.controlName)?.value || '';
+      value = value.trim();
+      this.form.get(this.controlName)?.setValue(value);
+    }
   }
 }

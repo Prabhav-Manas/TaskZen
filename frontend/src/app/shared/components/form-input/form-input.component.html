@@ -1,7 +1,7 @@
 <div class="mb-4 position-relative" [formGroup]="form">
 
     <label class="form-label">{{label}}</label>
-    <input [type]="type" class="form-control" [formControlName]="controlName" [ngClass]="{'is-invalid': form.get(controlName)?.invalid && form.get(controlName)?.touched}" (input)="handleInput($event)">
+    <input [type]="type" class="form-control" [formControlName]="controlName" [ngClass]="{'is-invalid': form.get(controlName)?.invalid && form.get(controlName)?.touched}" (input)="handleInput($event)" (blur)="trimValue()">
 
     <!-- Required -->
     <small *ngIf="form.get(controlName)?.errors?.['required']" class="invalid-feedback text-danger position-absolute">
