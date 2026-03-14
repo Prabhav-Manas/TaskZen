@@ -4,14 +4,14 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SinginComponent } from './singin/singin.component';
-import { SingupComponent } from './singup/singup.component';
+import { SigninComponent } from './signin/signin.component';
+import { SignupComponent } from './signup/signup.component';
 
 
 @NgModule({
   declarations: [
-    SinginComponent,
-    SingupComponent
+    SigninComponent,
+    SignupComponent
   ],
   imports: [
     CommonModule,

@@ -16,4 +16,15 @@ export class FormInputComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  handleInput(event: any) {
+    let value = event.target.value
+    if(this.controlName === 'fullname'){
+          value = value.replace(/[^a-zA-Z0-9@._-]/g, '').replace(/\s/g, '');
+    } else if (this.controlName === 'email') {
+        value = value.replace(/[^a-zA-Z0-9@._-]/g, '')   .replace(/\s/g, '');
+    }
+    event.target.value = value;
+    this.form.get(this.controlName)?.setValue(value, { emitEvent: false });
+  }
 }

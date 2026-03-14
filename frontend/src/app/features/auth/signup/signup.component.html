@@ -1,0 +1,56 @@
+<div class="container-fluid vh-100">
+    <div class="row h-100 g-0">
+        <!-- Auth-Form-Hero-Image -->
+        <div class="col-12 col-md-6 p-0 order-1 order-md-1 imgBgColor d-none d-md-flex align-items-center justify-content-center">
+            <img src="../../../../assets/auth-login-img2.png" alt="auth-hero-image" class="img-fluid auth-image w-100">
+        </div>
+
+        <div class="col-12 col-md-6 d-flex justify-content-center align-items-center order-2 order-md-2 bgColor">
+            <form class="w-75" [formGroup]="regForm">
+                <!-- Form Intro -->
+                <div class="text-center mb-4">
+                    <div class="mb-4">
+                        <h2 class="text-center"><strong>Task<span class="text-primary" style="font-family:fantasy">Z</span>en</strong></h2>
+                        <p class="text-center"><span class="text-primary">~</span> Plan | Trace | Achieve <span class="text-primary">~</span></p>
+                    </div>
+
+                    <h4 class="fw-bold"><span class="text-primary">Create</span> Your Account</h4>
+                    <p class="text-muted small">
+                        Organize tasks, track progress, and stay productive.
+                    </p>
+                </div>
+
+                <h2 class="">Sign up</h2>
+
+                <!-- Fullname -->
+                <div class="mb-4 position-relative">
+                    <app-form-input label="Full Name" type="text" [form]="regForm" controlName="fullname"></app-form-input>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-4 position-relative">
+                    <app-form-input label="Email" type="email" [form]="regForm" controlName="email"></app-form-input>
+                </div>
+
+                <div class="row g-2 d-md-flex justify-content-between mb-4">
+                    <!-- Password -->
+                    <div class="col-md-6 position-relative d-inline-block">
+                        <app-password-input label="Password" type="password" [form]="regForm" controlName="password"></app-password-input>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="col-md-6 position-relative">
+                        <app-password-input label="Confirm Password" type="password" [form]="regForm" controlName="cnfpassword"></app-password-input>
+                    </div>
+                </div>
+
+                <!-- Form Footer and Submit Button -->
+                <div class="d-md-flex justify-content-between">
+                    <a routerLink="/auth/signin" class="text-decoration-none small"><p>Already have account ? Sign in</p></a>
+                    <app-button label="Sign up" color="primary"></app-button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

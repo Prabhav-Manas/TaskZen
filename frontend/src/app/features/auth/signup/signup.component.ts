@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-singup',
-  templateUrl: './singup.component.html',
-  styleUrls: ['./singup.component.css']
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css']
 })
-export class SingupComponent implements OnInit{
+export class SignupComponent implements OnInit{
   regForm!: FormGroup;
   hide:string='password';
   cnfhide:string='password';
@@ -17,7 +17,7 @@ export class SingupComponent implements OnInit{
   ngOnInit(): void {
     this.regForm=this.fb.group({
       fullname: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(60)]),
-      email: new FormControl('', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9@.]+$/)]),
+      email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       password: new FormControl('',[Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])[^\s]+$/)]),
       cnfpassword: new FormControl('',[Validators.required])
     }, { validators: this.matchPassword })
@@ -32,11 +32,16 @@ export class SingupComponent implements OnInit{
     if (confirmPassword.value === '') return null;
 
     if (password.value !== confirmPassword.value) {
-      confirmPassword.setErrors({ passwordMismatch: true });
-    } else {
-      confirmPassword.setErrors(null);
-    }
+      confirmPassword.setErrors({ ...confirmPassword.errors, passwordMismatch: true });
+    } else if (confirmPassword.errors){
+      delete confirmPassword.errors['passwordMismatch'];
 
+      if (Object.keys(confirmPassword.errors).length === 0) {
+        confirmPassword.setErrors(null);
+      } else {
+          confirmPassword.setErrors(confirmPassword.errors);
+      }
+    }
     return null;
   }
 }
