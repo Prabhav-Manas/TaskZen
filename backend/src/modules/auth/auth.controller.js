@@ -42,3 +42,35 @@ exports.signin=async(req,res,next)=>{
         next(error);
     }
 }
+
+exports.forgotPassword=async(req,res,next)=>{
+    try{
+        await authService.forgotPasswordService(req.body);
+
+        res.status(200).json({
+            status:200,
+            message:'Password reset email sent successfully',
+        })
+    }catch(error){
+        next(error);
+    }
+}
+
+exports.resetPassword=async(req,res,next)=>{
+    try{
+        const data={
+            email:req.body.email,
+            password:req.body.password,
+            token:req.params.token
+        }
+
+        await authService.resetPasswordService(data);
+
+        res.status(200).json({
+            status:200,
+            message:'Password reset successfully',
+        })
+    }catch(error){
+        next(error);
+    }
+}

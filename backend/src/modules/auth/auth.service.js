@@ -4,6 +4,7 @@ const authRepository=require('./auth.repository');
 const {generateToken}=require('../../config/jwt');
 
 const {sendEmail}=require('../../utils/mailer');
+const { trusted } = require('mongoose');
 
 exports.signupService=async(data)=>{
     const {fullname, email, password}=data;
@@ -85,4 +86,53 @@ exports.signinService=async(data)=>{
     user.password=undefined;
 
     return { user, token };
+}
+
+exports.forgotPasswordService=async(data)=>{
+    const {email}=data;
+
+    if(!email){
+        throw new Error('Email is required');
+    }
+
+    const user=await authRepository.findUserByEmail(email);
+
+    if(!user){
+        throw new Error('Email not found');
+    }
+
+    // Generate reset token
+    const resetToken=crypto.randomBytes(32).toString('hex');
+
+    // Set token expiry (15 minutes)
+    const resetTokenExpiry=Date.now() + 15 * 60 *1000;
+
+    await authRepository.saveResetToken(email, resetToken, resetTokenExpiry);
+
+    // Create reset link
+    const resetLink=`${process.env.FRONTEND_URL || 'http://localhost:8000'}/api/auth/reset-password/${resetToken}`;
+
+    await sendEmail(user.email, 'Password Reset Request', `<p>Click the link below to reset your password:</p><a href="${resetLink}">Reset Password</a>`);
+
+    return true;
+}
+
+exports.resetPasswordService=async(data)=>{
+    const{token, password}=data;
+
+    if(!token || !password){
+        throw new Error('All fields are required');
+    }
+
+    const user=await authRepository.findUserByResetToken(token);
+
+    if(!user){
+        throw new Error('Invalid or expired reset token');
+    }
+
+    const hashedPassword=await bcrypt.hash(password, 12);
+
+    await authRepository.updatePassword(user._id, hashedPassword);
+
+    return true;
 }
