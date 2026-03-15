@@ -6,7 +6,7 @@
         </div>
 
         <div class="col-12 col-md-6 d-flex justify-content-center align-items-center order-2 order-md-2 bgColor">
-            <form class="w-75" [formGroup]="regForm">
+            <form class="w-75" [formGroup]="regForm" (ngSubmit)="onSubmit()">
                 <!-- Form Intro -->
                 <div class="text-center mb-4">
                     <div class="mb-4">
