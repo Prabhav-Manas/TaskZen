@@ -59,9 +59,8 @@ exports.forgotPassword=async(req,res,next)=>{
 exports.resetPassword=async(req,res,next)=>{
     try{
         const data={
-            email:req.body.email,
+            token:req.params.token,
             password:req.body.password,
-            token:req.params.token
         }
 
         await authService.resetPasswordService(data);
