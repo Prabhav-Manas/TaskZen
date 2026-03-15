@@ -13,4 +13,8 @@ export class ApiService {
   post<T>(endpoint:string, body:unknown){
     return this.http.post<T>(`${this.baseUrl}/${endpoint}`, body);
   }
+
+  get<T>(endpoint:string){
+    return this.http.get<T>(`${this.baseUrl}/${endpoint}`);
+  }
 }

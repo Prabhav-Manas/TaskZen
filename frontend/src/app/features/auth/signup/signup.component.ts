@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class SignupComponent implements OnInit{
   cnfhide:string='password';
   showRules = false;
 
-  constructor(private fb:FormBuilder, private authService: AuthService){}
+  constructor(private fb:FormBuilder, private authService: AuthService, private router:Router){}
 
   ngOnInit(): void {
     this.regForm=this.fb.group({
@@ -60,6 +61,10 @@ export class SignupComponent implements OnInit{
 
     this.authService.signup(payload).subscribe({next:(res)=>{
       console.log('Signup Response:=>', res);
+
+      if(res.status===201){
+        this.router.navigate(['/']);
+      }
     },error:(err)=>{
       console.log('Signup Error:=>', err);
     }})
