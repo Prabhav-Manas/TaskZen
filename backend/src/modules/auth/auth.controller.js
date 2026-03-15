@@ -1,5 +1,6 @@
 const authService=require('./auth.service');
 
+// Sign up controller
 exports.signup=async(req,res,next)=>{
     try{
         const user=await authService.signupService(req.body);
@@ -14,6 +15,7 @@ exports.signup=async(req,res,next)=>{
     }
 }
 
+// Email verification controller
 exports.verifyEmail=async(req,res,next)=>{
     try{
         const {email, token}=req.params;
@@ -29,6 +31,7 @@ exports.verifyEmail=async(req,res,next)=>{
     }
 }
 
+// Sign in controller
 exports.signin=async(req,res,next)=>{
     try{
         const user=await authService.signinService(req.body);
@@ -43,6 +46,7 @@ exports.signin=async(req,res,next)=>{
     }
 }
 
+// Forgot password controller
 exports.forgotPassword=async(req,res,next)=>{
     try{
         await authService.forgotPasswordService(req.body);
@@ -56,6 +60,7 @@ exports.forgotPassword=async(req,res,next)=>{
     }
 }
 
+//  Reset password controller
 exports.resetPassword=async(req,res,next)=>{
     try{
         const data={
