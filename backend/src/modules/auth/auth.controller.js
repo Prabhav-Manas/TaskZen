@@ -60,6 +60,40 @@ exports.forgotPassword=async(req,res,next)=>{
     }
 }
 
+// Verify OTP controller
+exports.verifyOtp=async(req,res,next)=>{
+    try{
+        const {email, otp}=req.body;
+
+        await authService.verifyOtpService({email, otp});
+
+        res.status(200).json({
+            status:200,
+            message:'OTP verified successfully',
+        })
+    }catch(error){
+        next(error);
+    }
+}
+
+// auth.controller.js
+exports.resendOtp = async (req, res, next) => {
+    try {
+
+        const { email } = req.body;
+
+        await authService.resendOtpService(email);
+
+        res.status(200).json({
+            status: 200,
+            message: 'OTP resent successfully'
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
 //  Reset password controller
 exports.resetPassword=async(req,res,next)=>{
     try{

@@ -9,6 +9,10 @@ const userSchema=new mongoose.Schema({
     verificationToken:{type:String},
     resetToken:{type:String},
     resetTokenExpiry:{type:Date},
+    resetOtp:{type:String},
+    resetOtpExpiry:{type:Date},
+    otpAttempts:{type:Number, default:0},
+    otpBlockedUntil:{type:Date}
 }, {timestamps:true});
 
 module.exports=mongoose.model('User', userSchema);

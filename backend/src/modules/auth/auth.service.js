@@ -4,7 +4,8 @@ const authRepository=require('./auth.repository');
 const {generateToken}=require('../../config/jwt');
 
 const {sendEmail}=require('../../utils/mailer');
-const { trusted } = require('mongoose');
+
+const User=require('../user/user.model');
 
 exports.signupService=async(data)=>{
     const {fullname, email, password}=data;
@@ -101,21 +102,118 @@ exports.forgotPasswordService=async(data)=>{
         throw new Error('Email not found');
     }
 
-    // Generate reset token
-    const resetToken=crypto.randomBytes(32).toString('hex');
+    // Generate OTP
+    const resetOtp=Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedOtp=await bcrypt.hash(resetOtp, 12);
+    const resetOtpExpiry=Date.now() + 10 * 60 * 1000; // 10 minutes
 
-    // Set token expiry (15 minutes)
-    const resetTokenExpiry=Date.now() + 15 * 60 *1000;
+    await authRepository.saveResetToken(email, null, null, hashedOtp, resetOtpExpiry);
 
-    await authRepository.saveResetToken(email, resetToken, resetTokenExpiry);
+    const html = `
+        <p>Use the OTP below to reset your password:</p>
+        <h2>${resetOtp}</h2>
+        <p>OTP expires in 10 minutes.</p>`;
 
-    // Create reset link
-    const resetLink=`${process.env.FRONTEND_URL || 'http://localhost:8000'}/api/auth/reset-password/${resetToken}`;
-
-    await sendEmail(user.email, 'Password Reset Request', `<p>Click the link below to reset your password:</p><a href="${resetLink}">Reset Password</a>`);
+    await sendEmail(user.email, 'Password Reset OTP', html);
 
     return true;
 }
+
+exports.verifyOtpService=async({email,otp})=>{
+    if(!email || !otp){
+        throw new Error('Email and OTP are required');
+    }
+
+    const user=await authRepository.findUserByEmail(email);
+
+    if(!user || !user.resetOtp){
+        throw new Error('Invalid or expired OTP');
+    }
+
+    // Check if user is blocked due to too many OTP attempts
+    if(user.otpBlockedUntil && user.otpBlockedUntil > Date.now()){
+        throw new Error('Too many OTP attempts. Try again later.');
+    }
+
+    // Check if OTP is expired
+    if (user.resetOtpExpiry < Date.now()) {
+        throw new Error('OTP expired');
+    }
+
+    const isOtpMatch=await bcrypt.compare(otp, user.resetOtp);
+
+    // Wrong OTP
+    if(!isOtpMatch){
+        const attempts = user.otpAttempts + 1;
+
+        if(attempts >= 5){
+            await User.findByIdAndUpdate(user._id,{
+                otpAttempts:0,
+                otpBlockedUntil: Date.now() + 10 * 60 * 1000
+            });
+            
+            throw new Error('Too many attempts. OTP blocked for 10 minutes.');
+        }
+
+        await User.findByIdAndUpdate(user._id,{
+            otpAttempts:attempts
+        });
+
+        throw new Error('Invalid OTP');
+    }
+
+    // SUCCESS → RESET ATTEMPTS
+    await User.findByIdAndUpdate(user._id, {
+        otpAttempts: 0,
+        otpBlockedUntil: null
+    });
+
+    // Otp is correct -> generate reset token
+    const resetToken=crypto.randomBytes(32).toString('hex');
+    const resetTokenExpiry=Date.now() + 60 * 60 * 1000; // 1 hour
+
+    await authRepository.saveResetToken(email, resetToken, resetTokenExpiry, null, null);
+
+    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:4200'}/reset-password/${resetToken}`;
+
+    const html = `<p>Click this link to reset your password:</p>
+        <a href="${resetLink}">Reset Password</a>
+    <p>Link expires in 1 hour.</p>`;
+
+    await sendEmail(user.email, 'Reset Your Password', html);
+
+    return true;
+}
+
+exports.resendOtpService = async (email) => {
+
+    const user = await authRepository.findUserByEmail(email);
+
+    if (!user) {
+        throw new Error('Email not found');
+    }
+
+    // Prevent OTP spam
+    if (user.resetOtpExpiry && user.resetOtpExpiry > Date.now()) {
+        throw new Error('OTP already sent. Please wait before requesting again.');
+    }
+
+    const resetOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedOtp = await bcrypt.hash(resetOtp, 12);
+    const resetOtpExpiry = Date.now() + 10 * 60 * 1000;
+
+    await authRepository.saveResetToken(email, null, null, hashedOtp, resetOtpExpiry);
+
+    const html = `
+        <p>Your new OTP:</p>
+        <h2>${resetOtp}</h2>
+        <p>Expires in 10 minutes</p>
+    `;
+
+    await sendEmail(email, 'Resend OTP', html);
+
+    return true;
+};
 
 exports.resetPasswordService=async(data)=>{
     const{token, password}=data;

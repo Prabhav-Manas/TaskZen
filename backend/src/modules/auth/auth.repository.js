@@ -12,16 +12,18 @@ exports.verifyUser=(email)=>{
     return User.findOneAndUpdate(
         {email},
         {isVerified:true, verificationToken:null},
-        {new:true}
+        {returnDocument:'after'}
     )
 }
 
-exports.saveResetToken=(email, token, expiry)=>{
-    return User.findOneAndUpdate(
-        {email},
-        {resetToken:token, resetTokenExpiry:expiry},
-        {new:true}
-    )
+exports.saveResetToken=(email, token=null, expiry=null, otp=null, otpExpiry=null)=>{
+    const update = {};
+    if (token !== undefined) update.resetToken = token;
+    if (expiry !== undefined) update.resetTokenExpiry = expiry;
+    if (otp !== undefined) update.resetOtp = otp;
+    if (otpExpiry !== undefined) update.resetOtpExpiry = otpExpiry;
+
+    return User.findOneAndUpdate({email}, update, { returnDocument: 'after' });
 }
 
 exports.findUserByResetToken=async(token)=>{
@@ -34,7 +36,7 @@ exports.findUserByResetToken=async(token)=>{
 exports.updatePassword=async(userId, hashedPassword)=>{
     return await User.findByIdAndUpdate(
         userId,
-        {password:hashedPassword, resetToken:null, resetTokenExpiry:null},
+        {password:hashedPassword, resetToken:null, resetTokenExpiry:null, resetOtp: null, resetOtpExpiry: null},
         {new:true}
     )
 }
