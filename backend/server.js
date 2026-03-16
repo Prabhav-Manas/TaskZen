@@ -23,3 +23,4 @@ app.listen(PORT, ()=>{
 // Implement the below later:=>
 // --> device session tracking
 // --> CSRF refresh protection
+// --> Logout from All devices
