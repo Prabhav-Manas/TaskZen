@@ -1,7 +1,7 @@
 const bcrypt=require('bcryptjs');
 const crypto=require('crypto');
 const authRepository=require('./auth.repository');
-const {generateToken}=require('../../config/jwt');
+const {generateAccessToken}=require('../../config/jwt');
 
 const {sendEmail}=require('../../utils/mailer');
 
@@ -75,18 +75,69 @@ exports.signinService=async(data)=>{
         throw new Error('Email not found');
     }
 
-    const isPasswordMatch=await bcrypt.compare(password, user.password);
-
-    if(!isPasswordMatch){
-        throw new Error('Invalid Credentials');
+    if(!user.signInBlockedUntil || user.signInBlockedUntil > Date.now()){
+        throw new Error('Too many failed attempts. Try again later.');
     }
 
+    const isPasswordMatch=await bcrypt.compare(password, user.password);
+
+    // if(!isPasswordMatch){
+    //     throw new Error('Invalid Credentials');
+    // }
+
+    if(!isPasswordMatch){
+
+        const attempts = user.loginAttempts + 1;
+
+        if(attempts >= 5){
+
+            await User.findByIdAndUpdate(user._id,{
+                loginAttempts:0,
+                loginBlockedUntil: Date.now() + 15*60*1000
+            });
+
+            throw new Error('Too many login attempts. Try again after 15 minutes.');
+        }
+
+        await User.findByIdAndUpdate(user._id,{
+            loginAttempts:attempts
+        });
+
+        throw new Error('Invalid credentials');
+    }
+
+    await User.findByIdAndUpdate(user._id,{
+        loginAttempts:0,
+        loginBlockedUntil:null
+    });
+
     // Generate JWT token
-    const token=generateToken(user._id);
+    const accessToken=generateAccessToken(user._id);
+    const refreshToken=generateRefreshToken(user._id);
+
+    await User.findByIdAndUpdate(user._id,{refreshToken});
 
     user.password=undefined;
 
-    return { user, token };
+    return { user, accessToken, refreshToken };
+}
+
+exports.refreshTokenService=async(token)=>{
+    if(!token){
+        throw new Error('Refresh token required.');
+    }
+
+    const decoded=jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+
+    const user=await User.findById(decoded.id);
+
+    if(!user || user.refreshToken !== token){
+        throw new Error('Invalid refresh token');
+    }
+
+    const newAccessToken=generateAccessToken(user._id);
+
+    return newAccessToken;
 }
 
 exports.forgotPasswordService=async(data)=>{

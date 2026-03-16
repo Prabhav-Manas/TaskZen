@@ -34,12 +34,29 @@ exports.verifyEmail=async(req,res,next)=>{
 // Sign in controller
 exports.signin=async(req,res,next)=>{
     try{
-        const user=await authService.signinService(req.body);
+        const {user, accessToken, refreshToken}=await authService.signinService(req.body);
 
         res.status(200).json({
             status:200,
             message:'User signed in successfully',
             user,
+            accessToken,
+            refreshToken
+        })
+    }catch(error){
+        next(error);
+    }
+}
+
+exports.refreshToken=async(req, res, next)=>{
+    try{
+        const {refreshToken}=req.body;
+
+        const token= await authService.refreshTokenService(refreshToken);
+
+        res.status(200).json({
+            status:200,
+            accessToken:token
         })
     }catch(error){
         next(error);

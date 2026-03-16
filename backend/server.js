@@ -18,3 +18,8 @@ app.listen(PORT, ()=>{
 // model       → schema
 // validation  → request validation
 // routes      → endpoints
+
+
+// Implement the below later:=>
+// --> device session tracking
+// --> CSRF refresh protection
