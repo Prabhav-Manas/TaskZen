@@ -1,0 +1,48 @@
+.auth-image{
+    min-height: 100%;
+    object-fit: cover;
+
+    max-width: 75%;
+    height: auto;
+    z-index: 2;
+    position: relative;
+}
+
+.imgBgColor{
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(165deg,#0d6efd,#0a1c4e);
+    overflow: hidden;
+}
+
+/* White Curve Cut */
+.imgBgColor::after{
+    content: "";
+    position: absolute;
+    right: -180px;
+    top: 0;
+    width: 420px;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 395% 0 0 195%;
+}
+
+.otp-input {
+  width: 42px;
+  height: 48px;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.otp-input:focus {
+  border-color: #0d6efd;
+  box-shadow: none;
+}
+
+@media (max-width: 768px){
+  .auth-image{
+    height: 35vh;
+  }
+}
