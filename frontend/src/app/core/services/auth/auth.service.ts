@@ -25,4 +25,6 @@ export class AuthService {
   forgotPassword(data:ForgotPasswordRequest){
     return this.api.post<ForgotPasswordResponse>('auth/forgot-password', data);
   }
+
+  verifyOtp(){}
 }
