@@ -1,7 +1,7 @@
 const bcrypt=require('bcryptjs');
 const crypto=require('crypto');
 const authRepository=require('./auth.repository');
-const {generateAccessToken}=require('../../config/jwt');
+const {generateAccessToken, generateRefreshToken}=require('../../config/jwt');
 
 const {sendEmail}=require('../../utils/mailer');
 
@@ -75,40 +75,49 @@ exports.signinService=async(data)=>{
         throw new Error('Email not found');
     }
 
-    if(!user.signInBlockedUntil || user.signInBlockedUntil > Date.now()){
+    if(!user.isVerified){
+        throw new Error('Please verify your email first');
+    }
+
+    // Reset block if expired
+    if (user.signInBlockedUntil && user.signInBlockedUntil < Date.now()) {
+        await User.findByIdAndUpdate(user._id, {
+            signInAttempts: 0,
+            signInBlockedUntil: null
+        });
+    }
+
+    // Block check
+    if(user.signInBlockedUntil || user.signInBlockedUntil > Date.now()){
         throw new Error('Too many failed attempts. Try again later.');
     }
 
     const isPasswordMatch=await bcrypt.compare(password, user.password);
 
-    // if(!isPasswordMatch){
-    //     throw new Error('Invalid Credentials');
-    // }
-
     if(!isPasswordMatch){
 
-        const attempts = user.loginAttempts + 1;
+        const attempts = user.signInAttempts + 1;
 
         if(attempts >= 5){
 
             await User.findByIdAndUpdate(user._id,{
-                loginAttempts:0,
-                loginBlockedUntil: Date.now() + 15*60*1000
+                signInAttempts:0,
+                signInBlockedUntil: Date.now() + 15*60*1000
             });
 
             throw new Error('Too many login attempts. Try again after 15 minutes.');
         }
 
         await User.findByIdAndUpdate(user._id,{
-            loginAttempts:attempts
+            signInAttempts:attempts
         });
 
         throw new Error('Invalid credentials');
     }
 
     await User.findByIdAndUpdate(user._id,{
-        loginAttempts:0,
-        loginBlockedUntil:null
+        signInAttempts:0,
+        signInBlockedUntil:null
     });
 
     // Generate JWT token

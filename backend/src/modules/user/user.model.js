@@ -18,7 +18,7 @@ const userSchema=new mongoose.Schema({
     otpAttempts:{type:Number, default:0},
     otpBlockedUntil:{type:Date},
 
-    signInAttemptes:{type:Number, default:0},
+    signInAttempts:{type:Number, default:0},
     signInBlockedUntil:{type:Date},
     
     refreshToken:{type:String}
