@@ -129,3 +129,28 @@ exports.resetPassword=async(req,res,next)=>{
         next(error);
     }
 }
+
+// Logout Controller
+exports.signout=async(req, res, next)=>{
+    try{
+        const authHeader=req.headers.authorization;
+
+        if(!authHeader){
+            return res.status(401).json({
+                status:401,
+                message:'Authorization header missing'
+            })
+        }
+
+        const token = authHeader.split(" ")[1];
+
+        await authService.logoutService(token);
+
+        res.status(200).json({
+            status:200,
+            message:'Logged out successfully.'
+        })
+    }catch(error){
+        next(error);
+    }
+}

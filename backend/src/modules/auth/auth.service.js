@@ -1,11 +1,14 @@
+require('dotenv').config();
 const bcrypt=require('bcryptjs');
 const crypto=require('crypto');
 const authRepository=require('./auth.repository');
 const {generateAccessToken, generateRefreshToken}=require('../../config/jwt');
-
+const jwt=require('jsonwebtoken');
 const {sendEmail}=require('../../utils/mailer');
 
 const User=require('../user/user.model');
+
+const blacklistRepository=require('../auth/blacklist/blacklist.repository');
 
 exports.signupService=async(data)=>{
     const {fullname, email, password}=data;
@@ -291,6 +294,20 @@ exports.resetPasswordService=async(data)=>{
     const hashedPassword=await bcrypt.hash(password, 12);
 
     await authRepository.updatePassword(user._id, hashedPassword);
+
+    return true;
+}
+
+exports.logoutService=async(token)=>{
+    if(!token){
+        throw new Error('Token required.');
+    }
+
+    const decoded=jwt.verify(token, process.env.JWT_SECRET);
+
+    const expiresAt = new Date(decoded.exp * 1000);
+
+    await blacklistRepository.addToken(token, expiresAt);
 
     return true;
 }
