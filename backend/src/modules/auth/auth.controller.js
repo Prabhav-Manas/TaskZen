@@ -70,7 +70,7 @@ exports.forgotPassword=async(req,res,next)=>{
 
         res.status(200).json({
             status:200,
-            message:'Password reset email sent successfully',
+            message:'Password reset OTP sent to your email.',
         })
     }catch(error){
         next(error);
