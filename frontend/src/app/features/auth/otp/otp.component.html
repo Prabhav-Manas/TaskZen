@@ -34,7 +34,8 @@
                     (focus)="onFocus(i, $event)" />
                 </div>
 
-                <div class="d-flex justify-content-end mt-1">
+                <div class="d-flex justify-content-between mt-1">
+                    <app-button type="button" color="success" label="{{isResendDisabled ? 'Resend OTP in ' + timer + 's' : 'Resend OTP'}}" [disabled]="isResendDisabled" (click)="onResendOTP()"></app-button>
                     <app-button type="submit" color="primary" label="Verify OTP"></app-button>
                 </div>
             </form>

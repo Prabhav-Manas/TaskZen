@@ -107,7 +107,11 @@ exports.resendOtp = async (req, res, next) => {
         });
 
     } catch (error) {
-        next(error);
+        // next(error);
+        res.status(400).json({
+            status:400,
+            message:error.message
+        })
     }
 };
 

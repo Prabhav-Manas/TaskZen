@@ -18,6 +18,11 @@ export class OtpComponent implements OnInit{
   otpArray = [0,1,2,3,4,5];
   otpValue: string[] = ['', '', '', '', '', ''];
 
+  isResendDisabled:boolean=true;
+  isLoading:boolean=false;
+  timer:number=30;
+  interval:any;
+
   constructor(private fb:FormBuilder, private authStateService:AuthStateService, private authService:AuthService, private router:Router){
     this.otpForm=this.fb.group({
       otp:new FormControl('', [Validators.required]),
@@ -27,11 +32,14 @@ export class OtpComponent implements OnInit{
   ngOnInit(): void {
     this.email=this.authStateService.getEmail() || localStorage.getItem('resetEmail') || '';
     this.maskedEmail=this.maskEmail(this.email);
+
+    this.setTimer();
   }
 
   maskEmail(email: string) {
     if(!email){
       this.router.navigate(['/auth/forgot-password']);
+      return '';
     }
 
     console.log('Mask Email:=>', this.email)
@@ -137,6 +145,20 @@ export class OtpComponent implements OnInit{
     input.select();
   }
 
+  setTimer(){
+    this.isResendDisabled=true;
+    this.timer=30;
+
+    this.interval=setInterval(()=>{
+      this.timer--;
+
+      if(this.timer <= 0){
+        this.isResendDisabled=false;
+        clearInterval(this.interval);
+      }
+    }, 1000);
+  }
+
   onSubmit() {
     if (this.otpForm.invalid){
       this.otpForm.markAllAsTouched();
@@ -149,7 +171,7 @@ export class OtpComponent implements OnInit{
     }
 
     this.authService.verifyOtp(payload).subscribe({next:(res:OtpResponse)=>{
-      if(res.status=200){
+      if(res.status===200){
         localStorage.removeItem('resetEmail');
         this.authStateService.clearEmail();
         console.log('Otp Response:=>', res.message);
@@ -157,6 +179,25 @@ export class OtpComponent implements OnInit{
       }
     }, error:(err:any)=>{
       console.log('Otp Error:=>', err.message);
+    }})
+  }
+
+  onResendOTP(){
+    if(!this.email){
+      return;
+    }
+
+    this.authService.resendOtp(this.email).subscribe({next:(res:OtpResponse)=>{
+      if(res.status===200){
+        this.otpValue=['', '', '', '', '', ''];
+        this.otpForm.reset();
+
+        this.setTimer();
+
+        console.log('Resend OTP Response:=>', res);
+      }
+    }, error:(err)=>{
+      console.log('Resend OTP Error:=>', err.message);
     }})
   }
 }

@@ -257,8 +257,14 @@ exports.resendOtpService = async (email) => {
     }
 
     // Prevent OTP spam
-    if (user.resetOtpExpiry && user.resetOtpExpiry > Date.now()) {
-        throw new Error('OTP already sent. Please wait before requesting again.');
+    // if (user.resetOtpExpiry && user.resetOtpExpiry > Date.now()) {
+    //     throw new Error('OTP already sent. Please wait before requesting again.');
+    // }
+
+    const cooldown = 30 * 1000;
+
+    if (user.resetOtpRequestedAt && (Date.now() - user.resetOtpRequestedAt < cooldown)) {
+        throw new Error('Please wait before requesting another OTP');
     }
 
     const resetOtp = Math.floor(100000 + Math.random() * 900000).toString();

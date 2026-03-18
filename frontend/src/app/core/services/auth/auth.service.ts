@@ -31,4 +31,8 @@ export class AuthService {
   verifyOtp(data:OtpRequest){
     return this.api.post<OtpResponse>('auth/verify-otp', data);
   }
+
+  resendOtp(email:string){
+    return this.api.post<OtpResponse>('auth/resend-otp', {email});
+  }
 }
