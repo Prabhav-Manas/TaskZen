@@ -20,12 +20,12 @@
                 </p>
 
                 <p class="text-muted small">
-                    OTP sent to {{ maskEmail(email) }}
+                    OTP sent to <span class="text-primary">{{ maskedEmail }}</span>
                 </p>
 
                 <!-- OTP Inputs -->
                 <div class="d-flex justify-content-center gap-2 mb-3" (paste)="onPaste($event)">
-                    <input *ngFor="let i of otpArray;let index as i" type="text" 
+                    <input *ngFor="let _ of otpArray;let i = index" type="text" 
                     maxlength="1" 
                     class="form-control text-center otp-input" 
                     [value]="otpValue[i] || ''" 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthStateService } from 'src/app/core/services/auth-state/auth-state.service';
 
 @Component({
   selector: 'app-otp',
@@ -9,21 +11,29 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class OtpComponent implements OnInit{
   otpForm!:FormGroup;
   email:string='';
+  maskedEmail:string='';
 
   otpArray = [0,1,2,3,4,5];
   otpValue: string[] = ['', '', '', '', '', ''];
 
-  constructor(private fb:FormBuilder){
+  constructor(private fb:FormBuilder, private authStateService:AuthStateService, private router:Router){
     this.otpForm=this.fb.group({
       otp:new FormControl('', [Validators.required]),
     })
   }
 
   ngOnInit(): void {
-    
+    this.email=this.authStateService.getEmail() || localStorage.getItem('resetEmail') || '';
+    this.maskedEmail=this.maskEmail(this.email);
   }
 
   maskEmail(email: string) {
+    if(!email){
+      this.router.navigate(['/auth/forgot-password']);
+    }
+
+    console.log('Mask Email:=>', this.email)
+    
     const [name, domain] = email.split('@');
     return name.slice(0, 2) + '******@' + domain;
   }

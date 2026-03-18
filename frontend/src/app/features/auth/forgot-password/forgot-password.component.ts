@@ -32,6 +32,7 @@ export class ForgotPasswordComponent implements OnInit{
     }
 
     this.authStateService.setEmail(payload.email);
+    localStorage.setItem('resetEmail', payload.email);
 
     this.authService.forgotPassword(payload).subscribe({next:(res)=>{
       console.log('Forgot-Password:=>', res);
