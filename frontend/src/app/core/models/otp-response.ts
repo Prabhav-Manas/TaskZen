@@ -1,4 +1,5 @@
 export interface OtpResponse{
     status:number,
-    message:string
+    message:string,
+    token:string
 }

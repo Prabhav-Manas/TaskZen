@@ -176,6 +176,8 @@ export class OtpComponent implements OnInit{
         this.authStateService.clearEmail();
         console.log('Otp Response:=>', res.message);
         this.otpForm.reset();
+
+        this.router.navigate(['/auth/reset-password', res.token]);
       }
     }, error:(err:any)=>{
       console.log('Otp Error:=>', err.message);

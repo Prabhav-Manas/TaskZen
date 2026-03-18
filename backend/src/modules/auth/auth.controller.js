@@ -82,11 +82,12 @@ exports.verifyOtp=async(req,res,next)=>{
     try{
         const {email, otp}=req.body;
 
-        await authService.verifyOtpService({email, otp});
+        const resetToken=await authService.verifyOtpService({email, otp});
 
         res.status(200).json({
             status:200,
             message:'OTP verified successfully',
+            token:resetToken
         })
     }catch(error){
         next(error);

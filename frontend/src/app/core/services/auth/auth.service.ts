@@ -8,6 +8,8 @@ import { ForgotPasswordRequest } from '../../models/forgot-password-request';
 import { ForgotPasswordResponse } from '../../models/forgot-password-response';
 import { OtpRequest } from '../../models/otp-request';
 import { OtpResponse } from '../../models/otp-response';
+import { ResetPasswordRequest } from '../../models/reset-password-request';
+import { ResetPasswordResponse } from '../../models/reset-password-response';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +36,9 @@ export class AuthService {
 
   resendOtp(email:string){
     return this.api.post<OtpResponse>('auth/resend-otp', {email});
+  }
+
+  resetPassword(data:ResetPasswordRequest){
+    return this.api.post<ResetPasswordResponse>(`auth/reset-password/${data.token}`, data);
   }
 }

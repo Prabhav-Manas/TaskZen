@@ -8,6 +8,7 @@ import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { OtpComponent } from './otp/otp.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { OtpComponent } from './otp/otp.component';
     SigninComponent,
     SignupComponent,
     ForgotPasswordComponent,
-    OtpComponent
+    OtpComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,
