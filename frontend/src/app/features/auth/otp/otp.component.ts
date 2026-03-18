@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { OtpResponse } from 'src/app/core/models/otp-response';
 import { AuthStateService } from 'src/app/core/services/auth-state/auth-state.service';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-otp',
@@ -16,7 +18,7 @@ export class OtpComponent implements OnInit{
   otpArray = [0,1,2,3,4,5];
   otpValue: string[] = ['', '', '', '', '', ''];
 
-  constructor(private fb:FormBuilder, private authStateService:AuthStateService, private router:Router){
+  constructor(private fb:FormBuilder, private authStateService:AuthStateService, private authService:AuthService, private router:Router){
     this.otpForm=this.fb.group({
       otp:new FormControl('', [Validators.required]),
     })
@@ -61,7 +63,7 @@ export class OtpComponent implements OnInit{
 
     const input = event.target as HTMLInputElement;
 
-    // 🔒 Block TAB if current box is empty
+    // Block TAB if current box is empty
     if (event.key === 'Tab') {
 
       // If current box is empty → stop moving forward
@@ -81,7 +83,7 @@ export class OtpComponent implements OnInit{
       }
     }
 
-    // ⬅️ Backspace logic (your existing - good)
+    // Backspace logic (your existing - good)
     if (event.key === 'Backspace') {
 
       if (input.value) {
@@ -136,12 +138,25 @@ export class OtpComponent implements OnInit{
   }
 
   onSubmit() {
-    if (this.otpForm.invalid) return;
+    if (this.otpForm.invalid){
+      this.otpForm.markAllAsTouched();
+      return;
+    }
 
-    const otp = this.otpForm.value.otp;
+    const payload ={
+      email:this.email,
+      otp: this.otpForm.value.otp
+    }
 
-    console.log('Final OTP:', otp);
-
-    // API call
+    this.authService.verifyOtp(payload).subscribe({next:(res:OtpResponse)=>{
+      if(res.status=200){
+        localStorage.removeItem('resetEmail');
+        this.authStateService.clearEmail();
+        console.log('Otp Response:=>', res.message);
+        this.otpForm.reset();
+      }
+    }, error:(err:any)=>{
+      console.log('Otp Error:=>', err.message);
+    }})
   }
 }

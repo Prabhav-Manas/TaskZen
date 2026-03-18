@@ -6,6 +6,8 @@ import { SignInPayload } from '../../models/login-request';
 import { SignInResponse } from '../../models/login-response';
 import { ForgotPasswordRequest } from '../../models/forgot-password-request';
 import { ForgotPasswordResponse } from '../../models/forgot-password-response';
+import { OtpRequest } from '../../models/otp-request';
+import { OtpResponse } from '../../models/otp-response';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +28,7 @@ export class AuthService {
     return this.api.post<ForgotPasswordResponse>('auth/forgot-password', data);
   }
 
-  verifyOtp(){}
+  verifyOtp(data:OtpRequest){
+    return this.api.post<OtpResponse>('auth/verify-otp', data);
+  }
 }
