@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ResetPasswordResponse } from 'src/app/core/models/reset-password-response';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 
@@ -12,6 +13,8 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 export class ResetPasswordComponent implements OnInit{
   resetPasswordForm!:FormGroup;
   token:string='';
+
+  toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authService:AuthService, private route:ActivatedRoute, private router:Router){
     this.resetPasswordForm=this.fb.group({
@@ -70,9 +73,13 @@ export class ResetPasswordComponent implements OnInit{
       console.log('Reset-Password Response:=>', res);
 
       this.router.navigate(['/']);
+
+      this.toastr.success(res.message, 'Reset Password Successful!');
      } 
     }, error:(err)=>{
       console.log('Reset-Password Error:=>', err.message);
+
+      this.toastr.error(err.message, 'Reset Password Failed!')
     }})
   }
 }
