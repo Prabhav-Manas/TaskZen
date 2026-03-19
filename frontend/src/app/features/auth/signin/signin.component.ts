@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { TokenService } from 'src/app/core/services/token/token.service';
 
@@ -13,6 +14,8 @@ export class SigninComponent implements OnInit{
   loginForm!: FormGroup;
   hide: string = 'password';
   showRules = false;
+
+  toastr = inject(ToastrService);
   
   constructor(private fb:FormBuilder, private authService:AuthService, private router:Router, private tokenService:TokenService){
     this.loginForm=this.fb.group({
@@ -43,9 +46,11 @@ export class SigninComponent implements OnInit{
       
       if(res.status===200){
         this.router.navigate(['/dashboard']);
+        this.toastr.success(res.message, 'Sign in Successful!');
       }
     }, error:(err)=>{
-      console.log('Signin Error:=>', err)
+      console.log('Signin Error:=>', err);
+      this.toastr.error(err.message, 'Sign in Error!');
     }})
 
     console.log(this.loginForm.value);
