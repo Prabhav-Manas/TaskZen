@@ -15,6 +15,8 @@ export class SigninComponent implements OnInit{
   hide: string = 'password';
   showRules = false;
 
+  isLoader:boolean=false;
+
   toastr = inject(ToastrService);
   
   constructor(private fb:FormBuilder, private authService:AuthService, private router:Router, private tokenService:TokenService){
@@ -34,6 +36,8 @@ export class SigninComponent implements OnInit{
       return;
     }
 
+    this.isLoader=true;
+
     const payload={
       email:this.loginForm.value.email,
       password:this.loginForm.value.password
@@ -48,9 +52,12 @@ export class SigninComponent implements OnInit{
         this.router.navigate(['/dashboard']);
         this.toastr.success(res.message, 'Sign in Successful!');
       }
+
+      this.isLoader=false
     }, error:(err)=>{
       console.log('Signin Error:=>', err);
-      this.toastr.error(err.message, 'Sign in Error!');
+      this.toastr.error(err.error.message, 'Sign in Error!');
+      this.isLoader=false
     }})
 
     console.log(this.loginForm.value);

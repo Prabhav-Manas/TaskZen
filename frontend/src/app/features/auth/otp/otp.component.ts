@@ -32,6 +32,8 @@ export class OtpComponent implements OnInit{
     type:'primary'
   };
 
+  isLoader:boolean=false;
+
   toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authStateService:AuthStateService, private authService:AuthService, private router:Router, private popupService:PopUpService){
@@ -180,6 +182,8 @@ export class OtpComponent implements OnInit{
       return;
     }
 
+    this.isLoader=true;
+
     const payload ={
       email:this.email,
       otp: this.otpForm.value.otp
@@ -193,12 +197,15 @@ export class OtpComponent implements OnInit{
         this.otpValue=['', '', '', '', '', ''];
         this.otpForm.reset();
 
-        this.popupService.show('OTP Verified Successfully!', 'Reset password link sent to your email', 'success');
+        this.popupService.show('OTP Verified Successfully!', res.message, 'success');
 
         // this.router.navigate(['/auth/reset-password', res.token]);
       }
+
+      this.isLoader=false;
     }, error:(err:any)=>{
-      console.log('Otp Error:=>', err.message);
+      console.log('Otp Error:=>', err.error.message);
+      this.isLoader=false;
     }})
   }
 
@@ -206,6 +213,8 @@ export class OtpComponent implements OnInit{
     if(!this.email){
       return;
     }
+
+    this.isLoader=true;
 
     this.authService.resendOtp(this.email).subscribe({next:(res:OtpResponse)=>{
       if(res.status===200){
@@ -218,9 +227,13 @@ export class OtpComponent implements OnInit{
 
         console.log('Resend OTP Response:=>', res);
       }
+
+      this.isLoader=false;
     }, error:(err)=>{
-      console.log('Resend OTP Error:=>', err.message);
-      this.toastr.error(err.message, 'Re-send OTP Error!');
+      console.log('Resend OTP Error:=>', err.error.message);
+      this.toastr.error(err.error.message, 'Re-send OTP Error!');
+
+      this.isLoader=false;
     }})
   }
 }

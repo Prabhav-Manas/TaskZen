@@ -1,3 +1,5 @@
+<app-loader *ngIf="isLoader"></app-loader>
+
 <div class="container-fluid vh-100">
     <div class="row h-100 g-0">
         <!-- Auth-Form-Hero-Image -->
@@ -36,7 +38,7 @@
 
                 <!-- Submit Button -->
                 <div class="d-flex justify-content-end mt-1">
-                    <app-button type="submit" label="Sign in" color="primary"></app-button>
+                    <app-button type="submit" label="Sign in" color="primary" [disabled]="isLoader"></app-button>
                 </div>
             </form>
         </div>

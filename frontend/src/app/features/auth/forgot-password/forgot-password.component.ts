@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 export class ForgotPasswordComponent implements OnInit{
   forgotPasswordForm!: FormGroup;
 
+  isLoader:boolean=false;
+
   toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authService:AuthService, private authStateService:AuthStateService, private router:Router){
@@ -30,6 +32,9 @@ export class ForgotPasswordComponent implements OnInit{
       this.forgotPasswordForm.markAllAsTouched();
       return
     }
+
+    this.isLoader=true;
+
     const payload={
       email:this.forgotPasswordForm.value.email,
     }
@@ -44,9 +49,12 @@ export class ForgotPasswordComponent implements OnInit{
         this.router.navigate(['/auth/otp']);
         this.toastr.success(res.message, 'Requested OTP Success!');
       }
+
+      this.isLoader=false;
     }, error:(error)=>{
       console.log('Error in forgot-password:=>', error);
-      this.toastr.error(error.message, 'Requested OTP Failed');
+      this.toastr.error(error.error.message, 'Requested OTP Failed');
+      this.isLoader=false;
     }})
     this.forgotPasswordForm.reset();
   }

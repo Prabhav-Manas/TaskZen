@@ -15,6 +15,8 @@ export class SignupComponent implements OnInit{
   cnfhide:string='password';
   showRules = false;
 
+  isLoader:boolean=false;
+
   toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authService: AuthService, private router:Router){}
@@ -56,6 +58,8 @@ export class SignupComponent implements OnInit{
       return;
     }
 
+    this.isLoader=true;
+
     const payload={
       fullname: this.regForm.value.fullname,
       email: this.regForm.value.email,
@@ -69,9 +73,12 @@ export class SignupComponent implements OnInit{
         this.router.navigate(['/']);
         this.toastr.success(res.message, 'Sign up Successful!');
       }
+
+      this.isLoader=false;
     },error:(err)=>{
       console.log('Signup Error:=>', err);
-      this.toastr.error(err.message, 'Sign up Error!')
+      this.toastr.error(err.error.message, 'Sign up Error!')
+      this.isLoader=false;
     }})
     
     console.log(this.regForm.value);

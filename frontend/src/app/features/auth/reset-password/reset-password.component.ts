@@ -14,6 +14,8 @@ export class ResetPasswordComponent implements OnInit{
   resetPasswordForm!:FormGroup;
   token:string='';
 
+  isLoader:boolean=false;
+
   toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authService:AuthService, private route:ActivatedRoute, private router:Router){
@@ -63,6 +65,8 @@ export class ResetPasswordComponent implements OnInit{
       return;
     }
 
+    this.isLoader=true;
+
     const payload={
       token:this.token,
       password:this.resetPasswordForm.value.password
@@ -76,10 +80,13 @@ export class ResetPasswordComponent implements OnInit{
 
       this.toastr.success(res.message, 'Reset Password Successful!');
      } 
-    }, error:(err)=>{
-      console.log('Reset-Password Error:=>', err.message);
 
-      this.toastr.error(err.message, 'Reset Password Failed!')
+     this.isLoader=false;
+    }, error:(err)=>{
+      console.log('Reset-Password Error:=>', err.error.message);
+      this.toastr.error(err.error.message, 'Reset Password Failed!')
+
+      this.isLoader=false;
     }})
   }
 }

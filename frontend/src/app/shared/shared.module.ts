@@ -7,6 +7,7 @@ import { FormInputComponent } from './components/form-input/form-input.component
 import { PasswordInputComponent } from './components/password-input/password-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PopUpComponent } from './components/pop-up/pop-up.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 
 
@@ -17,7 +18,8 @@ import { PopUpComponent } from './components/pop-up/pop-up.component';
     CardComponent,
     FormInputComponent,
     PasswordInputComponent,
-    PopUpComponent
+    PopUpComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { PopUpComponent } from './components/pop-up/pop-up.component';
     PasswordInputComponent,
     ReactiveFormsModule,
     FormsModule,
-    PopUpComponent
+    PopUpComponent,
+    LoaderComponent
   ]
 })
 export class SharedModule { }
