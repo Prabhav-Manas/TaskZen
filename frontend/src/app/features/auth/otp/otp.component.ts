@@ -190,6 +190,7 @@ export class OtpComponent implements OnInit{
         localStorage.removeItem('resetEmail');
         this.authStateService.clearEmail();
         console.log('Otp Response:=>', res.message);
+        this.otpValue=['', '', '', '', '', ''];
         this.otpForm.reset();
 
         this.popupService.show('OTP Verified Successfully!', 'Reset password link sent to your email', 'success');
