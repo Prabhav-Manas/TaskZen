@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { OtpResponse } from 'src/app/core/models/otp-response';
 import { AuthStateService } from 'src/app/core/services/auth-state/auth-state.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { PopUpService } from 'src/app/core/services/pop-up/pop-up.service';
 
 @Component({
   selector: 'app-otp',
@@ -23,7 +24,14 @@ export class OtpComponent implements OnInit{
   timer:number=30;
   interval:any;
 
-  constructor(private fb:FormBuilder, private authStateService:AuthStateService, private authService:AuthService, private router:Router){
+  popup:any={
+    isOpen:false,
+    title:'',
+    message:'',
+    type:'primary'
+  };
+
+  constructor(private fb:FormBuilder, private authStateService:AuthStateService, private authService:AuthService, private router:Router, private popupService:PopUpService){
     this.otpForm=this.fb.group({
       otp:new FormControl('', [Validators.required]),
     })
@@ -34,6 +42,10 @@ export class OtpComponent implements OnInit{
     this.maskedEmail=this.maskEmail(this.email);
 
     this.setTimer();
+
+    this.popupService.popUpState$.subscribe((data)=>{
+      this.popup=data;
+    })
   }
 
   maskEmail(email: string) {
@@ -177,7 +189,9 @@ export class OtpComponent implements OnInit{
         console.log('Otp Response:=>', res.message);
         this.otpForm.reset();
 
-        this.router.navigate(['/auth/reset-password', res.token]);
+        this.popupService.show('OTP Verified Successfully!', 'Reset password link sent to your email', 'success');
+
+        // this.router.navigate(['/auth/reset-password', res.token]);
       }
     }, error:(err:any)=>{
       console.log('Otp Error:=>', err.message);

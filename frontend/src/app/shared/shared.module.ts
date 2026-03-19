@@ -6,6 +6,7 @@ import { CardComponent } from './components/card/card.component';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { PasswordInputComponent } from './components/password-input/password-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PopUpComponent } from './components/pop-up/pop-up.component';
 
 
 
@@ -15,7 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HeaderComponent,
     CardComponent,
     FormInputComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
+    PopUpComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormInputComponent,
     PasswordInputComponent,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    PopUpComponent
   ]
 })
 export class SharedModule { }

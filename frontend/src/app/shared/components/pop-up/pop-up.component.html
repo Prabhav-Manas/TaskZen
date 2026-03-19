@@ -1,0 +1,13 @@
+<div *ngIf="isOpen" class="popup-backdrop">
+    <div class="popup-box">
+        <h5 [ngClass]="{
+            'text-success':type==='success',
+            'text-danger':type==='danger',
+            'text-primary':type==='primary'
+        }">{{title}}</h5>
+
+        <p>{{message}}</p>
+
+        <app-button type="button" color="primary" label="OK" (click)="onClosePopUp()"></app-button>
+    </div>
+</div>

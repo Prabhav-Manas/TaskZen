@@ -237,7 +237,7 @@ exports.verifyOtpService=async({email,otp})=>{
 
     await authRepository.saveResetToken(email, resetToken, resetTokenExpiry, null, null);
 
-    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:4200'}/reset-password/${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_URL || 'http://localhost:4200'}/auth/reset-password/${resetToken}`;
 
     const html = `<p>Click this link to reset your password:</p>
         <a href="${resetLink}">Reset Password</a>
