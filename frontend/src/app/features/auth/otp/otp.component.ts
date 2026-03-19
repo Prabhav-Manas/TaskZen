@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { OtpResponse } from 'src/app/core/models/otp-response';
 import { AuthStateService } from 'src/app/core/services/auth-state/auth-state.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
@@ -30,6 +31,8 @@ export class OtpComponent implements OnInit{
     message:'',
     type:'primary'
   };
+
+  toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authStateService:AuthStateService, private authService:AuthService, private router:Router, private popupService:PopUpService){
     this.otpForm=this.fb.group({
@@ -208,12 +211,15 @@ export class OtpComponent implements OnInit{
         this.otpValue=['', '', '', '', '', ''];
         this.otpForm.reset();
 
+        this.toastr.success(res.message, 'Re-send OTP successful!');
+
         this.setTimer();
 
         console.log('Resend OTP Response:=>', res);
       }
     }, error:(err)=>{
       console.log('Resend OTP Error:=>', err.message);
+      this.toastr.error(err.message, 'Re-send OTP Error!');
     }})
   }
 }
