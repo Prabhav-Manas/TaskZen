@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 
 @Component({
@@ -13,6 +14,8 @@ export class SignupComponent implements OnInit{
   hide:string='password';
   cnfhide:string='password';
   showRules = false;
+
+  toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authService: AuthService, private router:Router){}
 
@@ -64,9 +67,11 @@ export class SignupComponent implements OnInit{
 
       if(res.status===201){
         this.router.navigate(['/']);
+        this.toastr.success(res.message, 'Sign up Successful!');
       }
     },error:(err)=>{
       console.log('Signup Error:=>', err);
+      this.toastr.error(err.message, 'Sign up Error!')
     }})
     
     console.log(this.regForm.value);
