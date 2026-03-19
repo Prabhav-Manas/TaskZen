@@ -33,10 +33,10 @@ exports.findUserByResetToken=async(token)=>{
     });
 }
 
-exports.updatePassword=async(userId, hashedPassword)=>{
+exports.updatePassword=async(userId, hashedPassword, passwordHistory)=>{
     return await User.findByIdAndUpdate(
         userId,
-        {password:hashedPassword, resetToken:null, resetTokenExpiry:null, resetOtp: null, resetOtpExpiry: null},
+        {password:hashedPassword, passwordHistory: passwordHistory, resetToken:null, resetTokenExpiry:null, resetOtp: null, resetOtpExpiry: null},
         {new:true}
     )
 }

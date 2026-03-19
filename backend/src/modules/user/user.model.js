@@ -20,6 +20,8 @@ const userSchema=new mongoose.Schema({
 
     signInAttempts:{type:Number, default:0},
     signInBlockedUntil:{type:Date},
+
+    passwordHistory:[{type:String}],
     
     refreshToken:{type:String}
 }, {timestamps:true});

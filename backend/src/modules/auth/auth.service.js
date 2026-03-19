@@ -297,9 +297,31 @@ exports.resetPasswordService=async(data)=>{
         throw new Error('Invalid or expired reset token');
     }
 
+    // Check against current password
+    const isSameAsCurrent = await bcrypt.compare(password, user.password);
+    if (isSameAsCurrent) {
+        throw new Error('New password cannot be same as current password');
+    }
+
+    // Check last 2 passwords
+    if (user.passwordHistory && user.passwordHistory.length > 0) {
+        for (let oldPassword of user.passwordHistory.slice(-2)) {
+            const isMatch = await bcrypt.compare(password, oldPassword);
+            if (isMatch) {
+                throw new Error('You cannot reuse your last 2 passwords');
+            }
+        }
+    }
+
     const hashedPassword=await bcrypt.hash(password, 12);
 
-    await authRepository.updatePassword(user._id, hashedPassword);
+    // Push current password to history
+    const updatedHistory = [...(user.passwordHistory || []), user.password];
+
+    // Keep only last 2 passwords
+    const trimmedHistory = updatedHistory.slice(-2);
+
+    await authRepository.updatePassword(user._id, hashedPassword, trimmedHistory);
 
     return true;
 }
