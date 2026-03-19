@@ -22,11 +22,19 @@ export class ResetPasswordComponent implements OnInit{
 
   ngOnInit(): void {
     this.token=this.route.snapshot.paramMap.get('token') || '';
+
+    this.resetPasswordForm.get('password')?.valueChanges.subscribe(() => {
+      this.resetPasswordForm.updateValueAndValidity();
+    });
+
+    this.resetPasswordForm.get('cnfPassword')?.valueChanges.subscribe(() => {
+      this.resetPasswordForm.updateValueAndValidity();
+    });
   }
 
   matchPassword(group: FormGroup) {
     const password = group.get('password');
-    const confirmPassword = group.get('cnfpassword');
+    const confirmPassword = group.get('cnfPassword');
 
     if (!password || !confirmPassword) return null;
 
