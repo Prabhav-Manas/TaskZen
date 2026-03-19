@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthStateService } from 'src/app/core/services/auth-state/auth-state.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 
@@ -11,6 +12,8 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 })
 export class ForgotPasswordComponent implements OnInit{
   forgotPasswordForm!: FormGroup;
+
+  toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authService:AuthService, private authStateService:AuthStateService, private router:Router){
     this.forgotPasswordForm=this.fb.group({
@@ -39,9 +42,11 @@ export class ForgotPasswordComponent implements OnInit{
 
       if(res.status=200){
         this.router.navigate(['/auth/otp']);
+        this.toastr.success(res.message, 'Requested OTP Success!');
       }
     }, error:(error)=>{
       console.log('Error in forgot-password:=>', error);
+      this.toastr.error(error.message, 'Requested OTP Failed');
     }})
     this.forgotPasswordForm.reset();
   }
