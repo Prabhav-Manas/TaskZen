@@ -2,7 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { SignInResponse } from 'src/app/core/models/login-response';
+import { SignInResponse } from 'src/app/core/models/auth/login-response';
+
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { LoaderService } from 'src/app/core/services/loader/loader.service';
 import { TokenService } from 'src/app/core/services/token/token.service';

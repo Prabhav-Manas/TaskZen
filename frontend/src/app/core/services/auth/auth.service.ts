@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
-import { SignUpPayload } from '../../models/signup-request';
-import { SignUpResponse } from '../../models/signup-response';
-import { SignInPayload } from '../../models/login-request';
-import { SignInResponse } from '../../models/login-response';
-import { ForgotPasswordRequest } from '../../models/forgot-password-request';
-import { ForgotPasswordResponse } from '../../models/forgot-password-response';
-import { OtpRequest } from '../../models/otp-request';
-import { OtpResponse } from '../../models/otp-response';
-import { ResetPasswordRequest } from '../../models/reset-password-request';
-import { ResetPasswordResponse } from '../../models/reset-password-response';
-import { RefreshTokenResponse } from '../../models/refresh-token-response';
+import { SignUpPayload } from '../../models/auth/signup-request';
+import { SignUpResponse } from '../../models/auth/signup-response';
+import { SignInPayload } from '../../models/auth/login-request';
+import { SignInResponse } from '../../models/auth/login-response';
+
+import { ForgotPasswordRequest } from '../../models/auth/forgot-password-request';
+import { ForgotPasswordResponse } from '../../models/auth/forgot-password-response';
+import { OtpRequest } from '../../models/auth/otp-request';
+import { OtpResponse } from '../../models/auth/otp-response';
+import { ResetPasswordRequest } from '../../models/auth/reset-password-request';
+import { ResetPasswordResponse } from '../../models/auth/reset-password-response';
+import { RefreshTokenResponse } from '../../models/auth/refresh-token-response';
 
 @Injectable({
   providedIn: 'root'
