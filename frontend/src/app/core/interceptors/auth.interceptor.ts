@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
           if(error.status===401){
             return this.authService.refreshToken().pipe(switchMap((res)=>{
               // Save new token
-              this.tokenService.setTokens(res.accessToken, localStorage.getItem('refreshToken')!);
+              this.tokenService.setTokens(res.accessToken);
 
               // Retry original request
               const newReq=req.clone({

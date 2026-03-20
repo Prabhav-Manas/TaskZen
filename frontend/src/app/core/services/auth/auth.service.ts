@@ -10,6 +10,7 @@ import { OtpRequest } from '../../models/otp-request';
 import { OtpResponse } from '../../models/otp-response';
 import { ResetPasswordRequest } from '../../models/reset-password-request';
 import { ResetPasswordResponse } from '../../models/reset-password-response';
+import { RefreshTokenResponse } from '../../models/refresh-token-response';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +27,8 @@ export class AuthService {
     return this.api.post<SignInResponse>('auth/signin',data);
   }
 
-  refreshToken(){
-    const refreshToken=localStorage.getItem('refreshToken');
-
-    return this.api.post<any>('auth/refresh-token', {refreshToken});
+  refreshToken() {
+    return this.api.post<RefreshTokenResponse>('auth/refresh-token', {});
   }
 
   verifyEmail(email: string, token: string) {

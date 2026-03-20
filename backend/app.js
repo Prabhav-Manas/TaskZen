@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors=require('cors');
 
+const cookieParser = require('cookie-parser');
+
 const authRoutes=require('./src/modules/auth/auth.routes');
 const {errorHandler}=require('./src/middleware/error.middleware');
 
@@ -20,6 +22,8 @@ const corsOptions={
     ],
     credentials:true
 }
+
+app.use(cookieParser());
 
 app.use(cors(corsOptions));
 app.use(express.json());

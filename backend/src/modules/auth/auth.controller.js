@@ -36,32 +36,40 @@ exports.signin=async(req,res,next)=>{
     try{
         const {user, accessToken, refreshToken}=await authService.signinService(req.body);
 
+        // SET COOKIE
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: false, // true in production (HTTPS)
+            sameSite: 'Strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        });
+
         res.status(200).json({
             status:200,
             message:'User signed in successfully',
             user,
             accessToken,
-            refreshToken
         })
     }catch(error){
         next(error);
     }
 }
 
-exports.refreshToken=async(req, res, next)=>{
-    try{
-        const {refreshToken}=req.body;
+exports.refreshToken = async (req, res, next) => {
+    try {
+        const token = req.cookies.refreshToken;
 
-        const token= await authService.refreshTokenService(refreshToken);
+        const newAccessToken = await authService.refreshTokenService(token);
 
         res.status(200).json({
-            status:200,
-            accessToken:token
-        })
-    }catch(error){
+            status: 200,
+            accessToken: newAccessToken
+        });
+
+    } catch (error) {
         next(error);
     }
-}
+};
 
 // Forgot password controller
 exports.forgotPassword=async(req,res,next)=>{
@@ -163,9 +171,12 @@ exports.signout=async(req, res, next)=>{
             })
         }
 
-        const token = authHeader.split(" ")[1];
+        const token = authHeader?.split(" ")[1];
 
         await authService.logoutService(token);
+
+        // Clear Cookie
+        res.clearCookie('refreshToken');
 
         res.status(200).json({
             status:200,
