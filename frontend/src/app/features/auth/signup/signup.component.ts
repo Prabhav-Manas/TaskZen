@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { LoaderService } from 'src/app/core/services/loader/loader.service';
 
 @Component({
   selector: 'app-signup',
@@ -15,11 +16,12 @@ export class SignupComponent implements OnInit{
   cnfhide:string='password';
   showRules = false;
 
-  isLoader:boolean=false;
+  // isLoading:boolean=false;
+  // label:string='';
 
   toastr = inject(ToastrService);
 
-  constructor(private fb:FormBuilder, private authService: AuthService, private router:Router){}
+  constructor(private fb:FormBuilder, private authService: AuthService, private router:Router, private loaderService:LoaderService){}
 
   ngOnInit(): void {
     this.regForm=this.fb.group({
@@ -58,7 +60,7 @@ export class SignupComponent implements OnInit{
       return;
     }
 
-    this.isLoader=true;
+    this.loaderService.show('Creating your account')
 
     const payload={
       fullname: this.regForm.value.fullname,
@@ -74,11 +76,12 @@ export class SignupComponent implements OnInit{
         this.toastr.success(res.message, 'Sign up Successful!');
       }
 
-      this.isLoader=false;
+      this.loaderService.hide();
     },error:(err)=>{
       console.log('Signup Error:=>', err);
-      this.toastr.error(err.error.message, 'Sign up Error!')
-      this.isLoader=false;
+      this.toastr.error(err.error.message, 'Sign up Error!');
+      
+      this.loaderService.hide();
     }})
     
     console.log(this.regForm.value);

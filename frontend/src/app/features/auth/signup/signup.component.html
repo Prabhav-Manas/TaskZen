@@ -1,4 +1,4 @@
-<app-loader *ngIf="isLoader" label="Loading"></app-loader>
+<!-- <app-loader *ngIf="isLoader" label="Loading"></app-loader> -->
 
 <div class="container-fluid vh-100">
     <div class="row h-100 g-0">
@@ -49,9 +49,8 @@
                 <!-- Form Footer and Submit Button -->
                 <div class="d-md-flex justify-content-between">
                     <a routerLink="/auth/signin" class="text-decoration-none small"><p>Already have account ? Sign in</p></a>
-                    <app-button label="Sign up" color="primary" [disabled]="isLoader"></app-button>
+                    <app-button label="Sign up" color="primary"></app-button>
                 </div>
-
             </form>
         </div>
     </div>

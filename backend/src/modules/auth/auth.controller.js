@@ -180,7 +180,7 @@ exports.signout=async(req, res, next)=>{
 
         res.status(200).json({
             status:200,
-            message:'Logged out successfully.'
+            message:'Signed out successfully'
         })
     }catch(error){
         next(error);
