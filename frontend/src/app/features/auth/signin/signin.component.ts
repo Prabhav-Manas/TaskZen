@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { LoaderService } from 'src/app/core/services/loader/loader.service';
 import { TokenService } from 'src/app/core/services/token/token.service';
 
 @Component({
@@ -15,11 +16,11 @@ export class SigninComponent implements OnInit{
   hide: string = 'password';
   showRules = false;
 
-  isLoader:boolean=false;
+  // isLoader:boolean=false;
 
   toastr = inject(ToastrService);
   
-  constructor(private fb:FormBuilder, private authService:AuthService, private router:Router, private tokenService:TokenService){
+  constructor(private fb:FormBuilder, private authService:AuthService, private router:Router, private tokenService:TokenService, private loaderService:LoaderService){
     this.loginForm=this.fb.group({
       email:new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       password:new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])[^\s]+$/)])
@@ -36,7 +37,7 @@ export class SigninComponent implements OnInit{
       return;
     }
 
-    this.isLoader=true;
+    this.loaderService.show('Signing you in');
 
     const payload={
       email:this.loginForm.value.email,
@@ -54,11 +55,11 @@ export class SigninComponent implements OnInit{
         this.toastr.success(res.message, 'Sign in Successful!');
       }
 
-      this.isLoader=false
+      this.loaderService.hide();
     }, error:(err)=>{
       console.log('Signin Error:=>', err);
       this.toastr.error(err.error.message, 'Sign in Error!');
-      this.isLoader=false
+      this.loaderService.hide();
     }})
 
     console.log(this.loginForm.value);

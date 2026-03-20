@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { OtpResponse } from 'src/app/core/models/otp-response';
 import { AuthStateService } from 'src/app/core/services/auth-state/auth-state.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { LoaderService } from 'src/app/core/services/loader/loader.service';
 import { PopUpService } from 'src/app/core/services/pop-up/pop-up.service';
 
 @Component({
@@ -32,11 +33,11 @@ export class OtpComponent implements OnInit{
     type:'primary'
   };
 
-  isLoader:boolean=false;
+  // isLoader:boolean=false;
 
   toastr = inject(ToastrService);
 
-  constructor(private fb:FormBuilder, private authStateService:AuthStateService, private authService:AuthService, private router:Router, private popupService:PopUpService){
+  constructor(private fb:FormBuilder, private authStateService:AuthStateService, private authService:AuthService, private router:Router, private popupService:PopUpService, private loaderService:LoaderService){
     this.otpForm=this.fb.group({
       otp:new FormControl('', [Validators.required]),
     })
@@ -182,7 +183,7 @@ export class OtpComponent implements OnInit{
       return;
     }
 
-    this.isLoader=true;
+    this.loaderService.show('Verifying OTP');
 
     const payload ={
       email:this.email,
@@ -202,11 +203,12 @@ export class OtpComponent implements OnInit{
         // this.router.navigate(['/auth/reset-password', res.token]);
       }
 
-      this.isLoader=false;
+      this.loaderService.hide();
     }, error:(err:any)=>{
       console.log('Otp Error:=>', err.error.message);
       this.popupService.show('Error! Verification Failed', err.error.message, 'danger');
-      this.isLoader=false;
+
+      this.loaderService.hide();
     }})
   }
 
@@ -215,7 +217,7 @@ export class OtpComponent implements OnInit{
       return;
     }
 
-    this.isLoader=true;
+    this.loaderService.show('Re-sending OTP');
 
     this.authService.resendOtp(this.email).subscribe({next:(res:OtpResponse)=>{
       if(res.status===200){
@@ -229,12 +231,12 @@ export class OtpComponent implements OnInit{
         console.log('Resend OTP Response:=>', res);
       }
 
-      this.isLoader=false;
+      this.loaderService.hide();
     }, error:(err)=>{
       console.log('Resend OTP Error:=>', err.error.message);
       this.toastr.error(err.error.message, 'Re-send OTP Error!');
 
-      this.isLoader=false;
+      this.loaderService.hide();
     }})
   }
 }

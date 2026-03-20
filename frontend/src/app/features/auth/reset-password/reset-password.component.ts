@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ResetPasswordResponse } from 'src/app/core/models/reset-password-response';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { LoaderService } from 'src/app/core/services/loader/loader.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -14,11 +15,11 @@ export class ResetPasswordComponent implements OnInit{
   resetPasswordForm!:FormGroup;
   token:string='';
 
-  isLoader:boolean=false;
+  // isLoader:boolean=false;
 
   toastr = inject(ToastrService);
 
-  constructor(private fb:FormBuilder, private authService:AuthService, private route:ActivatedRoute, private router:Router){
+  constructor(private fb:FormBuilder, private authService:AuthService, private route:ActivatedRoute, private router:Router, private loaderService:LoaderService){
     this.resetPasswordForm=this.fb.group({
       password:new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d])[^\s]+$/)]),
       cnfPassword:new FormControl('', [Validators.required])
@@ -65,7 +66,7 @@ export class ResetPasswordComponent implements OnInit{
       return;
     }
 
-    this.isLoader=true;
+    this.loaderService.show('Resetting Password');
 
     const payload={
       token:this.token,
@@ -81,12 +82,12 @@ export class ResetPasswordComponent implements OnInit{
       this.toastr.success(res.message, 'Reset Password Successful!');
      } 
 
-     this.isLoader=false;
+     this.loaderService.hide();
     }, error:(err)=>{
       console.log('Reset-Password Error:=>', err.error.message);
       this.toastr.error(err.error.message, 'Reset Password Failed!')
 
-      this.isLoader=false;
+      this.loaderService.hide();
     }})
   }
 }

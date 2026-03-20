@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthStateService } from 'src/app/core/services/auth-state/auth-state.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { LoaderService } from 'src/app/core/services/loader/loader.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -13,11 +14,11 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 export class ForgotPasswordComponent implements OnInit{
   forgotPasswordForm!: FormGroup;
 
-  isLoader:boolean=false;
+  // isLoader:boolean=false;
 
   toastr = inject(ToastrService);
 
-  constructor(private fb:FormBuilder, private authService:AuthService, private authStateService:AuthStateService, private router:Router){
+  constructor(private fb:FormBuilder, private authService:AuthService, private authStateService:AuthStateService, private router:Router, private loaderService:LoaderService){
     this.forgotPasswordForm=this.fb.group({
       email:new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)])
     })
@@ -33,7 +34,7 @@ export class ForgotPasswordComponent implements OnInit{
       return
     }
 
-    this.isLoader=true;
+    this.loaderService.show('Sending OTP')
 
     const payload={
       email:this.forgotPasswordForm.value.email,
@@ -50,11 +51,12 @@ export class ForgotPasswordComponent implements OnInit{
         this.toastr.success(res.message, 'Requested OTP Success!');
       }
 
-      this.isLoader=false;
+      this.loaderService.hide();
     }, error:(error)=>{
       console.log('Error in forgot-password:=>', error);
       this.toastr.error(error.error.message, 'Requested OTP Failed');
-      this.isLoader=false;
+      
+      this.loaderService.hide();
     }})
     this.forgotPasswordForm.reset();
   }
