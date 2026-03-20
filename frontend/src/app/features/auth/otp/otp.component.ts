@@ -205,6 +205,7 @@ export class OtpComponent implements OnInit{
       this.isLoader=false;
     }, error:(err:any)=>{
       console.log('Otp Error:=>', err.error.message);
+      this.popupService.show('Error! Verification Failed', err.error.message, 'danger');
       this.isLoader=false;
     }})
   }

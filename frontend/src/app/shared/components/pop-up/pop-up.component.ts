@@ -18,6 +18,14 @@ export class PopUpComponent implements OnInit{
     
   }
 
+  getTitleClass() {
+    switch (this.type) {
+      case 'success': return 'text-success';
+      case 'danger': return 'text-danger';
+      default: return 'text-primary';
+    }
+  }
+
   onClosePopUp(){
     this.popupService.close();
   }

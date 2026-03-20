@@ -16,7 +16,7 @@ export class PopUpService {
 
   constructor() { }
 
-  show(title:string, message:string, type:'success' | 'error' | 'primary'='primary'){
+  show(title:string, message:string, type:'success' | 'danger' | 'primary'='primary'){
     this.popUpSate.next({
       isOpen:true,
       title,
