@@ -9,5 +9,5 @@ export interface SignInResponse {
         token:string
     }
     accessToken:string,
-    refreshToken:string
+    // refreshToken:string
 }
