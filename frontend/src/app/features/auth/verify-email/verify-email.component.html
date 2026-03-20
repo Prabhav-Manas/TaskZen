@@ -1,0 +1,25 @@
+<div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+  <div class="card shadow p-4 text-center" style="max-width: 400px; width: 100%;">
+
+    <!-- LOADING -->
+    <app-loader *ngIf="state === 'loading'" label="Verifying your email"></app-loader>
+
+    <!-- SUCCESS -->
+    <div *ngIf="state === 'success'">
+      <h5 class="text-success mb-3">✔ Email Verified</h5>
+      <p>{{ message }}</p>
+      <small class="text-muted">Redirecting to login...</small>
+    </div>
+
+    <!-- ERROR -->
+    <div *ngIf="state === 'error'">
+      <h5 class="text-danger mb-3">Verification Failed</h5>
+      <p>{{ message }}</p>
+
+      <button class="btn btn-primary mt-2" (click)="resendEmail()" [disabled]="isResending">
+        {{ isResending ? 'Sending...' : 'Resend Verification Email' }}
+      </button>
+    </div>
+
+  </div>
+</div>

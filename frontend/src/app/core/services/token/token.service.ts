@@ -7,15 +7,29 @@ export class TokenService {
 
   constructor() { }
 
-  setToken(token:string){
-    localStorage.setItem('token', token);
+  setAccessToken(token: string) {
+    localStorage.setItem('accessToken', token);
   }
 
-  getToken():string | null{
-    return localStorage.getItem('token');
+  getAccessToken() {
+    return localStorage.getItem('accessToken');
   }
 
-  removeToken(){
-    localStorage.removeItem('token');
+  setRefreshToken(token: string) {
+    localStorage.setItem('refreshToken', token);
+  }
+
+  getRefreshToken() {
+    return localStorage.getItem('refreshToken');
+  }
+
+  setTokens(access: string, refresh: string) {
+    localStorage.setItem('accessToken', access);
+    localStorage.setItem('refreshToken', refresh);
+  }
+
+  clearTokens() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   }
 }

@@ -5,6 +5,7 @@ import { SignupComponent } from './signup/signup.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { OtpComponent } from './otp/otp.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 const routes: Routes = [
   {path: 'signin', component:SigninComponent},
@@ -12,7 +13,8 @@ const routes: Routes = [
   {path: 'forgot-password', component:ForgotPasswordComponent},
   {path: 'otp', component:OtpComponent},
   {path: 'resend-otp', component:ResetPasswordComponent},
-  {path: 'reset-password/:token', component:ResetPasswordComponent}
+  {path: 'reset-password/:token', component:ResetPasswordComponent},
+  {path: 'verify-email/:email/:token', component:VerifyEmailComponent}
 ];
 
 @NgModule({

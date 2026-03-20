@@ -46,7 +46,8 @@ export class SigninComponent implements OnInit{
     this.authService.signin(payload).subscribe({next:(res)=>{
       console.log('Signin Response:=>', res);
 
-      this.tokenService.setToken(res.user.token);
+      this.tokenService.setAccessToken(res.accessToken);
+      this.tokenService.setRefreshToken(res.refreshToken);
       
       if(res.status===200){
         this.router.navigate(['/dashboard']);

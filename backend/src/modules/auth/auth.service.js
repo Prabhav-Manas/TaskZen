@@ -36,7 +36,7 @@ exports.signupService=async(data)=>{
     })
 
     // Create verification link
-    const verificationLink=`${process.env.FRONTEND_URL || 'http://localhost:8000'}/api/auth/verify-email/${email}/${verificationToken}`;
+    const verificationLink=`${process.env.FRONTEND_URL}/auth/verify-email/${email}/${verificationToken}`;
 
     // Send verification email
     await sendEmail(user.email, 'Verify Your Email', `<p>Click the link below to verify your email:</p><a href="${verificationLink}">Verify Email</a>`);
@@ -66,6 +66,30 @@ exports.verifyEmailService=async(email, token)=>{
     return verifiedUser;
 }
 
+exports.resendVerificationEmailService = async (email) => {
+  const user = await authRepository.findUserByEmail(email);
+
+  if (!user) throw new Error('User not found');
+
+  if (user.isVerified) throw new Error('Email already verified');
+
+  const verificationToken = crypto.randomBytes(32).toString('hex');
+
+  await User.findByIdAndUpdate(user._id, { verificationToken, updatedAt: Date.now() });
+
+  const link = `${process.env.FRONTEND_URL}/auth/verify-email/${email}/${verificationToken}`;
+
+  const html = `
+    <h3>Please verify your email:</h3>
+    <a href="${link}" style="padding:10px 15px; background:#0d6efd; color:white; text-decoration:none;">Verify Email</a>
+    <p>This link will expire soon.</p>
+  `;
+
+  await sendEmail(email, 'Verify Email', html);
+
+  return true;
+};
+
 exports.signinService=async(data)=>{
     const {email, password}=data;
     if(!email || !password){
@@ -91,7 +115,7 @@ exports.signinService=async(data)=>{
     }
 
     // Block check
-    if(user.signInBlockedUntil || user.signInBlockedUntil > Date.now()){
+    if(user.signInBlockedUntil && user.signInBlockedUntil > Date.now()){
         throw new Error('Too many failed attempts. Try again later.');
     }
 

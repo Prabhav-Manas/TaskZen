@@ -94,6 +94,22 @@ exports.verifyOtp=async(req,res,next)=>{
     }
 }
 
+exports.resendVerificationEmail=async(req,res,next)=>{
+    try{
+        const {email}=req.body;
+
+        await authService.resendVerificationEmailService(email);
+
+        res.status(200).json({
+            status:200,
+            message:'Email Resent!'
+        })
+
+    }catch(error){
+        next(error)
+    }
+}
+
 // auth.controller.js
 exports.resendOtp = async (req, res, next) => {
     try {

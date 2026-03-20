@@ -1,10 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.css']
 })
-export class LoaderComponent {
+export class LoaderComponent implements OnInit{
+  @Input() label:string='';
+  
+  constructor(){}
 
+  ngOnInit(): void {
+    
+  }
 }

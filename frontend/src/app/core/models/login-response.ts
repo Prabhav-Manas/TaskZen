@@ -8,4 +8,6 @@ export interface SignInResponse {
         user:User,
         token:string
     }
+    accessToken:string,
+    refreshToken:string
 }

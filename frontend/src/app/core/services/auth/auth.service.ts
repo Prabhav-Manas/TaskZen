@@ -26,6 +26,20 @@ export class AuthService {
     return this.api.post<SignInResponse>('auth/signin',data);
   }
 
+  refreshToken(){
+    const refreshToken=localStorage.getItem('refreshToken');
+
+    return this.api.post<any>('auth/refresh-token', {refreshToken});
+  }
+
+  verifyEmail(email: string, token: string) {
+    return this.api.get(`auth/verify-email/${email}/${token}`);
+  }
+
+  resendVerification(email: string) {
+    return this.api.post('auth/resend-verification', { email });
+  }
+
   forgotPassword(data:ForgotPasswordRequest){
     return this.api.post<ForgotPasswordResponse>('auth/forgot-password', data);
   }
@@ -40,5 +54,9 @@ export class AuthService {
 
   resetPassword(data:ResetPasswordRequest){
     return this.api.post<ResetPasswordResponse>(`auth/reset-password/${data.token}`, data);
+  }
+
+  signout(){
+    return this.api.post<any>('auth/signout', {});
   }
 }
