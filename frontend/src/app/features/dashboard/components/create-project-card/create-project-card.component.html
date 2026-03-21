@@ -1,8 +1,8 @@
 <app-card>
-  <div class="h-100 text-center d-flex justify-content-center align-items-center bg-color">
+  <div (click)="open.emit()" class="h-100 text-center d-flex justify-content-center align-items-center bg-color">
     <div class="d-flex flex-column align-items-center">
       <div class="add-create-project-icon">+</div>
-      <p>Create New Project</p>
+      <p>{{label}}</p>
     </div>
   </div>
 </app-card>

@@ -9,6 +9,12 @@ import { FormGroup } from '@angular/forms';
 export class FormInputComponent implements OnInit {
   @Input() label!: string;
   @Input() type: string = 'text';
+
+  @Input() options: any[] = [];   // for dropdown
+  @Input() optionLabel: string = '';
+  @Input() optionValue: string = '';
+  @Input() multiple:boolean=false;
+
   @Input() controlName!: string;
   @Input() form!: FormGroup;
 

@@ -1,0 +1,47 @@
+.multi-select-box {
+  min-height: 38px;
+  cursor: pointer;
+}
+
+.chip {
+  background: #e9ecef;
+  padding: 4px 8px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.remove-btn {
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.placeholder {
+  color: #999;
+}
+
+.dropdown-box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  background: white;
+  position: absolute;
+  width: 100%;
+  z-index: 10;
+}
+
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background: #f1f1f1;
+}
+
+.dropdown-item.selected {
+  background: #d1e7dd;
+}

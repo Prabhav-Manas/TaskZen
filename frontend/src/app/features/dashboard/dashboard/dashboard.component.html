@@ -4,17 +4,17 @@
     <div class="mb-4 bgColor text-dark p-4">
         <h2 class="">Welcome, {{user.fullname}}</h2>
 
-        <h4 class="text-muted">Your Projects</h4>
+        <h4 class="text-muted">Your Active Projects</h4>
     </div>
 
     <!-- Project Cards -->
     <div class="row g-4">
-        <div class="col-md-4" *ngFor="let project of projetcs" [routerLink]="['/projects', project._id]" style="cursor: pointer;">
-            <app-project-card [title]="project.title" [color]="project.color" [project]="project"></app-project-card>
+        <div class="col-md-4" *ngFor="let project of projects" [routerLink]="['/projects', project._id]" style="cursor: pointer;">
+            <app-project-card color="primary" [project]="project"></app-project-card>
         </div>
 
         <div class="col-md-4">
-            <app-create-project-card></app-create-project-card>
+            <app-create-project-card label="Create new project" (open)="openCreateModal()"></app-create-project-card>
         </div>
     </div>
 
@@ -23,3 +23,25 @@
         <app-activity-list></app-activity-list>
     </div>
 </div>
+
+<!-- Modal -->
+ <app-modal [isOpen]="isCreateModalOpen" title="Create Project" (close)="onCloseModal()">
+    <form [formGroup]="createProjectForm" (ngSubmit)="onSubmit()">
+        <!-- Project Name -->
+        <app-form-input type="text" controlName="name" [form]="createProjectForm" label="Project Name"></app-form-input>
+
+        <!-- Select Members on Project -->
+        <app-multi-select label="Members" [form]="createProjectForm" controlName="members" [options]="users" optionLabel="fullname" optionValue="id"></app-multi-select>
+        <!-- <app-form-input type="select" [multiple]="true" label="Members" [form]="createProjectForm" controlName="members" [options]="users" optionLabel="fullname" optionValue="_id"></app-form-input> -->
+
+        <!-- Project Descriptions -->
+        <label for="" class="mb-2">Desriptions</label>
+        <textarea class="form-control" formControlName="descriptions" placeholder="Project Description"></textarea>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-end gap-2 mt-3">
+            <app-button type="button" data-bs-dismiss="modal" color="danger" label="Close" (click)="onCloseModal()"></app-button>
+            <app-button type="submit" color="success" label="Create"></app-button>
+        </div>
+    </form>
+ </app-modal>

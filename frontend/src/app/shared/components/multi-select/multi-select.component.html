@@ -1,0 +1,35 @@
+<div class="mb-3">
+  <label class="form-label">{{ label }}</label>
+
+  <!-- Input-like box -->
+  <div class="form-control d-flex flex-wrap align-items-center gap-2 multi-select-box"
+       (click)="toggleDropdown()">
+
+    <!-- Selected Chips -->
+    <span class="chip"
+          *ngFor="let item of getSelectedOptions()">
+
+      {{ item[optionLabel] }}
+      <span class="remove-btn"
+            (click)="removeOption(item[optionValue]); $event.stopPropagation()">
+        ✕
+      </span>
+    </span>
+
+    <!-- Placeholder -->
+    <span *ngIf="getSelectedOptions().length === 0" class="placeholder">
+      Select {{label}}
+    </span>
+  </div>
+
+  <!-- Dropdown -->
+  <div class="dropdown-box" *ngIf="isOpen">
+    <div class="dropdown-item"
+         *ngFor="let opt of options"
+         [class.selected]="isSelected(opt[optionValue])"
+         (click)="selectOption(opt)">
+
+      {{ opt[optionLabel] }}
+    </div>
+  </div>
+</div>

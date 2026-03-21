@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Project } from 'src/app/core/models/project/project.model';
 
 @Component({
   selector: 'app-project-card',
@@ -6,9 +7,9 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./project-card.component.css']
 })
 export class ProjectCardComponent implements OnInit{
-  @Input() title:string='';
+  @Input() name:string='';
   @Input() color:string='';
-  @Input() project:any='';
+  @Input() project!:Project;
 
   totalTasks!:any;
   completedTasks!:any;

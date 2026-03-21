@@ -1,7 +1,7 @@
-<app-card [title]="title">
-    <div class="card-body bg-{{color}} text-white">
+<app-card [title]="name">
+    <div class="card-body text-white" [ngClass]="'bg-' + color">
         <!-- Project Title -->
-        <h4 class="fw-bold">{{project.title}}</h4>
+        <h4 class="fw-bold">{{project.name}}</h4>
 
         <!-- Description -->
         <p class="small text-light">
@@ -13,16 +13,16 @@
             <small>Progress</small>
 
             <div class="progress">
-                <div class="progress-bar bg-suceess" [style.width.%]="getProgress()"></div>
+                <div class="progress-bar bg-success" [style.width.%]="getProgress()"></div>
                 <small class="d-block mt-1">{{getProgress() | number:'1.0-0'}}%</small>
             </div>
         </div>
 
         <!-- Task Stats -->
         <div class="d-flex justify-content-between small mb-3">
-            <span>{{ project?.completedTasks || 0 }}</span>
+            <span>{{ project.completedTasks || 0 }}</span>
 
-            <span>{{ (project?.totalTasks || 0) - (project?.completedTasks || 0) }}</span>
+            <span>{{ (project.totalTasks || 0) - (project.completedTasks || 0) }}</span>
         </div>
 
         <!-- Button -->

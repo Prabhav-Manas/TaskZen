@@ -8,6 +8,8 @@ import { PasswordInputComponent } from './components/password-input/password-inp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PopUpComponent } from './components/pop-up/pop-up.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { MultiSelectComponent } from './components/multi-select/multi-select.component';
 
 
 
@@ -19,7 +21,9 @@ import { LoaderComponent } from './components/loader/loader.component';
     FormInputComponent,
     PasswordInputComponent,
     PopUpComponent,
-    LoaderComponent
+    LoaderComponent,
+    ModalComponent,
+    MultiSelectComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +39,9 @@ import { LoaderComponent } from './components/loader/loader.component';
     ReactiveFormsModule,
     FormsModule,
     PopUpComponent,
-    LoaderComponent
+    LoaderComponent,
+    ModalComponent,
+    MultiSelectComponent
   ]
 })
 export class SharedModule { }
