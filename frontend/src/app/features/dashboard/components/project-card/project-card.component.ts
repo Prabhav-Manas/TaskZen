@@ -8,10 +8,20 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ProjectCardComponent implements OnInit{
   @Input() title:string='';
   @Input() color:string='';
+  @Input() project:any='';
+
+  totalTasks!:any;
+  completedTasks!:any;
 
   constructor(){}
 
   ngOnInit(): void {
     
+  }
+
+  getProgress(): number {
+    if (!this.project || !this.project.totalTasks) return 0;
+
+    return (this.project.completedTasks / this.project.totalTasks) * 100;
   }
 }

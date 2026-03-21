@@ -1,11 +1,31 @@
 <app-card [title]="title">
-  <div class="card-body bg-{{color}} text-white">
-        <div class="placeholder-glow mb-3">
-            <span class="placeholder col-10"></span>
-            <span class="placeholder col-8"></span>
-            <span class="placeholder col-6"></span>
+    <div class="card-body bg-{{color}} text-white">
+        <!-- Project Title -->
+        <h4 class="fw-bold">{{project.title}}</h4>
+
+        <!-- Description -->
+        <p class="small text-light">
+            {{project.description || 'No description available'}}
+        </p>
+
+        <!-- Progress -->
+        <div class="mb-3">
+            <small>Progress</small>
+
+            <div class="progress">
+                <div class="progress-bar bg-suceess" [style.width.%]="getProgress()"></div>
+                <small class="d-block mt-1">{{getProgress() | number:'1.0-0'}}%</small>
+            </div>
         </div>
 
+        <!-- Task Stats -->
+        <div class="d-flex justify-content-between small mb-3">
+            <span>{{ project?.completedTasks || 0 }}</span>
+
+            <span>{{ (project?.totalTasks || 0) - (project?.completedTasks || 0) }}</span>
+        </div>
+
+        <!-- Button -->
         <div class="d-flex justify-content-end">
             <app-button class="btn btn-light btn-sm" label="View Task"></app-button>
         </div>
