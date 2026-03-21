@@ -1,6 +1,7 @@
 const Project=require('../project/project.model');
 const User=require('../user/user.model');
 
+// Create Project Service
 exports.createProjectService=async(data, userId)=>{
     const {name, description, members}=data;
 
@@ -32,6 +33,16 @@ exports.createProjectService=async(data, userId)=>{
     }
 
     const project=await Project.create({name, description, owner:userId, members:memberIds});
+
+    return project;
+}
+
+// Fetch All Projects Service
+exports.getAllProjectService=async(userId)=>{
+    const project = await Project.find({$or:[
+        {owner:userId},
+        {members:userId}
+    ]}).populate('owner', 'fullname email').populate('members', 'fullname email').sort({createdAt:-1});
 
     return project;
 }
