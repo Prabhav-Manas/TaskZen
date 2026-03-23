@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { LoaderService } from 'src/app/core/services/loader/loader.service';
 import { TokenService } from 'src/app/core/services/token/token.service';
+import { UserStateService } from 'src/app/core/services/user-state/user-state.service';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +14,7 @@ import { TokenService } from 'src/app/core/services/token/token.service';
 export class HeaderComponent implements OnInit{
   isSidebarOpen = false;
 
-  constructor(private authService:AuthService, private tokenService:TokenService, private router:Router, private toastr:ToastrService, private loaderService:LoaderService){}
+  constructor(private authService:AuthService, private tokenService:TokenService, private router:Router, private toastr:ToastrService, private loaderService:LoaderService, private userStateService:UserStateService){}
 
   ngOnInit(): void {
     
@@ -36,6 +37,8 @@ export class HeaderComponent implements OnInit{
         this.router.navigate(['/']);
 
         this.toastr.success(res.message, 'Sign out Sucessful!');
+
+        this.userStateService.clearUser();
       }
 
       this.loaderService.hide();
