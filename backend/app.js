@@ -5,6 +5,7 @@ const cors=require('cors');
 const cookieParser = require('cookie-parser');
 
 const authRoutes=require('./src/modules/auth/auth.routes');
+const userRoutes=require('./src/modules/user/user.routes');
 const projectRoutes=require('./src/modules/project/project.routes');
 const {errorHandler}=require('./src/middleware/error.middleware');
 
@@ -34,6 +35,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/project', projectRoutes);
+
+app.use('/api/users', userRoutes);
+
 app.use(errorHandler);
 
 module.exports=app;
