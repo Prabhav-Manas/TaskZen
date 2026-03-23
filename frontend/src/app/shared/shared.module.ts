@@ -10,8 +10,7 @@ import { PopUpComponent } from './components/pop-up/pop-up.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { MultiSelectComponent } from './components/multi-select/multi-select.component';
-
-
+import { TextareaComponent } from './components/textarea/textarea/textarea.component';
 
 @NgModule({
   declarations: [
@@ -23,12 +22,14 @@ import { MultiSelectComponent } from './components/multi-select/multi-select.com
     PopUpComponent,
     LoaderComponent,
     ModalComponent,
-    MultiSelectComponent
+    MultiSelectComponent,
+    TextareaComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+
   ],
   exports:[
     ButtonComponent,
@@ -41,7 +42,8 @@ import { MultiSelectComponent } from './components/multi-select/multi-select.com
     PopUpComponent,
     LoaderComponent,
     ModalComponent,
-    MultiSelectComponent
+    MultiSelectComponent,
+    TextareaComponent
   ]
 })
 export class SharedModule { }

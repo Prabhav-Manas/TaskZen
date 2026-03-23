@@ -6,6 +6,7 @@ import { ProjectResponse } from 'src/app/core/models/project/project-response';
 import { Project } from 'src/app/core/models/project/project.model';
 import { ProjectService } from 'src/app/core/services/project/project.service';
 import { UserStateService } from 'src/app/core/services/user-state/user-state.service';
+import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,17 +15,18 @@ import { UserStateService } from 'src/app/core/services/user-state/user-state.se
 })
 export class DashboardComponent implements OnInit{
   user!: User; // logged-in user
-  users:User[]=[];
+  usersList:User[]=[]; // modal members
+
   createProjectForm!:FormGroup;
 
-  isCreateModalOpen:boolean=false;
+  isOpen!:boolean;
 
   projects:Project[]=[];
 
-  constructor(private fb:FormBuilder, private userStateService:UserStateService, private projectService:ProjectService){
+  constructor(private fb:FormBuilder, private userStateService:UserStateService, private projectService:ProjectService, private userService:UserService){
     this.createProjectForm=this.fb.group({
       name:new FormControl('', [Validators.required]),
-      descriptions:new FormControl(''),
+      description:new FormControl(''),
       members:[[]]
     })
   }
@@ -35,14 +37,28 @@ export class DashboardComponent implements OnInit{
     console.log('Dashboard SignedIn User:=>', this.user);
 
     this.fetchProjects();
+    this.fetchUsers();
+  }
+
+  // Members (on Modal)
+  fetchUsers() {
+    this.userService.getAllUsers().subscribe({
+      next: (res: any) => {
+        this.usersList = res.users;
+        console.log('Users API:', res.users);
+      },
+      error: (err) => {
+        console.log('Error fetching users:', err);
+      }
+    });
   }
 
   openCreateModal(){
-    this.isCreateModalOpen=true;
+    this.isOpen=true;
   }
 
-  onCloseModal(){
-    this.isCreateModalOpen=false;
+  onCancel(){
+    this.isOpen=false;
   }
 
   fetchProjects(){
@@ -56,6 +72,7 @@ export class DashboardComponent implements OnInit{
     })
   }
 
+  // Submit create project
   onSubmit(){
     if(this.createProjectForm.invalid){
       this.createProjectForm.markAllAsTouched();
@@ -64,7 +81,7 @@ export class DashboardComponent implements OnInit{
 
     const payload={
       name:this.createProjectForm.value.name,
-      descriptions:this.createProjectForm.value.descriptions,
+      description:this.createProjectForm.value.description,
       members:this.createProjectForm.value.members
     }
 
@@ -72,6 +89,10 @@ export class DashboardComponent implements OnInit{
       if(res.status===201){
         console.log('Project Created:=>', res);
       }
+
+      this.createProjectForm.reset();
+      this.isOpen=false;
+      this.fetchProjects();
     }, error:(error)=>{
       console.log('Error in creating project:=>', error);
     }})

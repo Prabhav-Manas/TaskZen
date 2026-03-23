@@ -4,7 +4,7 @@
     <div class="mb-4 bgColor text-dark p-4">
         <h2 class="">Welcome, {{user.fullname}}</h2>
 
-        <h4 class="text-muted">Your Active Projects</h4>
+        <h3 class="text-muted">Your Active Projects</h3>
     </div>
 
     <!-- Project Cards -->
@@ -25,23 +25,21 @@
 </div>
 
 <!-- Modal -->
- <app-modal [isOpen]="isCreateModalOpen" title="Create Project" (close)="onCloseModal()">
+<app-modal [isOpen]="isOpen" title="Create Project">
     <form [formGroup]="createProjectForm" (ngSubmit)="onSubmit()">
         <!-- Project Name -->
-        <app-form-input type="text" controlName="name" [form]="createProjectForm" label="Project Name"></app-form-input>
+        <app-form-input label="Project Name" controlName="name" [form]="createProjectForm"></app-form-input>
+        
+        <!-- Members -->
+        <app-multi-select label="Members" controlName="members" [options]="usersList"  [form]="createProjectForm"></app-multi-select>
 
-        <!-- Select Members on Project -->
-        <app-multi-select label="Members" [form]="createProjectForm" controlName="members" [options]="users" optionLabel="fullname" optionValue="id"></app-multi-select>
-        <!-- <app-form-input type="select" [multiple]="true" label="Members" [form]="createProjectForm" controlName="members" [options]="users" optionLabel="fullname" optionValue="_id"></app-form-input> -->
+        <!-- Description -->
+         <app-textarea label="Description" placeholder="Description" [form]="createProjectForm" controlName="description"></app-textarea>
 
-        <!-- Project Descriptions -->
-        <label for="" class="mb-2">Desriptions</label>
-        <textarea class="form-control" formControlName="descriptions" placeholder="Project Description"></textarea>
-
-        <!-- Buttons -->
-        <div class="d-flex justify-content-end gap-2 mt-3">
-            <app-button type="button" data-bs-dismiss="modal" color="danger" label="Close" (click)="onCloseModal()"></app-button>
-            <app-button type="submit" color="success" label="Create"></app-button>
+        <!-- Actions -->
+         <div class="d-flex justify-content-end mt-1 gap-2">
+             <app-button type="button" color="secondary" label="Cancel" (click)="onCancel()"></app-button>
+             <app-button type="submit" color="primary" label="Create"></app-button>
         </div>
     </form>
- </app-modal>
+</app-modal>

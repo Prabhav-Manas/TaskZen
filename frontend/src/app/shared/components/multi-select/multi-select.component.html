@@ -1,35 +1,26 @@
-<div class="mb-3">
+<div class="mb-3 position-relative">
   <label class="form-label">{{ label }}</label>
 
-  <!-- Input-like box -->
-  <div class="form-control d-flex flex-wrap align-items-center gap-2 multi-select-box"
-       (click)="toggleDropdown()">
+  <!-- Input Box -->
+  <div class="form-control d-flex justify-content-between align-items-center" (click)="toggleDropdown()" style="cursor: pointer;">
+    <span>{{ getSelectedLabels() || 'Select members' }}</span>
 
-    <!-- Selected Chips -->
-    <span class="chip"
-          *ngFor="let item of getSelectedOptions()">
-
-      {{ item[optionLabel] }}
-      <span class="remove-btn"
-            (click)="removeOption(item[optionValue]); $event.stopPropagation()">
-        ✕
-      </span>
-    </span>
-
-    <!-- Placeholder -->
-    <span *ngIf="getSelectedOptions().length === 0" class="placeholder">
-      Select {{label}}
+    <!-- Dropdown Arrow -->
+    <span [style.transform]="isOpen ? 'rotate(180deg)' : 'rotate(0deg)'" style="transition: 0.2s;">
+      ▼
     </span>
   </div>
 
   <!-- Dropdown -->
-  <div class="dropdown-box" *ngIf="isOpen">
-    <div class="dropdown-item"
-         *ngFor="let opt of options"
-         [class.selected]="isSelected(opt[optionValue])"
-         (click)="selectOption(opt)">
+  <div *ngIf="isOpen" class="border rounded mt-1 p-2 bg-white position-absolute w-100" style="max-height: 150px; overflow-y: auto; z-index: 1000;">
+    <div *ngFor="let option of options" class="form-check">
 
-      {{ opt[optionLabel] }}
+      <input class="form-check-input" type="checkbox" [checked]="isSelected(option)" (change)="toggleSelection(option)" id="{{option._id}}"/>
+
+      <label class="form-check-label" [for]="option._id">
+        {{ option.email }}
+      </label>
+      
     </div>
   </div>
 </div>

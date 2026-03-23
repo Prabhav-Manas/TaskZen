@@ -7,9 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ModalComponent implements OnInit{
   @Input() isOpen:boolean=false;
-  @Input() title:string='';
-  
-  @Output() close=new EventEmitter<any>();
+  @Input() title:string=''
 
   constructor(){}
 
@@ -18,6 +16,7 @@ export class ModalComponent implements OnInit{
   }
 
   onCloseModal(){
-    this.close.emit();
+    this.isOpen=false
   }
+
 }

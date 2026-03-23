@@ -1,17 +1,17 @@
-<!-- Modal -->
-<div class="modal fade" [ngClass]="{'show d-block': isOpen}" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" *ngIf="isOpen" style="background: rgba(0,0,0,0.5);">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-        <!-- Modal Header -->
-      <div class="modal-header">
-        <h1 class="modal-title fs-5 text-primary" id="staticBackdropLabel">{{title}}</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="onCloseModal()"></button>
-      </div>
+<div class="custom-modal-overlay" *ngIf="isOpen">
+  <div class="custom-modal">
+    
+    <!-- Header -->
+    <div class="modal-header">
+      <h4 class="text-primary">{{ title }}</h4>
+      <button class="btn-close" (click)="onCloseModal()"></button>
+    </div>
 
-      <!-- Modal Body -->
-      <div class="modal-body">
-        <ng-content></ng-content>
-      </div>
+    <hr>
+
+    <!-- Body -->
+    <div class="modal-body">
+      <ng-content></ng-content>
     </div>
   </div>
 </div>
