@@ -39,16 +39,24 @@ exports.signupService=async(data)=>{
     const verificationLink=`${process.env.FRONTEND_URL}/auth/verify-email/${email}/${verificationToken}`;
 
     // Send verification email
-    try{
-        await sendEmail(user.email, 'Verify Your Email', `<p>Click the link below to verify your email:</p><a href="${verificationLink}">Verify Email</a>`);
-    }catch(error){
-        console.log('Email error:', error.message);
+    // try{
+    //     await sendEmail(user.email, 'Verify Your Email', `<p>Click the link below to verify your email:</p><a href="${verificationLink}">Verify Email</a>`);
+    // }catch(error){
+    //     console.log('Email error:', error.message);
+    // }
+
+    sendEmail(
+        user.email,
+        'Verify Your Email',
+        `<p>Click the link below to verify your email:</p><a href="${verificationLink}">Verify Email</a>`
+    )
+  .then(() => console.log('Email sent'))
+  .catch(err => console.log('Email failed:', err.message));
+
+        user.password=undefined;
+
+        return user;
     }
-
-    user.password=undefined;
-
-    return user;
-}
 
 exports.verifyEmailService=async(email, token)=>{
     const user=await authRepository.findUserByEmail(email);
@@ -106,9 +114,9 @@ exports.signinService=async(data)=>{
         throw new Error('Email not found');
     }
 
-    if(!user.isVerified){
-        throw new Error('Please verify your email first');
-    }
+    // if(!user.isVerified){
+    //     throw new Error('Please verify your email first');
+    // }
 
     // Reset block if expired
     if (user.signInBlockedUntil && user.signInBlockedUntil < Date.now()) {
