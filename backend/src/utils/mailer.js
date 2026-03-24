@@ -1,20 +1,21 @@
-const nodemailer=require('nodemailer');
+const { Resend } = require('resend');
 
-const transporter=nodemailer.createTransport({
-    service:'Gmail',
-    auth:{
-        user:process.env.EMAIL_USER,
-        pass:process.env.EMAIL_PASS
-    }
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-exports.sendEmail=async(to,subject,html)=>{
-    const mailOptions={
-        from:process.env.EMAIL_USER,
-        to,
-        subject,
-        html
-    }
+exports.sendEmail = async (to, subject, html) => {
+  try {
+    const response = await resend.emails.send({
+      from: 'TaskZen <onboarding@resend.dev>', // default sender (works without domain)
+      to,
+      subject,
+      html,
+    });
 
-    return transporter.sendMail(mailOptions);
-}
+    console.log('Email sent:', response?.id);
+    return response;
+
+  } catch (error) {
+    console.log('Email error:', error.message);
+    throw error;
+  }
+};

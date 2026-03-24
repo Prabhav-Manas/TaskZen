@@ -213,7 +213,7 @@ exports.forgotPasswordService=async(data)=>{
         <h2>${resetOtp}</h2>
         <p>OTP expires in 10 minutes.</p>`;
 
-    await sendEmail(user.email, 'Password Reset OTP', html);
+    sendEmail(user.email, 'Password Reset OTP', html);
 
     return true;
 }
