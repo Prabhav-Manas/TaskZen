@@ -13,7 +13,7 @@ TaskZen is a full-stack project management application that enables users to cre
 - Refresh token rotation mechanism
 - Account locked after multiple failed sign in attempts
 - Forgot password & Reset Password with verify OTP to registered email
-- Token blacklisting for secure logout
+- Token blacklisting for secure signout
 - Angular HTTP Interceptor for token handling
 - Route Guards for protected navigation
 
