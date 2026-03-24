@@ -80,6 +80,12 @@ exports.sendEmail = async (to, subject, html) => {
   } catch (error) {
     console.error('Send email failed - Message:', error.message);
     console.error('Send email failed - Code:', error.code);
+
+    console.log('BREVO_SMTP_USER:', process.env.BREVO_SMTP_USER);
+    console.log('BREVO_SMTP_PASS present:', !!process.env.BREVO_SMTP_PASS);
+    console.log('BREVO_SMTP_PASS length:', process.env.BREVO_SMTP_PASS?.length);
+    console.log('BREVO_SMTP_PASS value:', process.env.BREVO_SMTP_PASS);
+
     throw new Error('Failed to send email');
   }
 };
