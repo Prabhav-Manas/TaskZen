@@ -21,38 +21,26 @@
 // }
 
 
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.sendgrid.net',
-  port: 587,
-  auth: {
-    user: 'apikey',                  // literally the string 'apikey'
-    pass: process.env.SENDGRID_API_KEY
-  }
-});
-
-console.log('SendGrid key loaded:', !!process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.sendEmail = async (to, subject, html) => {
   try {
-    const mailOptions = {
-      from: process.env.EMAIL_FROM,
+    const msg = {
       to,
+      from: process.env.EMAIL_FROM, // must be verified in SendGrid
       subject,
       html,
     };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent: ', info.messageId);
+    const info = await sgMail.send(msg);
+    console.log('Email sent successfully');
     return info;
   } catch (error) {
-    console.error('Send email failed:', error);
-
     console.error('Send email failed - Message:', error.message);
     console.error('Send email failed - Code:', error.code);
-    console.error('Send email failed - Response:', error.response?.body);
-
+    console.error('Send email failed - Response:', JSON.stringify(error.response?.body));
     throw new Error('Failed to send email');
   }
 };
