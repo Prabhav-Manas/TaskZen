@@ -56,18 +56,24 @@ TaskZen is a full-stack project management application that enables users to cre
 
 ## 📦 Installations
 ### Clone Repository
+```bash
 git clone https://github.com/Prabhav-Manas/TaskZen.git
 cd TaskZen
+```
 
 ### Set up Backend
+```bash
 cd backend
 npm install
 npm run dev
+```
 
 ### Set up Frontend
+```bash
 cd frontend
 npm install
 ng serve
+```
 
 ## 🚀 Upcoming Features
 - Edit and Delete projects
