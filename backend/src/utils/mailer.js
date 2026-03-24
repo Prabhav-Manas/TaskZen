@@ -1,21 +1,51 @@
-const nodemailer=require('nodemailer');
+// const nodemailer=require('nodemailer');
 
-const transporter=nodemailer.createTransport({
-    service:'Gmail',
-    auth:{
-        user:process.env.EMAIL_USER,
-        pass:process.env.EMAIL_PASS
-    }
+// const transporter=nodemailer.createTransport({
+//     service:'Gmail',
+//     auth:{
+//         user:process.env.EMAIL_USER,
+//         pass:process.env.EMAIL_PASS
+//     }
+// });
+
+// exports.sendEmail=async(to,subject,html)=>{
+//     const mailOptions={
+//         from:process.env.EMAIL_FROM,
+//         to,
+//         subject,
+//         html,
+//         replyTo: process.env.EMAIL_FROM
+//     }
+
+//     return transporter.sendMail(mailOptions);
+// }
+
+
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.sendgrid.net',
+  port: 587,
+  auth: {
+    user: 'apikey',                  // literally the string 'apikey'
+    pass: process.env.SENDGRID_API_KEY
+  }
 });
 
-exports.sendEmail=async(to,subject,html)=>{
-    const mailOptions={
-        from:process.env.EMAIL_FROM,
-        to,
-        subject,
-        html,
-        replyTo: process.env.EMAIL_FROM
-    }
+exports.sendEmail = async (to, subject, html) => {
+  try {
+    const mailOptions = {
+      from: process.env.EMAIL_FROM,
+      to,
+      subject,
+      html,
+    };
 
-    return transporter.sendMail(mailOptions);
-}
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ', info.messageId);
+    return info;
+  } catch (error) {
+    console.error('Send email failed:', error);
+    throw new Error('Failed to send email');
+  }
+};
