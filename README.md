@@ -10,6 +10,8 @@ TaskZen is a full-stack project management application that helps users create p
 - Account locked after multiple failed attempts
 - Forgot password and Reset Password with verify OTP to registerd email
 - Implemented Black-list token
+- HTTP-INTERCEPTOR for token handling
+- Route Guard to develop proper navigation
 
 ### Project Management
 - Create and manage projects
@@ -19,3 +21,8 @@ TaskZen is a full-stack project management application that helps users create p
 ### User Management
 - Fetch and assign members to project
 - Muti-select dropdown for members selection
+
+### UI/UX
+- Reusable components (form inputs, buttons, header, cards, multi-select, modal)
+- Module-based project architecture (both frontend and backend)
+- Clean and responsive dashboard
