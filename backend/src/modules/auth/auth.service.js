@@ -39,7 +39,11 @@ exports.signupService=async(data)=>{
     const verificationLink=`${process.env.FRONTEND_URL}/auth/verify-email/${email}/${verificationToken}`;
 
     // Send verification email
-    await sendEmail(user.email, 'Verify Your Email', `<p>Click the link below to verify your email:</p><a href="${verificationLink}">Verify Email</a>`);
+    try{
+        await sendEmail(user.email, 'Verify Your Email', `<p>Click the link below to verify your email:</p><a href="${verificationLink}">Verify Email</a>`);
+    }catch(error){
+        console.log('Email error:', error.message);
+    }
 
     user.password=undefined;
 
