@@ -1,23 +1,15 @@
 require('dotenv').config();
 
-const app = require('./app');
-const connectDB = require('./src/config/db');
+const app=require('./app');
+const connectDB=require('./src/config/db');
 
-const PORT = process.env.PORT || 8000;
+const PORT=process.env.PORT || 8000;
 
-// Start server ONLY after DB connects
-connectDB()
-  .then(() => {
-    console.log('Connected to Database');
+connectDB();
 
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.error('Database connection failed ❌', err);
-    process.exit(1); // stop app (important for Render)
-  });
+app.listen(PORT, ()=>{
+    console.log(`Server is running on port ${PORT}`);
+})
 
 
 // controller  → handles request/response

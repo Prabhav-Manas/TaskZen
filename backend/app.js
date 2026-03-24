@@ -11,37 +11,43 @@ const {errorHandler}=require('./src/middleware/error.middleware');
 
 const app=express();
 
-const corsOptions={
-    origin:[process.env.FRONTEND_URL || 'http://localhost:4200'],
-    methods:"GET, POST, PUT, PATCH, HEAD, DELETE,OPTIONS",
-    allowedHeaders:[
-        "Content-Type",
-        "Authorization",
-        "X-Requested-With",
-        "Accept",
-        "Origin",
-        "Access-Control-Allow-Origin"
-    ],
-    credentials:true
-}
-app.set('trust proxy', 1);
-app.use(cookieParser());
+const allowedOrigins = [
+  'http://localhost:4200',
+  process.env.FRONTEND_URL // e.g., Netlify
+];
 
+const corsOptions = {
+  origin: function(origin, callback) {
+    if (!origin) return callback(null, true); // allow Postman / curl
+    if (allowedOrigins.indexOf(origin) === -1) {
+      return callback(new Error('Not allowed by CORS'), false);
+    }
+    return callback(null, true);
+  },
+  methods: "GET, POST, PUT, PATCH, HEAD, DELETE, OPTIONS",
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin"
+  ],
+  credentials: true
+};
+
+// Middleware
 app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.get('/', (req, res) => {
-  res.send('TaskZen API is running...');
-});
-
+// Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/project', projectRoutes);
-
 app.use('/api/users', userRoutes);
 
+// Error Handler
 app.use(errorHandler);
 
 module.exports=app;
