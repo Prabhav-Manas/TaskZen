@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   refreshToken() {
-    return this.api.post<RefreshTokenResponse>('auth/refresh-token', {});
+    return this.api.post<RefreshTokenResponse>('auth/refresh-token', {}, { withCredentials: true });
   }
 
   verifyEmail(email: string, token: string) {

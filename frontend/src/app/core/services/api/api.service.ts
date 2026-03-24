@@ -10,11 +10,11 @@ export class ApiService {
 
   constructor(private http:HttpClient) { }
 
-  post<T>(endpoint:string, body:unknown){
-    return this.http.post<T>(`${this.baseUrl}/${endpoint}`, body);
+  post<T>(endpoint:string, body:unknown, options?:any){
+    return this.http.post<T>(`${this.baseUrl}/${endpoint}`, body, { withCredentials: true });
   }
 
-  get<T>(endpoint:string){
-    return this.http.get<T>(`${this.baseUrl}/${endpoint}`);
+  get<T>(endpoint:string, options?:any){
+    return this.http.get<T>(`${this.baseUrl}/${endpoint}`, { withCredentials: true });
   }
 }

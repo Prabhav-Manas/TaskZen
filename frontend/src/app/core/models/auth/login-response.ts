@@ -4,10 +4,7 @@ export interface SignInResponse {
     status:number,
     message:string,
     token:string,
-    user:{
-        user:User,
-        token:string
-    }
-    accessToken:string,
+    user: User;
+    accessToken: string;
     // refreshToken:string
 }

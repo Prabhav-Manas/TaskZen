@@ -16,11 +16,16 @@ export class AuthInterceptor implements HttpInterceptor {
         const modifiedReq=req.clone({
             setHeaders:{
                 Authorization:`Bearer ${token}`
-            }
+            }, withCredentials: true
         })
         return next.handle(modifiedReq).pipe(catchError((error)=>{
+          // STOP infinite loop (MOST IMPORTANT)
+          if (req.url.includes('refresh-token')) {
+            return throwError(() => error);
+          }
+
           // If token expired → call refresh token
-          if(error.status===401){
+          if(error.status===401 && !req.url.includes('refresh-token')){
             return this.authService.refreshToken().pipe(switchMap((res)=>{
               // Save new token
               this.tokenService.setTokens(res.accessToken);
