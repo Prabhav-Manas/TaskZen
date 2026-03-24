@@ -26,3 +26,14 @@ TaskZen is a full-stack project management application that helps users create p
 - Reusable components (form inputs, buttons, header, cards, multi-select, modal)
 - Module-based project architecture (both frontend and backend)
 - Clean and responsive dashboard
+
+## Tech Stack
+### Frontend
+- Angular
+- TypeScript
+- Bootstrap
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB + Mongoose
