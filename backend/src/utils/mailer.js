@@ -32,6 +32,8 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+console.log('SendGrid key loaded:', !!process.env.SENDGRID_API_KEY);
+
 exports.sendEmail = async (to, subject, html) => {
   try {
     const mailOptions = {
