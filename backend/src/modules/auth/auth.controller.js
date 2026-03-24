@@ -39,8 +39,8 @@ exports.signin=async(req,res,next)=>{
         // SET COOKIE
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: false, // true in production (HTTPS)
-            sameSite: 'Strict',
+            secure: true, // true in production (HTTPS)
+            sameSite: 'None',
             maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         });
 
