@@ -46,46 +46,28 @@
 // };
 
 // mailer.js
-const nodemailer = require('nodemailer');
+const { BrevoClient } = require('@getbrevo/brevo');
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com',
-  port: 2525,
-  secure: false,
-  auth: {
-    user: process.env.BREVO_SMTP_USER,
-    pass: process.env.BREVO_SMTP_PASS,
-  },
-});
-
-// Verify transporter on startup
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('Brevo SMTP connection failed:', error.message);
-  } else {
-    console.log('Brevo SMTP ready to send emails');
-  }
+const brevo = new BrevoClient({
+  apiKey: process.env.BREVO_API_KEY,
 });
 
 exports.sendEmail = async (to, subject, html) => {
   try {
-    const info = await transporter.sendMail({
-      from: `"TaskZen" <${process.env.EMAIL_FROM}>`,
-      to,
+    console.log('Brevo API Key present:', !!process.env.BREVO_API_KEY);
+
+    const result = await brevo.transactionalEmails.sendTransacEmail({
+      to: [{ email: to }],
+      sender: { email: process.env.EMAIL_FROM, name: 'TaskZen' },
       subject,
-      html,
+      htmlContent: html,
     });
-    console.log('Email sent successfully:', info.messageId);
-    return info;
+
+    console.log('Email sent successfully:', result);
+    return result;
+
   } catch (error) {
-    console.error('Send email failed - Message:', error.message);
-    console.error('Send email failed - Code:', error.code);
-
-    console.log('BREVO_SMTP_USER:', process.env.BREVO_SMTP_USER);
-    console.log('BREVO_SMTP_PASS present:', !!process.env.BREVO_SMTP_PASS);
-    console.log('BREVO_SMTP_PASS length:', process.env.BREVO_SMTP_PASS?.length);
-    console.log('BREVO_SMTP_PASS value:', process.env.BREVO_SMTP_PASS);
-
+    console.error('Send email failed:', error.message);
     throw new Error('Failed to send email');
   }
 };
