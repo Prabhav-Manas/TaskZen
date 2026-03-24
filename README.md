@@ -8,3 +8,14 @@ TaskZen is a full-stack project management application that helps users create p
 - HTTP-only cookie-based authentication
 - Refresh token rotation
 - Account locked after multiple failed attempts
+- Forgot password and Reset Password with verify OTP to registerd email
+- Implemented Black-list token
+
+### Project Management
+- Create and manage projects
+- Assign multiple members to a project
+- Track project status (Active / Completed)
+
+### User Management
+- Fetch and assign members to project
+- Muti-select dropdown for members selection
