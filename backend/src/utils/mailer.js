@@ -48,6 +48,11 @@ exports.sendEmail = async (to, subject, html) => {
     return info;
   } catch (error) {
     console.error('Send email failed:', error);
+
+    console.error('Send email failed - Message:', error.message);
+    console.error('Send email failed - Code:', error.code);
+    console.error('Send email failed - Response:', error.response?.body);
+
     throw new Error('Failed to send email');
   }
 };
