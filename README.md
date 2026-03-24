@@ -45,7 +45,7 @@ TaskZen is a full-stack project management application that helps users create p
 - Module Backend architecture (repository-service-controller pattern)
 
 ## Authentication Flow
-1) User sign in -> receives Access Token + Refresh Token (cookie)
+1) User sign in → receives Access Token + Refresh Token (cookie)
 2) Access Token used for API Request
-3) On Expiry (Access Token) -> interceptor calls Refresh Token API
+3) On Expiry (Access Token) → interceptor calls Refresh Token API
 4) Backend validates refresh token and issue new access token
