@@ -163,7 +163,12 @@ exports.refreshTokenService=async(token)=>{
         throw new Error('Refresh token required.');
     }
 
-    const decoded=jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    let decoded;
+    try {
+        decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    } catch (err) {
+        throw new Error('Refresh token expired');
+    }
 
     const user=await User.findById(decoded.id);
 

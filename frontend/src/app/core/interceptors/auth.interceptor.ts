@@ -1,47 +1,74 @@
-// auth.interceptor.ts
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { TokenService } from '../services/token/token.service';
 import { AuthService } from '../services/auth/auth.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private tokenService: TokenService, private authService:AuthService) {}
+  constructor(
+    private tokenService: TokenService,
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.tokenService.getAccessToken();
 
-    if(token){
-        const modifiedReq=req.clone({
-            setHeaders:{
-                Authorization:`Bearer ${token}`
-            }, withCredentials: true
+    // Add Authorization header if access token exists
+    const authReq = token
+      ? req.clone({
+          setHeaders: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         })
-        return next.handle(modifiedReq).pipe(catchError((error)=>{
-          // STOP infinite loop (MOST IMPORTANT)
-          if (req.url.includes('refresh-token')) {
-            return throwError(() => error);
-          }
+      : req.clone({ withCredentials: true });
 
-          // If token expired → call refresh token
-          if(error.status===401 && !req.url.includes('refresh-token')){
-            return this.authService.refreshToken().pipe(switchMap((res)=>{
-              // Save new token
+    return next.handle(authReq).pipe(
+      catchError((error) => {
+        // 1. Stop infinite loop on refresh token call
+        if (req.url.includes('refresh-token')) {
+          this.handleSessionExpired();
+          return throwError(() => error);
+        }
+
+        // 2. Access token expired → try refresh
+        if (error.status === 401) {
+          return this.authService.refreshToken().pipe(
+            switchMap((res) => {
+              // Save new access token
               this.tokenService.setTokens(res.accessToken);
 
               // Retry original request
-              const newReq=req.clone({
-                setHeaders:{Authorization: `Bearer ${res.accessToken}`}
+              const newReq = req.clone({
+                setHeaders: { Authorization: `Bearer ${res.accessToken}` },
               });
-
               return next.handle(newReq);
-            }))
-          }
+            }),
+            catchError((err) => {
+              // Refresh token failed → session expired
+              this.handleSessionExpired();
+              return throwError(() => err);
+            })
+          );
+        }
 
-          return throwError(()=>error)
-        }))
-    }
-    return next.handle(req);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  private handleSessionExpired() {
+    // Clear all stored tokens / user info
+    this.tokenService.clearTokens();
+    localStorage.clear();
+
+    // Optionally show toastr
+    this.toastr.error('Session expired. Please sign in again.', 'Logged Out');
+
+    // Redirect to sign-in page
+    this.router.navigate(['/auth/signin']);
   }
 }
