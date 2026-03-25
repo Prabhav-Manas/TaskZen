@@ -94,7 +94,9 @@ exports.verifyOtp=async(req,res,next)=>{
 
         res.status(200).json({
             status:200,
-            message:'OTP verified successfully',
+            message:`<h3>OTP Verified</h3>
+              <p>You're all set! A password reset link has been sent to your email. 
+              Please check your inbox to continue.</p>`,
             token:resetToken
         })
     }catch(error){

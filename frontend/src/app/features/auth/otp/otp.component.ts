@@ -198,7 +198,7 @@ export class OtpComponent implements OnInit{
         this.otpValue=['', '', '', '', '', ''];
         this.otpForm.reset();
 
-        this.popupService.show('OTP Verified Successfully!', res.message, 'success');
+        this.popupService.show('', res.message, 'success');
 
         // this.router.navigate(['/auth/reset-password', res.token]);
       }
