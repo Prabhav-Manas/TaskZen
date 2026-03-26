@@ -5,6 +5,7 @@ import { TokenService } from '../services/token/token.service';
 import { AuthService } from '../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { UserStateService } from '../services/user-state/user-state.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -12,7 +13,8 @@ export class AuthInterceptor implements HttpInterceptor {
     private tokenService: TokenService,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userStateService:UserStateService
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -29,7 +31,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((error) => {
         // 1. Stop infinite loop on refresh token call
-        if (req.url.includes('refresh-token')) {
+        if (req.url.includes('refresh-token') || req.url.includes('signout')) {
           this.handleSessionExpired();
           return throwError(() => error);
         }
@@ -63,7 +65,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private handleSessionExpired() {
     // Clear all stored tokens / user info
     this.tokenService.clearTokens();
-    localStorage.clear();
+    this.userStateService.clearUser();
 
     // Optionally show toastr
     this.toastr.error('Session expired. Please sign in again.', 'Logged Out');

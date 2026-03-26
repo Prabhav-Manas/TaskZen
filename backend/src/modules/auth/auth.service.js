@@ -355,16 +355,22 @@ exports.resetPasswordService=async(data)=>{
     return true;
 }
 
-exports.logoutService=async(token)=>{
-    if(!token){
-        throw new Error('Token required.');
+exports.logoutService = async (refreshToken) => {
+    if (!refreshToken) {
+        return true; // logout should still succeed
     }
 
-    const decoded=jwt.verify(token, process.env.JWT_SECRET);
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
 
-    const expiresAt = new Date(decoded.exp * 1000);
+        await User.findByIdAndUpdate(decoded.id, {
+            refreshToken: null
+        });
 
-    await blacklistRepository.addToken(token, expiresAt);
+    } catch (error) {
+        // Even if token expired, logout should still succeed
+        return true;
+    }
 
     return true;
-}
+};
