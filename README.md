@@ -76,7 +76,7 @@ ng serve
 ```
 
 ## 🚀 Upcoming Features
-- Edit and Delete projects
+- Delete projects (for Owner only)
 - Notification system
 - Manage tasks
 - Docker + CI/CD
