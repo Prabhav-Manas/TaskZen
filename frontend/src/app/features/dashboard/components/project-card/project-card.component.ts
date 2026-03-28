@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Project } from 'src/app/core/models/project/project.model';
 
 @Component({
@@ -10,6 +10,8 @@ export class ProjectCardComponent implements OnInit{
   @Input() name:string='';
   @Input() color:string='';
   @Input() project!:Project;
+
+  @Output() editClick=new EventEmitter<Project>();
 
   totalTasks!:any;
   completedTasks!:any;
@@ -24,5 +26,11 @@ export class ProjectCardComponent implements OnInit{
     if (!this.project || !this.project.totalTasks) return 0;
 
     return (this.project.completedTasks / this.project.totalTasks) * 100;
+  }
+
+  onClickEdit(event:Event){
+    event.stopPropagation();
+
+    this.editClick.emit(this.project);
   }
 }

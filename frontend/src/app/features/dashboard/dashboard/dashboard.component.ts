@@ -18,8 +18,10 @@ export class DashboardComponent implements OnInit{
   usersList:User[]=[]; // modal members
 
   createProjectForm!:FormGroup;
+  selectedProject!:Project;
 
   isOpen!:boolean;
+  
 
   projects:Project[]=[];
 
@@ -59,6 +61,8 @@ export class DashboardComponent implements OnInit{
 
   onCancel(){
     this.isOpen=false;
+    this.selectedProject=null as any;
+    this.createProjectForm.reset();
   }
 
   fetchProjects(){
@@ -96,5 +100,19 @@ export class DashboardComponent implements OnInit{
     }, error:(error)=>{
       console.log('Error in creating project:=>', error);
     }})
+  }
+
+  onEditClick(project:Project){
+    this.isOpen=true;
+
+    this.selectedProject=project;
+
+    console.log('Selected Project:=>', this.selectedProject);
+
+    this.createProjectForm.patchValue({
+      name:this.selectedProject.name,
+      description:this.selectedProject.description,
+      members:this.selectedProject.members?.map((memeber:any)=>memeber._id),
+    })
   }
 }
