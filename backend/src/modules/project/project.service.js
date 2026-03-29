@@ -1,5 +1,7 @@
 const Project=require('../project/project.model');
 const User=require('../user/user.model');
+const projectRepository=require('../project/project.repository');
+const createError=require('http-errors');
 
 // Create Project Service
 exports.createProjectService=async(data, userId)=>{
@@ -43,6 +45,17 @@ exports.getAllProjectService=async(userId)=>{
         {owner:userId},
         {members:userId}
     ]}).populate('owner', 'fullname email').populate('members', 'fullname email').sort({createdAt:-1});
+
+    return project;
+}
+
+// Fecth a Signle Project Service
+exports.getSingleProject=async(projectId)=>{
+    const project=await projectRepository.findProjectById(projectId);
+
+    if(!project){
+        throw createError(404, 'Project not found!');
+    }
 
     return project;
 }

@@ -11,6 +11,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { MultiSelectComponent } from './components/multi-select/multi-select.component';
 import { TextareaComponent } from './components/textarea/textarea/textarea.component';
+import { ActivityListComponent } from './components/activity-list/activity-list.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { TextareaComponent } from './components/textarea/textarea/textarea.compo
     LoaderComponent,
     ModalComponent,
     MultiSelectComponent,
-    TextareaComponent
+    TextareaComponent,
+    ActivityListComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +45,8 @@ import { TextareaComponent } from './components/textarea/textarea/textarea.compo
     LoaderComponent,
     ModalComponent,
     MultiSelectComponent,
-    TextareaComponent
+    TextareaComponent,
+    ActivityListComponent
   ]
 })
 export class SharedModule { }

@@ -6,7 +6,6 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { CreateProjectCardComponent } from './components/create-project-card/create-project-card.component';
-import { ActivityListComponent } from './components/activity-list/activity-list.component';
 
 
 @NgModule({
@@ -14,7 +13,7 @@ import { ActivityListComponent } from './components/activity-list/activity-list.
     DashboardComponent,
     ProjectCardComponent,
     CreateProjectCardComponent,
-    ActivityListComponent
+    
   ],
   imports: [
     CommonModule,

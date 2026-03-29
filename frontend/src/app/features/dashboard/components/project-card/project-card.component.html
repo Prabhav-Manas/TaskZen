@@ -40,7 +40,7 @@
     <!-- Action -->
     <div class="d-flex justify-content-end align-items-center gap-2">
       <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 40px; color:#000" (click)="onClickEdit($event)"></i>
-      <app-button class="btn btn-outline-dark btn-sm" label="View Project"></app-button>
+      <app-button class="btn btn-outline-dark btn-sm" label="View Project" [routerLink]="['/projects', project._id]"></app-button>
     </div>
 
   </div>

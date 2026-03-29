@@ -7,5 +7,6 @@ const router=express.Router();
 
 router.post('/', authMiddleware, projectController.createProject);
 router.get('/', authMiddleware, projectController.getProjects);
+router.get('/:id', authMiddleware, projectController.fetchSingleProject)
 
 module.exports=router;

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Project } from 'src/app/core/models/project/project.model';
 
 @Component({
@@ -16,7 +17,7 @@ export class ProjectCardComponent implements OnInit{
   totalTasks!:any;
   completedTasks!:any;
 
-  constructor(){}
+  constructor(private router:Router){}
 
   ngOnInit(): void {
     
@@ -33,4 +34,8 @@ export class ProjectCardComponent implements OnInit{
 
     this.editClick.emit(this.project);
   }
+
+  // onViewProject(){
+  //   this
+  // }
 }

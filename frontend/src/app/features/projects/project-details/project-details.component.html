@@ -1,0 +1,166 @@
+<div class="container-fluid py-4" *ngIf="project">
+
+  <!-- Project Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+
+      <app-card>
+        <div class="d-flex justify-content-between align-items-start">
+
+          <!-- Left -->
+          <div class="d-flex gap-3 align-items-center">
+
+            <div class="project-icon">
+              <i class="fa fa-folder-open"></i>
+            </div>
+
+            <div>
+              <h4 class="mb-1 fw-semibold">
+                {{ project.name }}
+              </h4>
+
+              <p class="text-muted mb-2">
+                {{ project.description || 'No description available' }}
+              </p>
+
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-success': project.status === 'active',
+                      'bg-secondary': project.status === 'completed'
+                    }">
+
+                {{ project.status || 'Active' }}
+              </span>
+
+            </div>
+
+          </div>
+
+          <div>
+            <app-button
+              label="Edit Project"
+              class="btn btn-outline-dark">
+            </app-button>
+          </div>
+
+        </div>
+
+      </app-card>
+
+    </div>
+  </div>
+
+
+  <!-- Stats -->
+  <div class="row mb-4">
+
+    <div class="col-md-4">
+      <app-card>
+        <div class="text-center">
+          <h6 class="text-muted">Total Tasks</h6>
+          <h3 class="fw-semibold">
+            {{ project.totalTasks || 0 }}
+          </h3>
+        </div>
+      </app-card>
+    </div>
+
+    <div class="col-md-4">
+      <app-card>
+        <div class="text-center">
+          <h6 class="text-muted">Completed</h6>
+          <h3 class="fw-semibold text-success">
+            {{ project.completedTasks || 0 }}
+          </h3>
+        </div>
+      </app-card>
+    </div>
+
+    <div class="col-md-4">
+      <app-card>
+        <div class="text-center">
+          <h6 class="text-muted">Members</h6>
+          <h3 class="fw-semibold">
+            {{ project.members?.length || 0 }}
+          </h3>
+        </div>
+      </app-card>
+    </div>
+
+  </div>
+
+
+  <!-- Members -->
+  <div class="row mb-4">
+    <div class="col-12">
+
+      <app-card>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-semibold mb-0">
+            Team Members
+          </h5>
+
+          <app-button
+            label="Add Member"
+            class="btn btn-outline-dark btn-sm">
+          </app-button>
+
+        </div>
+
+        <div class="row">
+
+          <div
+            class="col-md-3 mb-3"
+            *ngFor="let member of project.members">
+
+            <div class="member-card">
+
+              <div class="avatar">
+                {{ member.fullname?.charAt(0) }}
+              </div>
+
+              <div>
+                <h6 class="mb-0">
+                  {{ member.fullname }}
+                </h6>
+
+                <small class="text-muted">
+                  {{ member.email }}
+                </small>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </app-card>
+
+    </div>
+  </div>
+
+
+  <!-- Activity -->
+  <div class="row">
+    <div class="col-12">
+
+      <app-card>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-semibold mb-0">
+            Recent Activity
+          </h5>
+        </div>
+
+        <app-activity-list
+          [projectId]="project._id">
+        </app-activity-list>
+
+      </app-card>
+
+    </div>
+  </div>
+
+</div>
