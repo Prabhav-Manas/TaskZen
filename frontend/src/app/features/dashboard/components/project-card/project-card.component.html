@@ -1,5 +1,5 @@
 <app-card>
-  <div class="card-body bg-white text-dark border-start border-end border-4"
+  <div class="card-body bg-white text-dark border shadow-sm  border-1"
        [ngClass]="{
          'border-success': project.status === 'active',
          'border-secondary': project.status === 'completed'
@@ -11,7 +11,7 @@
     </h5>
 
     <!-- Description -->
-    <p class="small text-muted mb-3">
+    <p class="small text-muted mb-3 description">
       {{ project.description || 'No description available' }}
     </p>
 
@@ -39,7 +39,7 @@
 
     <!-- Action -->
     <div class="d-flex justify-content-end align-items-center gap-2">
-      <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 40px; color:#000" (click)="onClickEdit($event)"></i>
+      <!-- <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 40px; color:#000"></i> -->
       <app-button class="btn btn-outline-dark btn-sm" label="View Project" [routerLink]="['/projects', project._id]"></app-button>
     </div>
 

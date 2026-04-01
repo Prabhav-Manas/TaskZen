@@ -15,3 +15,16 @@
   height: 10px;
   border-radius: 50%;
 }
+
+.description {
+  display: -webkit-box;
+  display: box;
+
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+
+  overflow: hidden;
+}

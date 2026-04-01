@@ -12,6 +12,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { MultiSelectComponent } from './components/multi-select/multi-select.component';
 import { TextareaComponent } from './components/textarea/textarea/textarea.component';
 import { ActivityListComponent } from './components/activity-list/activity-list.component';
+import { ProjectModalComponent } from './components/project-modal/project-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ActivityListComponent } from './components/activity-list/activity-list.
     ModalComponent,
     MultiSelectComponent,
     TextareaComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    ProjectModalComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { ActivityListComponent } from './components/activity-list/activity-list.
     ModalComponent,
     MultiSelectComponent,
     TextareaComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    ProjectModalComponent
   ]
 })
 export class SharedModule { }

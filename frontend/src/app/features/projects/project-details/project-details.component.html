@@ -20,7 +20,7 @@
                   </span>
                 </div>
 
-                <app-button label="Edit Project" class="btn btn-outline-dark"></app-button>
+                <app-button label="Edit Project" class="btn btn-outline-dark" (click)="onClickEdit($event)"></app-button>
               </div>
 
               <p class="text-muted mb-2">{{ project.description || 'No description available' }}</p>

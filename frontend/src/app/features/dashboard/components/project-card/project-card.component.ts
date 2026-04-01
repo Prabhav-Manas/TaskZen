@@ -12,7 +12,7 @@ export class ProjectCardComponent implements OnInit{
   @Input() color:string='';
   @Input() project!:Project;
 
-  @Output() editClick=new EventEmitter<Project>();
+  @Output() editClick = new EventEmitter<Project>();
 
   totalTasks!:any;
   completedTasks!:any;
@@ -29,11 +29,7 @@ export class ProjectCardComponent implements OnInit{
     return (this.project.completedTasks / this.project.totalTasks) * 100;
   }
 
-  onClickEdit(event:Event){
-    event.stopPropagation();
 
-    this.editClick.emit(this.project);
-  }
 
   // onViewProject(){
   //   this

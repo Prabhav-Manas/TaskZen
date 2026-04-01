@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from 'src/app/core/models/project/project.model';
 import { ProjectService } from 'src/app/core/services/project/project.service';
@@ -11,6 +11,8 @@ import { ProjectService } from 'src/app/core/services/project/project.service';
 export class ProjectDetailsComponent implements OnInit{
   project!:Project
 
+  // @Output() editClick=new EventEmitter<Project>();
+
   constructor(private route:ActivatedRoute, private projectService:ProjectService){}
 
   ngOnInit(): void {
@@ -20,7 +22,7 @@ export class ProjectDetailsComponent implements OnInit{
       console.log('Single Project:=>', projectId);
 
       this.projectService.getSingleProject(projectId).subscribe({next:(res)=>{
-        if(res.status=200){
+        if(res.status===200){
           console.log('Single Project:=>', res);
           this.project=res.project;
         }
@@ -28,5 +30,12 @@ export class ProjectDetailsComponent implements OnInit{
         console.log('Error in fetching single project:=>', error)
       }})
     }
+  }
+
+  onClickEdit(event:Event){
+    event.stopPropagation();
+
+    // this.editClick.emit(this.project);
+    this.projectService.emitEditProject(this.project);
   }
 }

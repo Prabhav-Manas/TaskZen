@@ -1,118 +1,46 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/core/models/auth/user.model';
-import { ProjectRequest } from 'src/app/core/models/project/project-request';
-import { ProjectResponse } from 'src/app/core/models/project/project-response';
 import { Project } from 'src/app/core/models/project/project.model';
 import { ProjectService } from 'src/app/core/services/project/project.service';
 import { UserStateService } from 'src/app/core/services/user-state/user-state.service';
-import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit{
-  user!: User; // logged-in user
-  usersList:User[]=[]; // modal members
+export class DashboardComponent implements OnInit {
+  user!: User;
+  projects: Project[] = [];
 
-  createProjectForm!:FormGroup;
-  selectedProject!:Project;
-
-  isOpen!:boolean;
-  
-
-  projects:Project[]=[];
-
-  constructor(private fb:FormBuilder, private userStateService:UserStateService, private projectService:ProjectService, private userService:UserService){
-    this.createProjectForm=this.fb.group({
-      name:new FormControl('', [Validators.required]),
-      description:new FormControl(''),
-      members:[[]]
-    })
-  }
+  constructor(private userStateService: UserStateService,private projectService: ProjectService) {}
 
   ngOnInit(): void {
-    this.user=this.userStateService.getUser();
-
-    console.log('Dashboard SignedIn User:=>', this.user);
-
+    this.user = this.userStateService.getUser();
     this.fetchProjects();
-    this.fetchUsers();
-  }
 
-  // Members (on Modal)
-  fetchUsers() {
-    this.userService.getAllUsers().subscribe({
-      next: (res: any) => {
-        this.usersList = res.users;
-        console.log('Users API:', res.users);
-      },
-      error: (err) => {
-        console.log('Error fetching users:', err);
-      }
+    // Re-fetch projects after a project is created/edited
+    this.projectService.createProject$.subscribe(() => {
+      this.fetchProjects();
     });
   }
 
-  openCreateModal(){
-    this.isOpen=true;
+  fetchProjects() {
+    this.projectService.getProjects().subscribe({next: (res: any) => {
+        if (res.status === 200) {
+          this.projects = res.projects.filter(
+            (p: Project) => p.status === 'active'
+          );
+        }
+      },error: (err) => console.log('Error fetching projects:', err)
+    });
   }
 
-  onCancel(){
-    this.isOpen=false;
-    this.selectedProject=null as any;
-    this.createProjectForm.reset();
+  openCreateModal() {
+    this.projectService.emitCreateProject();
   }
 
-  fetchProjects(){
-    this.projectService.getProjects().subscribe((res:any)=>{
-      if(res.status===200){
-        console.log('Fetch All Projects:=>', res);
-        this.projects=res.projects.filter((projectStatus:Project)=>projectStatus.status==='active');
-      }
-    }, (error)=>{
-      console.log('Error in Fetching Projects:=>', error);
-    })
-  }
-
-  // Submit create project
-  onSubmit(){
-    if(this.createProjectForm.invalid){
-      this.createProjectForm.markAllAsTouched();
-      return;
-    }
-
-    const payload={
-      name:this.createProjectForm.value.name,
-      description:this.createProjectForm.value.description,
-      members:this.createProjectForm.value.members
-    }
-
-    this.projectService.createProject(payload).subscribe({next:(res:ProjectResponse)=>{
-      if(res.status===201){
-        console.log('Project Created:=>', res);
-      }
-
-      this.createProjectForm.reset();
-      this.isOpen=false;
-      this.fetchProjects();
-    }, error:(error)=>{
-      console.log('Error in creating project:=>', error);
-    }})
-  }
-
-  onEditClick(project:Project){
-    this.isOpen=true;
-
-    this.selectedProject=project;
-
-    console.log('Selected Project:=>', this.selectedProject);
-
-    this.createProjectForm.patchValue({
-      name:this.selectedProject.name,
-      description:this.selectedProject.description,
-      members:this.selectedProject.members?.map((memeber:any)=>memeber._id),
-    })
+  onEditClick(project: Project) {
+    this.projectService.emitEditProject(project);
   }
 }

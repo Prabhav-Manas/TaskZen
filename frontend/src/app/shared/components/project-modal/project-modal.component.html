@@ -1,0 +1,18 @@
+<app-modal [isOpen]="isOpen" [title]="selectedProject? 'Edit Project' : 'Create Project'" (closemodal)="onCancel()">
+    <form [formGroup]="createProjectForm" (ngSubmit)="onSubmit()">
+        <!-- Project Name -->
+        <app-form-input label="Project Name" controlName="name" [form]="createProjectForm"></app-form-input>
+        
+        <!-- Members -->
+        <app-multi-select label="Members" controlName="members" [options]="usersList"  [form]="createProjectForm"></app-multi-select>
+
+        <!-- Description -->
+         <app-textarea label="Description" placeholder="Description" [form]="createProjectForm" controlName="description"></app-textarea>
+
+        <!-- Actions -->
+         <div class="d-flex justify-content-end mt-1 gap-2">
+             <app-button type="button" color="secondary" label="Cancel" (click)="onCancel()"></app-button>
+             <app-button type="submit" color="primary" [label]="selectedProject ? 'Save' : 'Create'"></app-button>
+        </div>
+    </form>
+</app-modal>
