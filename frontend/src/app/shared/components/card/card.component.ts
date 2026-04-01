@@ -9,6 +9,8 @@ export class CardComponent implements OnInit{
   @Input() title:string='';
   @Input() cardType:string='';
   @Input() color:string='';
+  @Input() bgCardColor:string='';
+  @Input() textColor:string="";
 
   constructor(){}
 

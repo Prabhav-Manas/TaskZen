@@ -3,7 +3,7 @@ export interface Project{
     name:string,
     description?:string,
     status?:string,
-    members?:any[],
+    members:any[],
     owners?:any,
     color:string,
     totalTasks:number,
