@@ -34,7 +34,6 @@
 
   <!-- Stats -->
   <div class="row mb-4">
-
     <div class="col-md-4">
       <app-card bgCardColor="info" textColor="white" title="Total tasks">
         <div class="text-center">
@@ -58,16 +57,13 @@
         </div>
       </app-card>
     </div>
-
   </div>
 
 
   <!-- Members -->
   <div class="row mb-4">
     <div class="col-12">
-
       <app-card>
-
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="fw-semibold mb-0">Team Members</h5>
 
@@ -91,7 +87,6 @@
 
               <!-- Email -->
               <small class="text-muted"><strong>Email: </strong>{{ member.email }}</small>
-
             </div>
           </div>
         </div>
@@ -103,22 +98,13 @@
   <!-- Activity -->
   <div class="row">
     <div class="col-12">
-
       <app-card>
-
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="fw-semibold mb-0">
-            Recent Activity
-          </h5>
+          <h5 class="fw-semibold mb-0">Recent Activity</h5>
         </div>
 
-        <app-activity-list
-          [projectId]="project._id">
-        </app-activity-list>
-
+        <app-activity-list [projectId]="project._id"></app-activity-list>
       </app-card>
-
     </div>
   </div>
-
 </div>
