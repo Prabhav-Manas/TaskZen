@@ -9,7 +9,7 @@
 
     <!-- Project Cards -->
     <div class="row g-4">
-        <div class="col-md-4" *ngFor="let project of projects" [routerLink]="['/projects', project._id]" style="cursor: pointer;">
+        <div class="col-md-4" *ngFor="let project of projects.slice(0, 2)" (click)="onViewProject(project)" style="cursor: pointer;">
             <app-project-card color="primary" [project]="project"></app-project-card>
         </div>
 

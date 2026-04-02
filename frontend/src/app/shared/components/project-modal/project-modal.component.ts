@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { User } from 'src/app/core/models/auth/user.model';
 import { ProjectResponse } from 'src/app/core/models/project/project-response';
 import { Project } from 'src/app/core/models/project/project.model';
+import { LoaderService } from 'src/app/core/services/loader/loader.service';
 import { ProjectService } from 'src/app/core/services/project/project.service';
 import { UserService } from 'src/app/core/services/user/user.service';
 
@@ -18,7 +19,7 @@ export class ProjectModalComponent implements OnInit{
 
   createProjectForm!:FormGroup;
 
-  constructor(    private fb:FormBuilder, private projectService:ProjectService, private userService:UserService){
+  constructor(private fb:FormBuilder, private projectService:ProjectService, private userService:UserService, private loaderService:LoaderService){
     this.createProjectForm=this.fb.group({
       name:new FormControl('', Validators.required),
       description:new FormControl(''),
@@ -77,6 +78,8 @@ export class ProjectModalComponent implements OnInit{
 
     const payload = this.createProjectForm.value;
 
+    
+
     //Close modal immediately on submit, don't wait for API
     this.isOpen = false;
     const projectToEdit = this.selectedProject;
@@ -84,10 +87,12 @@ export class ProjectModalComponent implements OnInit{
     this.createProjectForm.reset();
 
     if (projectToEdit) {
+      this.loaderService.show('Saving Editted Project')
       // ===EDIT===
       this.projectService.updateProject(projectToEdit._id, payload).subscribe({
         next: () => {
           this.projectService.emitProjectRefresh(); //dedicated refresh event
+          this.loaderService.hide();
         },
         error: (err: any) => {
           console.log('Error updating project:', err);
@@ -96,9 +101,11 @@ export class ProjectModalComponent implements OnInit{
       });
     } else {
       // ===CREATE===
+      this.loaderService.show('Creating Your Project')
       this.projectService.createProject(payload).subscribe({
         next: () => {
           this.projectService.emitProjectRefresh(); //dedicated refresh event
+          this.loaderService.hide();
         },
         error: (err) => {
           console.log('Error creating project:', err);

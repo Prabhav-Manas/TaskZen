@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Project } from 'src/app/core/models/project/project.model';
+import { LoaderService } from 'src/app/core/services/loader/loader.service';
 import { ProjectService } from 'src/app/core/services/project/project.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class ProjectDetailsComponent implements OnInit{
   private projectId!: string;
   private refreshSub!: Subscription;
 
-  constructor(private route:ActivatedRoute, private projectService:ProjectService){}
+  constructor(private route:ActivatedRoute, private projectService:ProjectService, private loaderService:LoaderService){}
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
@@ -29,13 +30,18 @@ export class ProjectDetailsComponent implements OnInit{
   }
 
   fetchProject() {
+    this.loaderService.show('Loading')
     this.projectService.getSingleProject(this.projectId).subscribe({
       next: (res) => {
         if (res.status === 200) {
           this.project = res.project;
+          this.loaderService.hide();
         }
       },
-      error: (err) => console.log('Error fetching project:', err)
+      error: (err) => {
+        console.log('Error fetching project:', err);
+        this.loaderService.hide();
+      }
     });
   }
 
