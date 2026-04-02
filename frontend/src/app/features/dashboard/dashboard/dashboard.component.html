@@ -10,7 +10,7 @@
     <!-- Project Cards -->
     <div class="row g-4">
         <div class="col-md-4" *ngFor="let project of projects" [routerLink]="['/projects', project._id]" style="cursor: pointer;">
-            <app-project-card color="primary" [project]="project" (editClick)="onEditClick($event)"></app-project-card>
+            <app-project-card color="primary" [project]="project"></app-project-card>
         </div>
 
         <div class="col-md-4">
@@ -23,5 +23,3 @@
         <app-activity-list></app-activity-list>
     </div>
 </div>
-
-<!-- Modal -->

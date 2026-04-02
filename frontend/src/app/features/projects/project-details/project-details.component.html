@@ -1,31 +1,31 @@
 <div class="container-fluid py-4" *ngIf="project">
   <app-header></app-header>
+  
   <!-- Project Header -->
   <div class="row mb-4">
     <div class="col-12">
       <app-card>
-        <div class="d-flex justify-content-between align-items-start">
-          <div class="d-flex gap-3 align-items-center">
-            <div>
-              <div class="d-flex justify-content-between">
-                <div class="project-icon d-flex align-items-center gap-2">
-                  <i class="fa fa-folder-open"></i>
-
-                  <h4 class="mb-1 fw-semibold">{{ project.name }}</h4>
-
-                  <span class="badge" [ngClass]="{
-                      'bg-success': project.status === 'active',
-                      'bg-secondary': project.status === 'completed'}">
-                      {{ project.status || 'Active' }}
-                  </span>
-                </div>
-
-                <app-button label="Edit Project" class="btn btn-outline-dark" (click)="onClickEdit($event)"></app-button>
-              </div>
-
-              <p class="text-muted mb-2">{{ project.description || 'No description available' }}</p>
+        <div class="d-flex justify-content-between align-items-start gap-3">
+          
+          <!-- Left: icon + title + badge + description -->
+          <div>
+            <div class="project-icon d-flex align-items-center gap-2 mb-1">
+              <i class="fa fa-folder-open"></i>
+              <h4 class="mb-0 fw-semibold">{{ project.name }}</h4>
+              <span class="badge" [ngClass]="{
+                  'bg-success': project.status === 'active',
+                  'bg-secondary': project.status === 'completed'}">
+                  {{ project.status || 'Active' }}
+              </span>
             </div>
+            <p class="text-muted mb-0">{{ project.description || 'No description available' }}</p>
           </div>
+
+          <!-- Right: button always top-right, inline with title -->
+          <div class="flex-shrink-0">
+            <app-button label="Edit Project" class="btn btn-outline-dark" (click)="onClickEdit($event)"></app-button>
+          </div>
+
         </div>
       </app-card>
     </div>
