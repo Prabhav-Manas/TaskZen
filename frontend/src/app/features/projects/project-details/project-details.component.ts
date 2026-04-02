@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Project } from 'src/app/core/models/project/project.model';
 import { ProjectService } from 'src/app/core/services/project/project.service';
 
@@ -10,32 +11,40 @@ import { ProjectService } from 'src/app/core/services/project/project.service';
 })
 export class ProjectDetailsComponent implements OnInit{
   project!:Project
-
-  // @Output() editClick=new EventEmitter<Project>();
+  private projectId!: string;
+  private refreshSub!: Subscription;
 
   constructor(private route:ActivatedRoute, private projectService:ProjectService){}
 
   ngOnInit(): void {
-    const projectId=this.route.snapshot.paramMap.get('id');
+    this.projectId = this.route.snapshot.paramMap.get('id')!;
 
-    if(projectId){
-      console.log('Single Project:=>', projectId);
-
-      this.projectService.getSingleProject(projectId).subscribe({next:(res)=>{
-        if(res.status===200){
-          console.log('Single Project:=>', res);
-          this.project=res.project;
-        }
-      }, error:(error)=>{
-        console.log('Error in fetching single project:=>', error)
-      }})
+    if (this.projectId) {
+      this.fetchProject();
     }
+
+    this.refreshSub = this.projectService.projectRefresh$.subscribe(() => {
+      this.fetchProject();
+    });
+  }
+
+  fetchProject() {
+    this.projectService.getSingleProject(this.projectId).subscribe({
+      next: (res) => {
+        if (res.status === 200) {
+          this.project = res.project;
+        }
+      },
+      error: (err) => console.log('Error fetching project:', err)
+    });
   }
 
   onClickEdit(event:Event){
     event.stopPropagation();
-
-    // this.editClick.emit(this.project);
     this.projectService.emitEditProject(this.project);
+  }
+
+  ngOnDestroy(): void {
+    this.refreshSub?.unsubscribe(); // prevent memory leak
   }
 }

@@ -77,26 +77,33 @@ export class ProjectModalComponent implements OnInit{
 
     const payload = this.createProjectForm.value;
 
-    if (this.selectedProject) {
-      // EDIT
-      this.projectService.updateProject(this.selectedProject._id, payload).subscribe({
-        next: (res: any) => {
-          this.isOpen = false;
-          this.selectedProject = null as any;
-          this.createProjectForm.reset();
-          this.projectService.emitCreateProject(); // notify dashboard to re-fetch
+    //Close modal immediately on submit, don't wait for API
+    this.isOpen = false;
+    const projectToEdit = this.selectedProject;
+    this.selectedProject = null as any;
+    this.createProjectForm.reset();
+
+    if (projectToEdit) {
+      // ===EDIT===
+      this.projectService.updateProject(projectToEdit._id, payload).subscribe({
+        next: () => {
+          this.projectService.emitProjectRefresh(); //dedicated refresh event
         },
-        error: (err:any) => console.log('Error updating project:', err)
+        error: (err: any) => {
+          console.log('Error updating project:', err);
+          this.isOpen = true; //reopen modal on error
+        }
       });
     } else {
-      // CREATE
+      // ===CREATE===
       this.projectService.createProject(payload).subscribe({
-        next: (res: ProjectResponse) => {
-          this.isOpen = false;
-          this.createProjectForm.reset();
-          this.projectService.emitCreateProject(); // notify dashboard to re-fetch
+        next: () => {
+          this.projectService.emitProjectRefresh(); //dedicated refresh event
         },
-        error: (err) => console.log('Error creating project:', err)
+        error: (err) => {
+          console.log('Error creating project:', err);
+          this.isOpen = true; //reopen modal on error
+        }
       });
     }
   }

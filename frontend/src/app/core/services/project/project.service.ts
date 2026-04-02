@@ -10,10 +10,28 @@ import { Project } from '../../models/project/project.model';
   providedIn: 'root'
 })
 export class ProjectService {
-  editProject$ = new Subject<Project>();
-  createProject$ = new Subject<void>();
+  // Separate subjects for open-modal and refresh-data
+  private createProjectSubject = new Subject<void>();
+  private editProjectSubject = new Subject<any>();
+  private projectRefreshSubject = new Subject<void>();
+
+  createProject$ = this.createProjectSubject.asObservable();
+  editProject$ = this.editProjectSubject.asObservable();
+  projectRefresh$ = this.projectRefreshSubject.asObservable();
 
   constructor(private api:ApiService) { }
+
+  emitCreateProject(){
+    this.createProjectSubject.next();
+  }
+
+  emitEditProject(project: Project){
+    this.editProjectSubject.next(project);
+  }
+
+  emitProjectRefresh() { 
+    this.projectRefreshSubject.next(); 
+  }
 
   createProject(data:ProjectRequest){
     return this.api.post<ProjectResponse>('project', data);
@@ -25,14 +43,6 @@ export class ProjectService {
 
   getSingleProject(id:string){
     return this.api.get<SingleProjectResponse>(`project/${id}`);
-  }
-
-  emitEditProject(project: Project){
-    this.editProject$.next(project);
-  }
-
-  emitCreateProject(){
-    this.createProject$.next();
   }
 
   updateProject(id: string, data: ProjectRequest) {

@@ -59,3 +59,11 @@ exports.getSingleProject=async(projectId)=>{
 
     return project;
 }
+
+exports.updateProject=async(projectId, data)=>{
+    const project=await projectRepository.updateProjectById(projectId, data);
+
+    if(!project) throw createError(404, 'Project not found!');
+
+    return project;
+}

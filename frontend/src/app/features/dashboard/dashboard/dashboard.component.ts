@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/models/auth/user.model';
 import { Project } from 'src/app/core/models/project/project.model';
 import { ProjectService } from 'src/app/core/services/project/project.service';
@@ -12,6 +13,7 @@ import { UserStateService } from 'src/app/core/services/user-state/user-state.se
 export class DashboardComponent implements OnInit {
   user!: User;
   projects: Project[] = [];
+  private refreshSub!: Subscription; //track subscription
 
   constructor(private userStateService: UserStateService,private projectService: ProjectService) {}
 
@@ -20,7 +22,12 @@ export class DashboardComponent implements OnInit {
     this.fetchProjects();
 
     // Re-fetch projects after a project is created/edited
-    this.projectService.createProject$.subscribe(() => {
+    // this.projectService.createProject$.subscribe(() => {
+    //   this.fetchProjects();
+    // });
+
+    // Listen to projectRefresh$ instead of createProject$
+    this.refreshSub = this.projectService.projectRefresh$.subscribe(() => {
       this.fetchProjects();
     });
   }
@@ -40,7 +47,11 @@ export class DashboardComponent implements OnInit {
     this.projectService.emitCreateProject();
   }
 
-  onEditClick(project: Project) {
-    this.projectService.emitEditProject(project);
+  // onEditClick(project: Project) {
+  //   this.projectService.emitEditProject(project);
+  // }
+
+  ngOnDestroy(): void {
+    this.refreshSub?.unsubscribe(); //prevent memory leak
   }
 }
