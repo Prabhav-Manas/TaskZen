@@ -67,3 +67,11 @@ exports.updateProject=async(projectId, data)=>{
 
     return project;
 }
+
+exports.deleteProjectService=async(projectId)=>{
+    const project=await projectRepository.deleteProjectById(projectId);
+
+    if(!project) throw createError(404, 'Project not found!');
+
+    return project;
+}

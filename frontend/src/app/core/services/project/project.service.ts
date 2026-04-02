@@ -48,4 +48,8 @@ export class ProjectService {
   updateProject(id: string, data: ProjectRequest) {
     return this.api.patch<ProjectResponse>(`project/${id}`, data);
   }
+
+  deleteProject(id:string){
+    return this.api.delete(`project/${id}`);
+  }
 }

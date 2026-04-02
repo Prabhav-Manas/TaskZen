@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Project } from 'src/app/core/models/project/project.model';
 import { LoaderService } from 'src/app/core/services/loader/loader.service';
+import { PopUpService } from 'src/app/core/services/pop-up/pop-up.service';
 import { ProjectService } from 'src/app/core/services/project/project.service';
 
 @Component({
@@ -15,7 +16,7 @@ export class ProjectDetailsComponent implements OnInit{
   private projectId!: string;
   private refreshSub!: Subscription;
 
-  constructor(private route:ActivatedRoute, private projectService:ProjectService, private loaderService:LoaderService){}
+  constructor(private route:ActivatedRoute, private projectService:ProjectService, private loaderService:LoaderService, private router:Router, private popupService:PopUpService){}
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
@@ -48,6 +49,22 @@ export class ProjectDetailsComponent implements OnInit{
   onClickEdit(event:Event){
     event.stopPropagation();
     this.projectService.emitEditProject(this.project);
+  }
+
+  onDeleteProject(project:Project){
+    this.loaderService.show('Deleting');
+
+    this.projectService.deleteProject(project._id).subscribe({next:(res:any)=>{
+      if(res.status===200){
+        this.loaderService.hide();
+        this.popupService.show('Deleted', 'Project deleted successfully!', 'success')
+        this.router.navigate(['/']);
+      }
+    }, error:(error)=>{
+      console.log('Error in deleting project:=>', error);
+      this.loaderService.hide();
+      this.popupService.show('Error', 'Failed to delete project!', 'danger');
+    }})
   }
 
   ngOnDestroy(): void {
