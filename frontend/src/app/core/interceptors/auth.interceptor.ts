@@ -37,7 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }
 
         // 2. Access token expired → try refresh
-        if (error.status === 401) {
+        if (error.status === 401 && this.tokenService.getAccessToken()) {
           return this.authService.refreshToken().pipe(
             switchMap((res) => {
               // Save new access token
@@ -46,6 +46,7 @@ export class AuthInterceptor implements HttpInterceptor {
               // Retry original request
               const newReq = req.clone({
                 setHeaders: { Authorization: `Bearer ${res.accessToken}` },
+                withCredentials: true
               });
               return next.handle(newReq);
             }),

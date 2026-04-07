@@ -38,19 +38,38 @@ export class ProjectModalComponent implements OnInit{
       this.openCreateModal();
     });
 
-    this.fetchUsers();
+    
   }
 
-    fetchUsers(){
-    this.userService.getAllUsers().subscribe((res:any)=>{
-      this.usersList=res.users;
-    })
-  }
+  //   fetchUsers(){
+  //   this.userService.getAllUsers().subscribe((res:any)=>{
+  //     this.usersList=res.users;
+  //   })
+  // }
+
+  fetchUsers(){
+  this.userService.getAllUsers().subscribe((res:any)=>{
+
+    if(this.selectedProject){
+      const existingIds = this.selectedProject.members.map((m:any)=>m._id);
+
+      this.usersList = res.users.filter(
+        (user:any)=> !existingIds.includes(user._id)
+      );
+
+    } else {
+      this.usersList = res.users;
+    }
+
+  })
+}
 
   openCreateModal(){
     this.isOpen=true;
     this.selectedProject=null as any;
     this.createProjectForm.reset();
+
+    this.fetchUsers();
   }
 
   onCancel(){
@@ -62,6 +81,8 @@ export class ProjectModalComponent implements OnInit{
   onEditClick(project:Project){
     this.isOpen=true;
     this.selectedProject=project;
+
+    this.fetchUsers();
 
     this.createProjectForm.patchValue({
       name:project.name,

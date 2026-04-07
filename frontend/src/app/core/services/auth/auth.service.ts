@@ -29,15 +29,15 @@ export class AuthService {
   }
 
   refreshToken() {
-    return this.api.post<RefreshTokenResponse>('auth/refresh-token', {}, { withCredentials: true });
+    return this.api.post<RefreshTokenResponse>('auth/refresh-token', {}, {withCredentials: true});
   }
 
   verifyEmail(email: string, token: string) {
-    return this.api.get(`auth/verify-email/${email}/${token}`);
+    return this.api.get(`auth/verify-email/${email}/${token}`, {withCredentials: true});
   }
 
   resendVerification(email: string) {
-    return this.api.post('auth/resend-verification', { email });
+    return this.api.post('auth/resend-verification', { email }, {withCredentials: true});
   }
 
   forgotPassword(data:ForgotPasswordRequest){
@@ -57,6 +57,6 @@ export class AuthService {
   }
 
   signout(){
-    return this.api.post<any>('auth/signout', {});
+    return this.api.post<any>('auth/signout', {}, {withCredentials:true});
   }
 }

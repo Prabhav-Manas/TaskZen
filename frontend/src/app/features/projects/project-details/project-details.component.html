@@ -8,23 +8,44 @@
         <div class="d-flex justify-content-between align-items-start gap-3">
           
           <!-- Left: icon + title + badge + description -->
-          <div>
-            <div class="project-icon d-flex align-items-center gap-2 mb-1">
-              <i class="fa fa-folder-open"></i>
-              <h4 class="mb-0 fw-semibold">{{ project.name }}</h4>
-              <span class="badge" [ngClass]="{
-                  'bg-success': project.status === 'active',
-                  'bg-secondary': project.status === 'completed'}">
-                  {{ project.status || 'Active' }}
-              </span>
-            </div>
-            <p class="text-muted mb-0">{{ project.description || 'No description available' }}</p>
-          </div>
+           <div class="col-md-8">
 
+             <div>
+               <div class="project-icon d-flex align-items-center gap-2 mb-1">
+                 <i class="fa fa-folder-open"></i>
+                 <h4 class="mb-0 fw-semibold">{{ project.name }}</h4>
+                 <span class="badge" [ngClass]="{
+                   'bg-success': project.status === 'active',
+                   'bg-secondary': project.status === 'completed'}">
+                   {{ project.status || 'Active' }}
+                  </span>
+                </div>
+                <p class="text-muted mb-0">{{ project.description || 'No description available' }}</p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+
+            
           <!-- Right: button always top-right, inline with title -->
-          <div class="flex-shrink-0">
-            <app-button label="Edit Project" class="btn btn-outline-dark" (click)="onClickEdit($event)"></app-button>
-            <app-button label="Delete Project" class="btn btn-outline-danger" (click)="onDeleteProject(project)"></app-button>
+          <div class="flex-shrink-0 d-md-flex d-sm-block gap-3">
+            <!-- <app-button label="Edit Project" class="btn btn-outline-dark" (click)="onClickEdit($event)"></app-button>
+            <app-button label="Delete Project" class="btn btn-outline-danger" (click)="onDeleteProject(project)"></app-button> -->
+
+            <div class="flex-shrink-0 d-flex flex-column flex-md-row gap-2 gap-md-3 w-100 w-md-auto ">
+              <app-button 
+                label="Edit Project" 
+                class="btn btn-sm btn-outline-dark w-100 w-md-auto action-button"
+                (click)="onClickEdit($event)">
+              </app-button>
+
+              <app-button 
+                label="Delete Project" 
+                class="btn btn-sm btn-outline-danger w-100 w-md-auto action-button"
+                (click)="onDeleteProject(project)">
+              </app-button>
+            </div>
+          </div>
           </div>
 
         </div>
@@ -68,7 +89,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="fw-semibold mb-0">Team Members</h5>
 
-          <app-button label="Add Member" class="btn btn-outline-dark btn-sm"></app-button>
+          <app-button label="Add Member" class="btn btn-outline-dark btn-sm" (click)="onAddMember()"></app-button>
         </div>
 
         <div class="row">

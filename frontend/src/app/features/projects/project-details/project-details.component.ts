@@ -67,6 +67,10 @@ export class ProjectDetailsComponent implements OnInit{
     }})
   }
 
+  onAddMember(){
+    this.projectService.emitEditProject(this.project);
+  }
+
   ngOnDestroy(): void {
     this.refreshSub?.unsubscribe(); // prevent memory leak
   }

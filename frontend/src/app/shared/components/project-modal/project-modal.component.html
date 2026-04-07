@@ -1,4 +1,4 @@
-<app-modal [isOpen]="isOpen" [title]="selectedProject? 'Edit Project' : 'Create Project'" (closemodal)="onCancel()">
+<app-modal [isOpen]="isOpen" [title]="selectedProject? 'Edit Project / Add Members' : 'Create Project'" (closemodal)="onCancel()">
     <form [formGroup]="createProjectForm" (ngSubmit)="onSubmit()">
         <!-- Project Name -->
         <app-form-input label="Project Name" controlName="name" [form]="createProjectForm"></app-form-input>
