@@ -9,44 +9,73 @@ TaskZen is a full-stack project management application that enables users to cre
 ### 🔐 Authentication and Security
 - User sign up with email verification
 - Secure sign in with JWT (Access + Refresh Tokens)
-- HTTP-only cookie-based authentication
+- HTTP-only cookie-based refresh token
 - Refresh token rotation mechanism
 - Account locked after multiple failed sign in attempts
 - Forgot & Reset password with OTP verification via registered email
 - Token blacklisting for secure signout
-- Angular HTTP Interceptor for token handling
+- Angular HTTP Interceptor for token auto-refresh
 - Route Guards for protected navigation
+- Session expiry handling with auto logout
 
 ### 📁 Project Management
-- Create and manage projects
-- Assign multiple members to a project
+- Create Project
+- Edit Project
+- Delete Project
+- View Project Details
+- Assign multiple members to project
+- Add project members
 - Track project status (Active / Completed)
+- Real-time project refresh after CRUD operations
 
 ### 👥 User Management
-- Fetch and assign members to project
-- Multi-select dropdown for member selection
+- Fetch all users
+- Assign members to project
+- Multi-select dropdown for team collaboration
+- Avatar initials for users
 
 ### 🧾 UI/UX
-- Reusable components (form inputs, buttons, header, cards, multi-select, modal)
-- Module-based project architecture (both frontend and backend)
-- Clean and responsive dashboard
+- Responsive dashboard layout
+- Project details page
+- Team member cards
+- Loader & popup notifications
+- Reusable components
+
+#### Reusable Components
+- Header
+- Card
+- Button
+- Modal
+- Multi-Select Dropdown
+- Loader
+- Popup Alert
 
 ## 🛠️ Tech Stack
 ### Frontend
 - Angular
 - TypeScript
 - Bootstrap
+- RxJs
 
 ### Backend
 - Node.js
 - Express.js
-- MongoDB + Mongoose
+- MongoDB
+- Mongoose
 
 ## 🧩 Architecture Highlights
-- Modular Angular architecture (core, features, shared)
-- Reusable UI components
-- Centralized API service
-- Module Backend architecture (repository-service-controller pattern)
+### Frontend Architecture
+- Modular Angular Architecture
+- Core / Features / Shared modules
+- HTTP Interceptor
+- Route Guards
+- Centralized API Service
+
+### Backend Architecture
+- Module-based architecture
+- Controller → Service → Repository pattern
+- JWT Authentication
+- Middleware-based error handling
 
 ## 🔐 Authentication Flow
 1) User sign in → receives Access Token + Refresh Token (cookie)
