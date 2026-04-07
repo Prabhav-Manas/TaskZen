@@ -16,7 +16,6 @@ TaskZen is a full-stack project management application that enables users to cre
 - Token blacklisting for secure signout
 - Angular HTTP Interceptor for token auto-refresh
 - Route Guards for protected navigation
-- Session expiry handling with auto logout
 
 ### 📁 Project Management
 - Create Project
@@ -78,7 +77,7 @@ TaskZen is a full-stack project management application that enables users to cre
 - Middleware-based error handling
 
 ## 🔐 Authentication Flow
-1) User sign in → receives Access Token + Refresh Token (cookie)
+1) User sign in → receives Access Token + Refresh Token (HTTP-only cookie)
 2) Access Token used for API Request
 3) On Expiry (Access Token) → interceptor calls Refresh Token API
 4) Backend validates refresh token and issues a new access token
@@ -105,13 +104,22 @@ ng serve
 ```
 
 ## 🚀 Upcoming Features
-- Delete projects (for Owner only)
-- Notification system
-- Manage tasks
-- Docker + CI/CD
+- Task CRUD
+- Auto Logout on session expiry
+- Activity logs
+- Notifications
+- File attachments
+- Search & filter projects
+- Docker deployment
+- CI/CD pipeline
 
 ## 📌 Status
-→ Currently **in Development** (actively improving and adding features)
+✅ Authentication System
+✅ Project CRUD
+✅ Member Management
+🚧 Task Management (In Progress)
+
+→ Actively Improving & Scaling TaskZen for better performance and user experience.
 
 ## 👤 Author
 Developed by **Prabhav Manas** Full-Stack Developer (MEAN)
