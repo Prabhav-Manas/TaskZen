@@ -12,6 +12,7 @@ TaskZen is a full-stack project management application that enables users to cre
 - HTTP-only cookie-based refresh token
 - Refresh token rotation mechanism
 - Account locked after multiple failed sign in attempts
+- Rate limiting on authentication endpoints to prevent brute-force attacks
 - Forgot & Reset password with OTP verification via registered email
 - Token blacklisting for secure signout
 - Angular HTTP Interceptor for token auto-refresh
