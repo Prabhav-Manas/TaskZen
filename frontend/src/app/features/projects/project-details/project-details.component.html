@@ -161,3 +161,11 @@
   </div>
 
 </div>
+
+
+<app-modal [isOpen]="isModalOpen" (closemodal)="closemodal()">
+  <app-form-input label="Task Title" controlName="taskTitle" type="text"></app-form-input>
+  <app-textarea label="Description" controlName="description" type="text"></app-textarea>
+  <app-form-input label="Due Date" controlName="dueDate" type="date-time"></app-form-input>
+  <app-multi-select label="Priority"></app-multi-select>
+</app-modal>

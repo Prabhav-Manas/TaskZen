@@ -16,6 +16,8 @@ export class ProjectDetailsComponent implements OnInit{
   private projectId!: string;
   private refreshSub!: Subscription;
 
+  isModalOpen:boolean=false;
+
   constructor(private route:ActivatedRoute, private projectService:ProjectService, private loaderService:LoaderService, private router:Router, private popupService:PopUpService){}
 
   ngOnInit(): void {
@@ -72,7 +74,11 @@ export class ProjectDetailsComponent implements OnInit{
   }
 
   onAddTask(){
-    
+    this.isModalOpen=true
+  }
+
+  closemodal(){
+    this.isModalOpen=false
   }
 
   ngOnDestroy(): void {
