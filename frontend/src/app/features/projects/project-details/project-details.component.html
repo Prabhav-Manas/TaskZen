@@ -1,51 +1,52 @@
 <div class="container-fluid py-4" *ngIf="project">
   <app-header></app-header>
-  
+
   <!-- Project Header -->
   <div class="row mb-4">
     <div class="col-12">
       <app-card>
-        <div class="d-flex justify-content-between align-items-start gap-3">
-          
-          <!-- Left: icon + title + badge + description -->
-           <div class="col-md-8">
+        <div class="row align-items-start g-3">
 
-             <div>
-               <div class="project-icon d-flex align-items-center gap-2 mb-1">
-                 <i class="fa fa-folder-open"></i>
-                 <h4 class="mb-0 fw-semibold">{{ project.name }}</h4>
-                 <span class="badge" [ngClass]="{
-                   'bg-success': project.status === 'active',
-                   'bg-secondary': project.status === 'completed'}">
-                   {{ project.status || 'Active' }}
-                  </span>
-                </div>
-                <p class="text-muted mb-0">{{ project.description || 'No description available' }}</p>
-              </div>
+          <!-- Left -->
+          <div class="col-12 col-md-8">
+            <div class="project-icon d-flex flex-wrap align-items-center gap-2 mb-1">
+              <i class="fa fa-folder-open"></i>
+
+              <h4 class="mb-0 fw-semibold">
+                {{ project.name }}
+              </h4>
+
+              <span class="badge"
+                [ngClass]="{
+                  'bg-success': project.status === 'active',
+                  'bg-secondary': project.status === 'completed'
+                }">
+                {{ project.status || 'Active' }}
+              </span>
             </div>
 
-            <div class="col-md-4">
+            <p class="text-muted mb-0">
+              {{ project.description || 'No description available' }}
+            </p>
+          </div>
 
-            
-          <!-- Right: button always top-right, inline with title -->
-          <div class="flex-shrink-0 d-md-flex d-sm-block gap-3">
-            <!-- <app-button label="Edit Project" class="btn btn-outline-dark" (click)="onClickEdit($event)"></app-button>
-            <app-button label="Delete Project" class="btn btn-outline-danger" (click)="onDeleteProject(project)"></app-button> -->
+          <!-- Right -->
+          <div class="col-12 col-md-4">
+            <div class="d-flex flex-column flex-sm-row gap-2 justify-content-md-end">
 
-            <div class="flex-shrink-0 d-flex flex-column flex-md-row gap-2 gap-md-3 w-100 w-md-auto ">
-              <app-button 
-                label="Edit Project" 
-                class="btn btn-sm btn-outline-dark w-100 w-md-auto action-button"
+              <app-button
+                label="Edit Project"
+                class="btn btn-sm btn-outline-dark w-100 w-sm-auto action-button"
                 (click)="onClickEdit($event)">
               </app-button>
 
-              <app-button 
-                label="Delete Project" 
-                class="btn btn-sm btn-outline-danger w-100 w-md-auto action-button"
+              <app-button
+                label="Delete Project"
+                class="btn btn-sm btn-outline-danger w-100 w-sm-auto action-button"
                 (click)="onDeleteProject(project)">
               </app-button>
+
             </div>
-          </div>
           </div>
 
         </div>
@@ -56,7 +57,8 @@
 
   <!-- Stats -->
   <div class="row mb-4">
-    <div class="col-md-4">
+    
+    <div class="col-12 col-sm-6 col-md-4 mb-3">
       <app-card bgCardColor="info" textColor="white" title="Total tasks">
         <div class="text-center">
           <h3 class="fw-semibold">{{ project.totalTasks || 0 }}</h3>
@@ -64,21 +66,22 @@
       </app-card>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-12 col-sm-6 col-md-4 mb-3">
       <app-card bgCardColor="success" textColor="white" title="Completed">
         <div class="text-center">
-          <h3 class="fw-semibold">{{ project.totalTasks || 0 }}</h3>
+          <h3 class="fw-semibold">{{ project.completedTasks || 0 }}</h3>
         </div>
       </app-card>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-12 col-sm-6 col-md-4 mb-3">
       <app-card bgCardColor="primary" textColor="white" title="Members">
         <div class="text-center">
           <h3 class="fw-semibold">{{ project.members.length }}</h3>
         </div>
       </app-card>
     </div>
+
   </div>
 
 
@@ -86,32 +89,55 @@
   <div class="row mb-4">
     <div class="col-12">
       <app-card>
-        <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3">
           <h5 class="fw-semibold mb-0">Team Members</h5>
 
-          <app-button label="Add Member" class="btn btn-outline-dark btn-sm" (click)="onAddMember()"></app-button>
+          <app-button
+            label="Add Member"
+            class="btn btn-outline-dark btn-sm"
+            (click)="onAddMember()">
+          </app-button>
         </div>
 
         <div class="row">
-          <div class="col-md-3 mb-3" *ngFor="let member of project.members">
-            <div class="member-card shadow p-4 rounded">
+          <div
+            class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3"
+            *ngFor="let member of project.members">
 
-              <!-- Avatar + Fullname -->
-              <div class="d-flex align-items-center gap-3 mb-1">
+            <div class="member-card shadow p-4 rounded position-relative">
+
+              <!-- Add Task Button -->
+              <div class="task-button">
+                <app-button
+                  label="+ Add Task"
+                  class="btn btn-outline-success btn-sm add-task-btn" (click)="onAddTask()">
+                </app-button>
+              </div>
+
+              <!-- Avatar + Name -->
+              <div class="d-flex align-items-center gap-3 mb-2">
                 <div class="avatar text-center">
                   {{ member.fullname?.charAt(0) }}
                 </div>
 
                 <div>
-                  <h5 class="mb-0">{{ member.fullname }}</h5>
+                  <h6 class="mb-0 fw-semibold">
+                    {{ member.fullname }}
+                  </h6>
                 </div>
               </div>
 
               <!-- Email -->
-              <small class="text-muted"><strong>Email: </strong>{{ member.email }}</small>
+              <small class="text-muted">
+                <strong>Email:</strong> {{ member.email }}
+              </small>
+
             </div>
+
           </div>
         </div>
+
       </app-card>
     </div>
   </div>
@@ -121,12 +147,17 @@
   <div class="row">
     <div class="col-12">
       <app-card>
+
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="fw-semibold mb-0">Recent Activity</h5>
         </div>
 
-        <app-activity-list [projectId]="project._id"></app-activity-list>
+        <app-activity-list
+          [projectId]="project._id">
+        </app-activity-list>
+
       </app-card>
     </div>
   </div>
+
 </div>

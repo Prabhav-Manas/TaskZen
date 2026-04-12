@@ -71,6 +71,10 @@ export class ProjectDetailsComponent implements OnInit{
     this.projectService.emitEditProject(this.project);
   }
 
+  onAddTask(){
+    
+  }
+
   ngOnDestroy(): void {
     this.refreshSub?.unsubscribe(); // prevent memory leak
   }

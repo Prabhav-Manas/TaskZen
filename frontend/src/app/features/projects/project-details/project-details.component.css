@@ -1,6 +1,12 @@
 .member-card{
-    background-color: #f1f8ff;
-    border: solid 1px #E2E8F0;
+  background-color: #f1f8ff;
+  border: solid 1px #E2E8F0;
+  height: 100%;
+  transition: 0.2s ease;
+}
+
+.member-card:hover{
+  transform: translateY(-2px);
 }
 
 .avatar {
@@ -13,8 +19,21 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .action-button:hover{
   color:#fff
+}
+
+.task-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.add-task-btn {
+  padding: 0px 0px;
+  font-size: 11px;
+  line-height: 1;
 }
