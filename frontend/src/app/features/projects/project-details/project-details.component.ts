@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Project } from 'src/app/core/models/project/project.model';
@@ -18,7 +19,22 @@ export class ProjectDetailsComponent implements OnInit{
 
   isModalOpen:boolean=false;
 
-  constructor(private route:ActivatedRoute, private projectService:ProjectService, private loaderService:LoaderService, private router:Router, private popupService:PopUpService){}
+  taskForm!: FormGroup;
+
+  constructor(
+    private route:ActivatedRoute, 
+    private fb:FormBuilder, 
+    private projectService:ProjectService, 
+    private loaderService:LoaderService, 
+    private router:Router, 
+    private popupService:PopUpService){
+      this.taskForm=this.fb.group({
+        taskTitle: ['', Validators.required],
+        description: [''],
+        dueDate: [''],
+        priority: [[]]
+      })
+    }
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id')!;
