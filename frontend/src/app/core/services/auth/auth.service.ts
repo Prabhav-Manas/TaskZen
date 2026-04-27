@@ -56,6 +56,10 @@ export class AuthService {
     return this.api.post<ResetPasswordResponse>(`auth/reset-password/${data.token}`, data);
   }
 
+  autoSignout(){
+    
+  }
+
   signout(){
     return this.api.post<any>('auth/signout', {}, {withCredentials:true});
   }
