@@ -105,7 +105,7 @@ ng serve
 ```
 
 ## 🚀 Upcoming Features
-- Task CRUD
+- Task Management
 - Auto Logout on session expiry
 - Activity logs
 - Notifications
