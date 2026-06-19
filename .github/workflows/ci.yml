@@ -1,0 +1,47 @@
+name: TaskZen CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # =====================
+      # Backend CI
+      # =====================
+      - name: Setup Node (Backend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Backend Dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Backend Basic Check
+        working-directory: backend
+        run: node -v
+
+      # =====================
+      # Frontend CI
+      # =====================
+      - name: Setup Node (Frontend)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Frontend Dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build Angular App
+        working-directory: frontend
+        run: npm run build --configuration production
