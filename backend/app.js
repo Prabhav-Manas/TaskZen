@@ -13,6 +13,7 @@ const app=express();
 
 const allowedOrigins = [
   'http://localhost:4200',
+  'http://localhost:4201',
   process.env.FRONTEND_URL // e.g., Netlify
 ];
 

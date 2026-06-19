@@ -1,0 +1,38 @@
+services:
+  backend:
+    image: taskzen-backend-dev
+
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+
+    container_name: taskzen-backend-dev
+
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - ./backend/.env
+
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    image: taskzen-frontend-dev
+    
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+
+    container_name: taskzen-frontend-dev
+
+    ports:
+      - "4200:4200"
+
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+    depends_on:
+      - backend
