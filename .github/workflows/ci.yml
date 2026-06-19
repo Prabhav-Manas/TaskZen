@@ -44,4 +44,4 @@ jobs:
 
       - name: Build Angular App
         working-directory: frontend
-        run: npm run build --configuration production
+        run: npm run build -- --configuration production
