@@ -70,11 +70,16 @@ jobs:
 
       - name: Build Backend Image
         run: |
-          docker build -t iamprabhav/taskzen-backend:latest ./backend
+          docker build \
+          -t iamprabhav/taskzen-backend:latest \
+          -t iamprabhav/taskzen-backend:${{ github.sha }} \
+          ./backend
 
-      - name: Push Backend Image
-        run: |
-          docker push iamprabhav/taskzen-backend:latest
+      - name: Push Backend Latest
+        run: docker push iamprabhav/taskzen-backend:latest
+
+      - name: Push Backend SHA Tag
+        run: docker push iamprabhav/taskzen-backend:${{ github.sha }}
 
       # =====================
       # Build & Push Frontend
@@ -82,8 +87,13 @@ jobs:
 
       - name: Build Frontend Image
         run: |
-          docker build -t iamprabhav/taskzen-frontend:latest ./frontend
+          docker build \
+          -t iamprabhav/taskzen-frontend:latest \
+          -t iamprabhav/taskzen-frontend:${{ github.sha }} \
+          ./frontend
 
-      - name: Push Frontend Image
-        run: |
-          docker push iamprabhav/taskzen-frontend:latest
+      - name: Push Frontend Latest
+        run: docker push iamprabhav/taskzen-frontend:latest
+
+      - name: Push Frontend SHA Tag
+        run: docker push iamprabhav/taskzen-frontend:${{ github.sha }}
