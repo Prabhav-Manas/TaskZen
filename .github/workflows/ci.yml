@@ -51,11 +51,39 @@ jobs:
       # Docker Build Check
       # =====================
 
-      - name: Build Backend Docker Image
-        run: docker build -t taskzen-backend ./backend
-
-      - name: Build Frontend Docker Image
-        run: docker build -t taskzen-frontend ./frontend
-
       - name: Validate CI Compose
         run: docker compose -f docker-compose.ci.yml config
+
+      # =====================
+      # Docker Hub Login
+      # =====================
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      # =====================
+      # Build & Push Backend
+      # =====================
+
+      - name: Build Backend Image
+        run: |
+          docker build -t iamprabhav/taskzen-backend:latest ./backend
+
+      - name: Push Backend Image
+        run: |
+          docker push iamprabhav/taskzen-backend:latest
+
+      # =====================
+      # Build & Push Frontend
+      # =====================
+
+      - name: Build Frontend Image
+        run: |
+          docker build -t iamprabhav/taskzen-frontend:latest ./frontend
+
+      - name: Push Frontend Image
+        run: |
+          docker push iamprabhav/taskzen-frontend:latest
