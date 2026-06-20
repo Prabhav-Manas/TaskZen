@@ -57,5 +57,5 @@ jobs:
       - name: Build Frontend Docker Image
         run: docker build -t taskzen-frontend ./frontend
 
-      - name: Validate Production Compose
-        run: docker compose -f docker-compose.prod.yml config
+      - name: Validate CI Compose
+        run: docker compose -f docker-compose.ci.yml config
