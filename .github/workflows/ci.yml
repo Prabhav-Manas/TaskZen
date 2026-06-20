@@ -45,3 +45,14 @@ jobs:
       - name: Build Angular App
         working-directory: frontend
         run: npm run build -- --configuration production
+
+      
+      # =====================
+      # Docker Build Check
+      # =====================
+
+      - name: Build Backend Docker Image
+        run: docker build -t taskzen-backend ./backend
+
+      - name: Build Frontend Docker Image
+        run: docker build -t taskzen-frontend ./frontend
