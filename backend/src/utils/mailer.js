@@ -41,34 +41,50 @@
 // };
 
 
-const SibApiV3Sdk = require('@getbrevo/brevo');
+// utils/mailer.js
+// Sends transactional email via Brevo's REST API directly (no SDK dependency,
+// avoids version/export mismatches from @getbrevo/brevo).
 
-const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
-apiInstance.setApiKey(
-  SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
+const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
 exports.sendEmail = async (to, subject, html) => {
   try {
-    const sendSmtpEmail = {
-      sender: {
-        email: process.env.EMAIL_FROM,
-        name: "TaskZen"
+    if (!process.env.BREVO_API_KEY) {
+      throw new Error('BREVO_API_KEY is not set in environment variables');
+    }
+    if (!process.env.EMAIL_FROM) {
+      throw new Error('EMAIL_FROM is not set in environment variables');
+    }
+
+    const response = await fetch(BREVO_API_URL, {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'api-key': process.env.BREVO_API_KEY,
+        'content-type': 'application/json'
       },
-      to: [{ email: to }],
-      subject,
-      htmlContent: html
-    };
+      body: JSON.stringify({
+        sender: {
+          email: process.env.EMAIL_FROM,
+          name: 'TaskZen'
+        },
+        to: [{ email: to }],
+        subject,
+        htmlContent: html
+      })
+    });
 
-    const response = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    if (!response.ok) {
+      const errorBody = await response.text();
+      throw new Error(`Brevo API error: ${response.status} - ${errorBody}`);
+    }
 
-    console.log("Email sent:", response.messageId);
-    return response;
+    const data = await response.json();
+    console.log('Email sent:', data.messageId);
+    return data;
 
   } catch (error) {
-    console.log("Send email failed:", error);
-    throw new Error("Failed to send email");
+    console.error('Send email failed:', error.message || error);
+    throw new Error('Failed to send email');
   }
 };
