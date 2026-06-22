@@ -97,3 +97,12 @@ jobs:
 
       - name: Push Frontend SHA Tag
         run: docker push iamprabhav/taskzen-frontend:${{ github.sha }}
+
+      # =====================
+      # Render Deployment
+      # =====================
+
+      - name: Trigger Render Deploy
+        run: curl "$RENDER_DEPLOY_HOOK"
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
