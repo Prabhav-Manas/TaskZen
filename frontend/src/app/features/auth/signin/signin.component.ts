@@ -19,8 +19,6 @@ export class SigninComponent implements OnInit{
   hide: string = 'password';
   showRules = false;
 
-  // isLoader:boolean=false;
-
   toastr = inject(ToastrService);
   
   constructor(private fb:FormBuilder, private authService:AuthService, private router:Router, private tokenService:TokenService, private loaderService:LoaderService, private userStateService:UserStateService){
