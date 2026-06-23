@@ -16,9 +16,6 @@ export class SignupComponent implements OnInit{
   cnfhide:string='password';
   showRules = false;
 
-  // isLoading:boolean=false;
-  // label:string='';
-
   toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authService: AuthService, private router:Router, private loaderService:LoaderService){}
@@ -88,11 +85,3 @@ export class SignupComponent implements OnInit{
     this.regForm.reset();
   }
 }
-
-// PASSWORD :=>
-// min 6 Alpha-numeric character,
-// At least one uppercase,
-// one lowercase,
-// one special character
-// one numeric character
-// No white-space
