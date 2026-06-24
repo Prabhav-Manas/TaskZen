@@ -33,8 +33,6 @@ export class OtpComponent implements OnInit{
     type:'primary'
   };
 
-  // isLoader:boolean=false;
-
   toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authStateService:AuthStateService, private authService:AuthService, private router:Router, private popupService:PopUpService, private loaderService:LoaderService){
@@ -199,8 +197,6 @@ export class OtpComponent implements OnInit{
         this.otpForm.reset();
 
         this.popupService.show('', res.message, 'success');
-
-        // this.router.navigate(['/auth/reset-password', res.token]);
       }
 
       this.loaderService.hide();
