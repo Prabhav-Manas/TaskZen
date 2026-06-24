@@ -15,8 +15,6 @@ export class ResetPasswordComponent implements OnInit{
   resetPasswordForm!:FormGroup;
   token:string='';
 
-  // isLoader:boolean=false;
-
   toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authService:AuthService, private route:ActivatedRoute, private router:Router, private loaderService:LoaderService){
