@@ -14,8 +14,6 @@ import { LoaderService } from 'src/app/core/services/loader/loader.service';
 export class ForgotPasswordComponent implements OnInit{
   forgotPasswordForm!: FormGroup;
 
-  // isLoader:boolean=false;
-
   toastr = inject(ToastrService);
 
   constructor(private fb:FormBuilder, private authService:AuthService, private authStateService:AuthStateService, private router:Router, private loaderService:LoaderService){
