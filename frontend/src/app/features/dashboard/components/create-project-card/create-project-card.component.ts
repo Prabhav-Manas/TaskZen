@@ -5,14 +5,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './create-project-card.component.html',
   styleUrls: ['./create-project-card.component.css']
 })
-export class CreateProjectCardComponent implements OnInit{
+export class CreateProjectCardComponent{
   @Input() label:string='';
 
   @Output() open=new EventEmitter<any>();
-  
-  constructor(){}
-
-  ngOnInit(): void {
-    
-  }
 }
