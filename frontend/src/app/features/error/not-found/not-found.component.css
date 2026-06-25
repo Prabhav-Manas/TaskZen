@@ -1,0 +1,22 @@
+.not-found-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+
+  h1 {
+    font-size: 6rem;
+    margin: 0;
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  button {
+    cursor: pointer;
+    padding: 10px 20px;
+  }
+}

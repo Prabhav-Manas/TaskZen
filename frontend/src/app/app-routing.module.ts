@@ -6,7 +6,8 @@ const routes: Routes = [
   {path:'auth', loadChildren:()=>import('./features/auth/auth.module').then(m=>m.AuthModule)},
   {path:'dashboard', loadChildren:()=>import('./features/dashboard/dashboard.module').then(m=>m.DashboardModule)},
   {path:'projects', loadChildren:()=>import('./features/projects/projects.module').then(m=>m.ProjectsModule)},
-  {path:'work', loadChildren:()=>import('./features/tasks/tasks.module').then(m=>m.TasksModule)}
+  {path:'work', loadChildren:()=>import('./features/tasks/tasks.module').then(m=>m.TasksModule)},
+  {path:'**', loadChildren:()=>import('./features/error/error.module').then(m=>m.ErrorModule)}
 ];
 
 @NgModule({
