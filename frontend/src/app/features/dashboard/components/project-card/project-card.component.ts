@@ -28,10 +28,4 @@ export class ProjectCardComponent implements OnInit{
 
     return (this.project.completedTasks / this.project.totalTasks) * 100;
   }
-
-
-
-  // onViewProject(){
-  //   this
-  // }
 }
