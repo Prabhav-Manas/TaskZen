@@ -7,7 +7,7 @@ import { Project } from 'src/app/core/models/project/project.model';
   templateUrl: './project-card.component.html',
   styleUrls: ['./project-card.component.css']
 })
-export class ProjectCardComponent implements OnInit{
+export class ProjectCardComponent{
   @Input() name:string='';
   @Input() color:string='';
   @Input() project!:Project;
@@ -18,10 +18,6 @@ export class ProjectCardComponent implements OnInit{
   completedTasks!:any;
 
   constructor(private router:Router){}
-
-  ngOnInit(): void {
-    
-  }
 
   getProgress(): number {
     if (!this.project || !this.project.totalTasks) return 0;
