@@ -111,8 +111,6 @@ ng serve
 - Notifications
 - File attachments
 - Search & filter projects
-- Docker deployment
-- CI/CD pipeline
 
 ## 📌 Status
 ✅ Authentication System
