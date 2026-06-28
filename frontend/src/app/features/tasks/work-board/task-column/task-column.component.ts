@@ -5,10 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './task-column.component.html',
   styleUrls: ['./task-column.component.css']
 })
-export class TaskColumnComponent implements OnInit{
-  constructor(){}
-
-  ngOnInit(): void {
-    
-  }
-}
+export class TaskColumnComponent{}
