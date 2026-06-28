@@ -5,12 +5,6 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './column-task-card.component.html',
   styleUrls: ['./column-task-card.component.css']
 })
-export class ColumnTaskCardComponent implements OnInit{
+export class ColumnTaskCardComponent{
   @Input() title:string='';
-  
-  constructor(){}
-
-  ngOnInit(): void {
-    
-  }
 }
