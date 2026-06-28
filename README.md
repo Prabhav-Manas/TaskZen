@@ -1,8 +1,8 @@
-![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+![Angular](https://img.shields.io/badge/Angular-white?logo=angular)
+![Node.js](https://img.shields.io/badge/Node.js-white?logo=node.js)
+![MongoDB](https://img.shields.io/badge/MongoDB-white?logo=mongodb)
+![Docker](https://img.shields.io/badge/Docker-white?logo=docker)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-white?logo=githubactions)
 
 # 🚀 TaskZen: Plan | Trace | Achieve - Project Management Application
 TaskZen is a modern full-stack Project Management application built with the **MEAN** stack. It enables teams to securely manage projects, collaborate with members, and streamline workflows through a scalable architecture, robust authentication system, and production-ready development practices.
