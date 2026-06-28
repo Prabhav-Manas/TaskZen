@@ -92,7 +92,7 @@ TaskZen is a modern full-stack Project Management application built with the **M
 3) On Expiry (Access Token) → interceptor calls Refresh Token API
 4) Backend validates refresh token and issues a new access token
 
-🐳 Docker Support
+# 🐳 Docker Support
 TaskZen is fully containerized for local development, production, and CI pipelines.
 
 ## Docker Files
