@@ -1,9 +1,11 @@
 ![Angular](https://img.shields.io/badge/Frontend-Angular-red)
 ![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
 ![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen)
+![Docker](https://img.shields.io/badge/Containerized-Docker-blue)
+![GitHub Actions](https://img.shields.io/badge/CI/CD-GitHub_Actions-2088FF)
 
 # 🚀 TaskZen: Plan | Trace | Achieve - Project Management Application
-TaskZen is a full-stack project management application that enables users to create projects, manage tasks, and collaborate with team members efficiently.
+TaskZen is a modern full-stack Project Management application built with the **MEAN** stack. It enables teams to securely manage projects, collaborate with members, and streamline workflows through a scalable architecture, robust authentication system, and production-ready development practices.
 
 ## ✨ Features
 ### 🔐 Authentication and Security
@@ -26,7 +28,7 @@ TaskZen is a full-stack project management application that enables users to cre
 - Assign multiple members to project
 - Add project members
 - Track project status (Active / Completed)
-- Real-time project refresh after CRUD operations
+- Real-time UI refresh after CRUD operations
 
 ### 👥 User Management
 - Fetch all users
@@ -54,14 +56,21 @@ TaskZen is a full-stack project management application that enables users to cre
 ### Frontend
 - Angular
 - TypeScript
+- RxJS
 - Bootstrap
-- RxJs
+- HTML5
+- CSS3
 
 ### Backend
 - Node.js
 - Express.js
 - MongoDB
 - Mongoose
+
+### Containerization & CI/CD
+- Docker
+- Docker Compose
+- GitHub Actions
 
 ## 🧩 Architecture Highlights
 ### Frontend Architecture
@@ -83,6 +92,32 @@ TaskZen is a full-stack project management application that enables users to cre
 3) On Expiry (Access Token) → interceptor calls Refresh Token API
 4) Backend validates refresh token and issues a new access token
 
+🐳 Docker Support
+TaskZen is fully containerized for local development, production, and CI pipelines.
+
+## Docker Files
+### Frontend
+ - Dockerfile
+ - Dockerfile.dev
+### Backend
+ - Dockerfile
+ - Dockerfile.dev
+### Docker Compose
+ - docker-compose.dev.yml
+ - docker-compose.prod.yml
+ - docker-compose.ci.yml
+
+⚙️ CI/CD
+GitHub Actions automates the project's build workflow.
+
+### Current pipeline includes:
+ - Install Dependencies
+ - Frontend Build
+ - Backend Build
+ - Docker Image Build
+ - Container Validation
+ - Continuous Integration Checks
+
 ## 📦 Installations
 ### Clone Repository
 ```bash
@@ -102,6 +137,22 @@ npm run dev
 cd frontend
 npm install
 ng serve
+```
+
+## 🚀 Run with Docker
+### Development
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+### Production
+```bash
+docker compose -f docker-compose.prod.yml up --build
+```
+
+### CI Environment
+```bash
+docker compose -f docker-compose.ci.yml up --build
 ```
 
 ## 🚀 Upcoming Features
