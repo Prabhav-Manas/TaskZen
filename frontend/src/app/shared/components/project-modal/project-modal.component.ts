@@ -37,32 +37,13 @@ export class ProjectModalComponent implements OnInit{
     this.projectService.createProject$.subscribe(()=>{
       this.openCreateModal();
     });
-
-    
   }
 
-  //   fetchUsers(){
-  //   this.userService.getAllUsers().subscribe((res:any)=>{
-  //     this.usersList=res.users;
-  //   })
-  // }
-
   fetchUsers(){
-  this.userService.getAllUsers().subscribe((res:any)=>{
-
-    if(this.selectedProject){
-      const existingIds = this.selectedProject.members.map((m:any)=>m._id);
-
-      this.usersList = res.users.filter(
-        (user:any)=> !existingIds.includes(user._id)
-      );
-
-    } else {
-      this.usersList = res.users;
-    }
-
-  })
-}
+    this.userService.getAllUsers().subscribe((res:any)=>{
+      this.usersList = res.users; // always all users — selection state comes from the form control, not from filtering the options
+    });
+  }
 
   openCreateModal(){
     this.isOpen=true;
@@ -98,8 +79,6 @@ export class ProjectModalComponent implements OnInit{
     }
 
     const payload = this.createProjectForm.value;
-
-    
 
     //Close modal immediately on submit, don't wait for API
     this.isOpen = false;

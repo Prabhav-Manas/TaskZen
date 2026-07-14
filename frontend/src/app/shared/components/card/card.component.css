@@ -5,3 +5,11 @@
 .bg-done{
     background-color: red;
 }
+
+.card{
+
+border-radius:20px;
+
+overflow:hidden;
+
+}

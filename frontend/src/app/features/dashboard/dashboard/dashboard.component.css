@@ -1,3 +1,19 @@
-.bgColor{
-    background-color: #e4e7ea;
+:host {
+    display: block;
+    background: #f5f7fb;
+    min-height: 100vh;
+}
+
+.card {
+    border-radius: 20px;
+}
+
+.bgRecentProject{
+    background-color: rgb(203, 203, 255);
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.shadow-sm {
+    box-shadow: 0 4px 18px rgba(0,0,0,.08) !important;
 }

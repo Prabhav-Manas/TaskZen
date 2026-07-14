@@ -1,24 +1,41 @@
-.bg-color{
-    background-color: #e4e7ea;
+.create-card{
+
+    min-height:520px;
+
+    background:#fff;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.create-card:hover{
+
+    transform:translateY(-4px);
+
 }
 
 .add-create-project-icon{
-    width: 70px;
-    height: 70px;
-    border: 1px solid #ccc;
-    border-radius: 50%;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width:95px;
 
-    font-size: 40px;
-    line-height: 1;
-    color: #6c757d;
+    height:95px;
 
-    margin: auto;
-    margin-top: 15px;
-    font-weight: bolder;
-    cursor: pointer;
-    background-color: white;
+    border-radius:50%;
+
+    background:#dce9ff;
+
+    color:#2563eb;
+
+    font-size:54px;
+
+    font-weight:700;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
 }

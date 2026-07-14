@@ -1,46 +1,104 @@
 <app-card>
-  <div class="card-body bg-white text-dark border shadow-sm  border-1"
-       [ngClass]="{
-         'border-success': project.status === 'active',
-         'border-secondary': project.status === 'completed'
-       }">
+  <div class="project-card border">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <h3 class="fw-bold mb-1">
+          {{project.name}}
+        </h3>
 
-    <!-- Title -->
-    <h5 class="fw-semibold mb-1 text-truncate">
-      {{ project.name }}
-    </h5>
-
-    <!-- Description -->
-    <p class="small text-muted mb-3 description">
-      {{ project.description || 'No description available' }}
-    </p>
-
-    <!-- Status + Members -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-
-      <!-- Status Badge with Dot -->
-      <div class="d-flex align-items-center gap-2">
-        <span class="status-dot"
-              [ngClass]="{
-                'bg-success': project.status === 'active',
-                'bg-secondary': project.status === 'completed'
-              }"></span>
-
-        <span class="small text-capitalize text-muted">
-          {{ project.status }}
-        </span>
+        <p class="text-muted mb-4">
+          {{project.description || 'No description available'}}
+        </p>
       </div>
 
-      <!-- Members -->
-      <span class="small text-muted">
-        👥 {{ project.members.length || 0 }}
+      <span class="badge rounded-pill p-3" [ngClass]="{'bg-success':project.status==='active', 'bg-secondary':project.status==='completed'}">
+        {{project.status | titlecase}}
       </span>
     </div>
 
-    <!-- Action -->
-    <div class="d-flex justify-content-end align-items-center gap-2">
-      <app-button class="btn btn-outline-dark btn-sm" label="View Project" [routerLink]="['/projects', project._id]"></app-button>
+    <div class="d-flex justify-content-between mb-4">
+        <div>
+            <div class="text-muted small">
+            <i class="bi bi-calendar-plus me-1"></i>
+            Created
+            </div>
+
+            <div class="fw-semibold">
+            {{ project.createdAt | date:'dd MMM yyyy' }}
+            </div>
+        </div>
+
+        <div class="text-end">
+            <div class="text-muted small">
+            <i class="bi bi-clock-history me-1"></i>
+            Updated
+            </div>
+
+            <div class="fw-semibold">
+            {{ project.updatedAt | date:'dd MMM yyyy' }}
+            </div>
+        </div>
     </div>
 
+    <div class="row g-3 mb-4">
+
+        <div class="col-4">
+            <div class="stat-card text-center">
+            <div class="stat-icon bg-primary-subtle text-primary">
+                <i class="fa fa-tasks" aria-hidden="true"></i>
+            </div>
+
+            <h4 class="stat-value">
+                {{ project.totalTasks || 0 }}
+            </h4>
+
+            <span class="stat-label">
+                Tasks
+            </span>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="stat-card text-center">
+            <div class="stat-icon bg-success-subtle text-success">
+                <i class="fa fa-users" aria-hidden="true"></i>
+            </div>
+
+            <h4 class="stat-value">
+                {{ project.members.length || 0 }}
+            </h4>
+
+            <span class="stat-label">
+                Members
+            </span>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="stat-card text-center">
+            <div class="stat-icon bg-warning-subtle text-warning">
+                <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+            </div>
+
+            <h4 class="stat-value">
+                {{ project.completedTasks || 0 }}
+            </h4>
+
+            <span class="stat-label">
+                Completed
+            </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="text-muted">
+        <i class="bi bi-clock-history me-2"></i>
+        {{project.status | titlecase}} Project
+      </div>
+
+      <app-button class="btn btn-outline-primary" label="View Project" [routerLink]="['/projects',project._id]"></app-button>
+    </div>
   </div>
 </app-card>
