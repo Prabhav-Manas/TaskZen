@@ -31,6 +31,7 @@ exports.getProjects=async(req, res, next)=>{
             projects
         })
     }catch(error){
+        console.log("Get All Projects ERROR:=>", error);
         next(error)
     }
 }
