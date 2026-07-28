@@ -51,20 +51,6 @@ exports.getAllProjectService=async(userId)=>{
     return project;
 }
 
-// exports.getAllProjectService = async (userId) => {
-//     const project = await Project.find({
-//         $or: [
-//             { owner: new mongoose.Types.ObjectId(userId) },
-//             { members: new mongoose.Types.ObjectId(userId) }
-//         ]
-//     })
-//     .populate('owner', 'fullname email')
-//     .populate('members', 'fullname email')
-//     .sort({ createdAt: -1 });
-
-//     return project;
-// }
-
 // Fecth a Signle Project Service
 exports.getSingleProject=async(projectId)=>{
     const project=await projectRepository.findProjectById(projectId);

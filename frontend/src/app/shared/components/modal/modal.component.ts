@@ -5,20 +5,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css']
 })
-export class ModalComponent implements OnInit{
+export class ModalComponent {
   @Input() isOpen:boolean=false;
   @Input() title:string='';
 
   @Output() closemodal=new EventEmitter<void>();
 
-  constructor(){}
-
-  ngOnInit(): void {
-    
-  }
-
   onCloseModal(){
     this.closemodal.emit();
   }
-
 }
