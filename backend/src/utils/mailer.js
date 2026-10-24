@@ -49,6 +49,8 @@ const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
 exports.sendEmail = async (to, subject, html) => {
   try {
+    console.log('Brevo key in use ends with:', (process.env.BREVO_API_KEY || '').trim().slice(-6));
+    
     if (!process.env.BREVO_API_KEY) {
       throw new Error('BREVO_API_KEY is not set in environment variables');
     }
